@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+#
+# SPDX-License-Identifier: MulanPSL-2.0
+
+%global srcname freezegun
+
+Name:           python-%{srcname}
+Version:        1.5.5
+Release:        1
+License:        Apache-2.0
+URL:            https://github.com/spulec/freezegun
+Summary:        Test utility for mocking the datetime module
+Provides:       python3-%{srcname}
+%python_provide python3-%{srcname}
+#!RemoteAsset
+Source0:        https://files.pythonhosted.org/packages/source/f/%{srcname}/%{srcname}-%{version}.tar.gz
+BuildArch:      noarch
+
+BuildRequires:  python3-devel
+BuildSystem:    pyproject
+BuildOption(install): -l %{srcname} +auto
+%description
+FreezeGun is a library that allows your python tests to travel through
+time by mocking the datetime module.
+
+%generate_buildrequires
+%pyproject_buildrequires
+
+%files -f %{pyproject_files}
+%doc README*
+
+%changelog
+%{?autochangelog}
