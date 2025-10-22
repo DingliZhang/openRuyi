@@ -95,11 +95,6 @@ BuildArch:      noarch
 %description    doc
 Contains detailed documentation (info, html) and extensive examples.
 
-%if %{with nls}
-%lang_package -n %{name}-runtime
-%lang_package -n %{name}-tools
-%endif
-
 %conf -p
 autoreconf -fiv
 
@@ -108,8 +103,9 @@ rm -f %{buildroot}%{_infodir}/dir
 rm -f %{buildroot}%{_libdir}/*.a
 
 %if %{with nls}
-%find_lang %{name}-runtime
-%find_lang %{name}-tools
+# Avoid illegal package names
+rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/*@*
+%find_lang %{name} --all-name --generate-subpackages
 %endif
 
 %files
@@ -177,11 +173,6 @@ rm -f %{buildroot}%{_libdir}/*.a
 %doc AUTHORS NEWS README
 %doc %{_docdir}/%{name}/
 %{_infodir}/*.info*
-
-%if %{with nls}
-%files -n %{name}-runtime-lang -f %{name}-runtime.lang
-%files -n %{name}-tools-lang -f %{name}-tools.lang
-%endif
 
 %changelog
 %{?autochangelog}
