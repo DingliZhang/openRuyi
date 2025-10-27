@@ -36,7 +36,7 @@ BuildOption(conf): -Dwith_manpages=enabled
 BuildRequires:  meson
 BuildRequires:  gcc gcc-c++
 BuildRequires:  pkgconfig(gobject-2.0) pkgconfig(gobject-introspection-1.0)
-BuildRequires:  pkgconfig(yaml-0.1) 
+BuildRequires:  pkgconfig(yaml-0.1)
 # doc gen tool is disabled to make this pkg usable ASAP
 #BuildRequires:  pkgconfig(gtk-doc)
 #BuildRequires:  glib2-doc

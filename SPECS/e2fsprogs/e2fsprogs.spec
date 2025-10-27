@@ -39,8 +39,8 @@ BuildRequires:  perl
 BuildRequires:  systemd-rpm-macros
 %endif
 Requires(post): /usr/bin/mkdir /usr/bin/touch
-Requires:       libcom_err2 
-Requires:       libext2fs2 
+Requires:       libcom_err2
+Requires:       libext2fs2
 Suggests:       e2fsprogs-scrub
 
 %description

@@ -53,8 +53,8 @@ sed -e '/^CFLAGS/s:^CFLAGS:LDFLAGS=%{build_ldflags}\nCFLAGS:' \
     -e 's:-march=\$(OPTTARGET) :${CFLAGS} :' \
     -e 's:CFLAGS += -march=\$(OPTTARGET)::' \
     -i Makefile
-    
-# Fix pkgconfig file 
+
+# Fix pkgconfig file
 sed -e 's:lib/@HOST_MULTIARCH@:%{_lib}:;s/@UPSTREAM_VER@/%{version}/' -i %{libname}.pc.in
 
 # No configure

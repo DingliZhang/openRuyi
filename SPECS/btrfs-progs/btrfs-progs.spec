@@ -27,7 +27,7 @@ BuildRequires:  util-linux-devel pkgconfig(zlib) pkgconfig(libudev)
 BuildRequires:  pkgconfig(libgcrypt) >= 1.8.0
 BuildRequires:  pkgconfig(libzstd) >= 1.0.0
 BuildRequires:  python3-devel >= 3.4
-BuildRequires:  python3-setuptools python3-pip 
+BuildRequires:  python3-setuptools python3-pip
 
 %description
 The btrfs-progs package provides userspace programs needed to create,
@@ -75,7 +75,7 @@ cd libbtrfsutil/python
 install -Dpm0644 btrfs-completion %{buildroot}%{_datadir}/bash-completion/completions/btrfs
 # Nuke the static lib
 rm -v %{buildroot}%{_libdir}/*.a
- 
+
 cd libbtrfsutil/python
 %pyproject_install
 %pyproject_save_files -L btrfsutil

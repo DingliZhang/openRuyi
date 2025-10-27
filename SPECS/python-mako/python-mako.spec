@@ -23,13 +23,13 @@ BuildRequires:  python3-markupsafe
 BuildRequires:  expat
 
 %description
-Mako is a template library written in Python. It provides a familiar, non-XML 
-syntax which compiles into Python modules for maximum performance. Mako's 
-syntax and API borrows from the best ideas of many others, including Django 
-templates, Cheetah, Myghty, and Genshi. Conceptually, Mako is an embedded 
-Python (i.e. Python Server Page) language, which refines the familiar ideas of 
-componentized layout and inheritance to produce one of the most straightforward 
-and flexible models available, while also maintaining close ties to Python 
+Mako is a template library written in Python. It provides a familiar, non-XML
+syntax which compiles into Python modules for maximum performance. Mako's
+syntax and API borrows from the best ideas of many others, including Django
+templates, Cheetah, Myghty, and Genshi. Conceptually, Mako is an embedded
+Python (i.e. Python Server Page) language, which refines the familiar ideas of
+componentized layout and inheritance to produce one of the most straightforward
+and flexible models available, while also maintaining close ties to Python
 calling and scoping semantics.
 
 %package     -n python3-mako
@@ -40,13 +40,13 @@ Requires:    python3-six
 %description -n python3-mako
 This package contains the mako module built for use with python3
 
-Mako is a template library written in Python. It provides a familiar, non-XML 
-syntax which compiles into Python modules for maximum performance. Mako's 
-syntax and API borrows from the best ideas of many others, including Django 
-templates, Cheetah, Myghty, and Genshi. Conceptually, Mako is an embedded 
-Python (i.e. Python Server Page) language, which refines the familiar ideas of 
-componentized layout and inheritance to produce one of the most straightforward 
-and flexible models available, while also maintaining close ties to Python 
+Mako is a template library written in Python. It provides a familiar, non-XML
+syntax which compiles into Python modules for maximum performance. Mako's
+syntax and API borrows from the best ideas of many others, including Django
+templates, Cheetah, Myghty, and Genshi. Conceptually, Mako is an embedded
+Python (i.e. Python Server Page) language, which refines the familiar ideas of
+componentized layout and inheritance to produce one of the most straightforward
+and flexible models available, while also maintaining close ties to Python
 calling and scoping semantics.
 
 %prep

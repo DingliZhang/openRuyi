@@ -61,4 +61,3 @@ sed -i 's@/lib$@/%{_lib}@g' Makefile.sharedlibrary
 
 %changelog
 %{?autochangelog}
-

@@ -31,7 +31,7 @@ Grammars (PEGs).
 %conf
 
 # No install
-%install 
+%install
 install -d -m 0755 %{buildroot}%{lua_libdir}
 install -d -m 0755 %{buildroot}%{lua_pkgdir}
 

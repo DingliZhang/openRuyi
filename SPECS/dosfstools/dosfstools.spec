@@ -14,7 +14,7 @@ URL:            https://github.com/dosfstools/dosfstools
 #!RemoteAsset
 Source:         https://github.com/%{name}/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 BuildSystem:    autotools
-Patch:          0001-Fix-vasprintf-implementation.patch 
+Patch:          0001-Fix-vasprintf-implementation.patch
 BuildOption(conf): --enable-compat-symlinks
 
 BuildOption(build): CFLAGS="%{optflags} -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing"

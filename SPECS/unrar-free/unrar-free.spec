@@ -21,32 +21,32 @@ BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  libarchive-devel
 BuildRequires:  libtool
- 
+
 %description
 unrar-free is a free software version of the non-free unrar utility. This
 program is a simple command-line front-end to libarchive, and can list and
 extract RAR archives and other formats supported by libarchive.
- 
+
 %package -n     unrar
 Summary:        Wrapper package for unrar-free
 Requires:       %{name} = %{version}
- 
+
 %description -n unrar
 This package provides a compatibility symlink to use unrar-free as /usr/bin/unrar.
- 
+
 %conf -p
 autoreconf -i
 
 %install -a
 ln -s unrar-free %{buildroot}%{_bindir}/unrar
 ln -s unrar-free.1 %{buildroot}%{_mandir}/man1/unrar.1
- 
+
 %files
 %license COPYING
 %doc AUTHORS ChangeLog README TODO misc/tarar.pike
 %{_bindir}/unrar-free
 %{_mandir}/man1/unrar-free.1*
- 
+
 %files -n unrar
 %{_bindir}/unrar
 %{_mandir}/man1/unrar.1*

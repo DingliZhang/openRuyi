@@ -40,7 +40,7 @@ box but need special configuration, like udhcpc, the dhcp client.
 make defconfig # Create the maximum "sane" configuration.
 
 %install # BusyBox needs to be installed manually.
-         # Arch Linux for reference. 
+         # Arch Linux for reference.
 install -Dm0755 busybox %{buildroot}%{_bindir}/busybox
 install -Dm644 docs/busybox.1 %{buildroot}%{_mandir}/man1/busybox.1
 

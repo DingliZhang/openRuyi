@@ -37,7 +37,7 @@ BuildRequires:  cargo >= 1.88.0
 Requires: bash
 Requires: glibc
 Requires: libcap
- 
+
 # TODO: Use rva23 rust toolchain to compile
 %define rust_def_target riscv64gc-unknown-linux-gnu
 %define cargo_pkg_feature_opts --no-default-features --features "kvm"

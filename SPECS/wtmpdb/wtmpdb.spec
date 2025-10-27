@@ -99,4 +99,3 @@ fi
 
 %changelog
 %{?autochangelog}
-

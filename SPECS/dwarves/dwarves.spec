@@ -101,4 +101,3 @@ rm -Rf %{buildroot}
 
 %changelog
 %{?autochangelog}
-

@@ -63,10 +63,10 @@ rm -rf %{buildroot}%{_datadir}/locale
 # and ignores the fact.  This is in fact what we want, polkit.service does not
 # have an [Install] section and it is always started on demand.
 %systemd_post polkit.service
- 
+
 %preun
 %systemd_preun polkit.service
- 
+
 %postun
 %systemd_postun_with_restart polkit.service
 

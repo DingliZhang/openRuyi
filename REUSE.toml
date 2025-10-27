@@ -9,29 +9,41 @@ path = [
 	"**.timer",
 	"**/_multibuild",
 	"**.pam",
+	"**.pamd",
+	"**.pc",
 	"**.key",
-	"**/_manifest"
+	"**/_manifest",
+	"**.conf",
+	"**.keyring",
+	"**.in",
+	"**.prov",
+	"**.README",
+	"**/README.*",
+	"**/macros.*",
+	"**.1",
+	"**.5",
+	"**.8",
 	]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 [[annotations]]
 
-path = ["SPECS/library-python/pyproject-rpm-macros/*.py",
-        "SPECS/library-python/pyproject-rpm-macros/macros.*"]
+path = ["SPECS/pyproject-rpm-macros/*.py",
+        "SPECS/pyproject-rpm-macros/macros.*"]
 SPDX-FileCopyrightText = "2019 pyproject-rpm-macros contributors"
 SPDX-License-Identifier = "MIT"
 [[annotations]]
 
-path = "SPECS/core/ca-certificates/update-ca-trust.8.txt"
+path = "SPECS/ca-certificates/update-ca-trust.8.txt"
 SPDX-FileCopyrightText = "2013 Red Hat, Inc."
 SPDX-License-Identifier = "GPL-2.0-or-later"
 [[annotations]]
 
-path = "SPECS/core/pesign/pesign.py"
+path = "SPECS/pesign/pesign.py"
 SPDX-FileCopyrightText = "2017 Peter Jones <Peter Jones@random>"
 SPDX-License-Identifier = "GPL-3.0-only"
 
 [[annotations]]
-path = "SPECS/library-python/python-rpm-generators/*"
+path = "SPECS/python-rpm-generators/*"
 SPDX-FileCopyrightText = "RPM <rpm-maint@lists.rpm.org>"
 SPDX-License-Identifier = "GPL-2.0-or-later AND LGPL-2.1-or-later"

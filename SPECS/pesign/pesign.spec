@@ -33,7 +33,7 @@ BuildRequires:  pkgconfig pkgconfig(efivar)
 BuildRequires:  mandoc pkgconfig(nspr) pkgconfig(nss-util)
 BuildRequires:  gcc make pkgconfig(nss)
 BuildRequires:  pkgconfig(popt) python3 libuuid util-linux-devel
-BuildRequires:  systemd-rpm-macros 
+BuildRequires:  systemd-rpm-macros
 BuildRequires:  python3-devel
 Requires:       nss
 

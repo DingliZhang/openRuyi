@@ -68,7 +68,7 @@ fi
 %doc README AUTHORS
 %{_bindir}/*
 %{_includedir}/*
-%doc NEWS 
+%doc NEWS
 %{_mandir}/*/*
 %{_infodir}/*
 

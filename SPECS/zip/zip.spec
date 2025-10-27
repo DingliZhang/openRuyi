@@ -30,12 +30,12 @@ Patch6:         0007-zip-gnu89-build.patch
 Patch7:         0008-buffer_overflow.patch
 Patch8:         0009-zip-3.0-man-strip-extra.patch
 
-BuildOption(build): -f unix/Makefile 
-BuildOption(build): prefix=%{_prefix} 
-BuildOption(build): "CFLAGS_NOOPT=-I. -DUNIX $RPM_OPT_FLAGS" 
+BuildOption(build): -f unix/Makefile
+BuildOption(build): prefix=%{_prefix}
+BuildOption(build): "CFLAGS_NOOPT=-I. -DUNIX $RPM_OPT_FLAGS"
 BuildOption(build): generic_gcc
 
-BuildOption(install): -f unix/Makefile 
+BuildOption(install): -f unix/Makefile
 BuildOption(install): prefix=$RPM_BUILD_ROOT%{_prefix}
 BuildOption(install): MANDIR=$RPM_BUILD_ROOT%{_mandir}/man1
 

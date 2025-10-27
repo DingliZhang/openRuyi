@@ -37,7 +37,7 @@ This package contains the header files, pkg-config file, and development
 tools needed to build applications that use the NSPR libraries.
 
 %conf -p
-cd nspr 
+cd nspr
 
 %install -a
 rm -f %{buildroot}%{_bindir}/compile-et.pl %{buildroot}%{_bindir}/prerr.properties

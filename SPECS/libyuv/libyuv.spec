@@ -22,7 +22,7 @@ BuildOption(conf): -DTEST=ON
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  gtest-devel
- 
+
 %description
 This is an open source project that includes YUV conversion and scaling
 functionality. Converts all webcam formats to YUV (I420). Convert YUV to
@@ -32,7 +32,7 @@ devices in portrait mode.
 %package        devel
 Summary:        The development files for %{name}
 Requires:       %{name} = %{version}
- 
+
 %description    devel
 This package contains the header files and development libraries for libyuv.
 
@@ -43,7 +43,7 @@ prefix=%{_prefix}
 exec_prefix=${prefix}
 libdir=%{_libdir}
 includedir=%{_includedir}
- 
+
 Name: %{name}
 Description: %{summary}
 Version: %{version}

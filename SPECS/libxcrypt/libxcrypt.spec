@@ -26,7 +26,7 @@ BuildOption(conf): --enable-hashes=all
 BuildOption(conf): --with-pkgconfigdir=%{_libdir}/pkgconfig
 
 %description
-libxcrypt is a modern library for one-way hashing of passwords.  
+libxcrypt is a modern library for one-way hashing of passwords.
 It supports DES, MD5, SHA-2-256, SHA-2-512, and bcrypt-based password
 hashes, and provides the traditional Unix 'crypt' and 'crypt_r'
 interfaces, as well as a set of extended interfaces pioneered by

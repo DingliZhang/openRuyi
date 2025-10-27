@@ -101,4 +101,3 @@ Summary:        Help files for %{name}
 
 %changelog
 %{?autochangelog}
-

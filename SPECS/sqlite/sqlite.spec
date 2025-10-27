@@ -51,20 +51,20 @@ supporting a separate database server. Version 2 and version 3 binaries
 are named to permit each to be installed on a single host
 
 SQLite is built with some non-default settings:
-- Additional APIs for table's and query's metadata are enabled 
+- Additional APIs for table's and query's metadata are enabled
   (SQLITE_ENABLE_COLUMN_METADATA)
 - Directory syncs are disabled (SQLITE_DISABLE_DIRSYNC)
 - `secure_delete` defaults to 'on', so deleted content is overwritten
   with zeros (SQLITE_SECURE_DELETE)
-- `sqlite3_unlock_notify()` is enabled - this feature allows to register a 
+- `sqlite3_unlock_notify()` is enabled - this feature allows to register a
   callback that's invoked when lock is removed (SQLITE_ENABLE_UNLOCK_NOTIFY)
 - `dbstat` virtual table with disk space usage is enabled
 - `dbpage` virtual table providing direct access to underlying database file
   is enabled (SQLITE_ENABLE_DBPAGE_VTAB)
-- Threadsafe mode is set to 1 - Serialized, so it is safe to use in a 
+- Threadsafe mode is set to 1 - Serialized, so it is safe to use in a
   multithreaded environment (SQLITE_THREADSAFE=1)
 - FTS3, FTS4 and FTS5 are enabled so versions 3 to 5 of the full-text search
-  engine are available (SQLITE_ENABLE_FTS3, SQLITE_ENABLE_FTS4, 
+  engine are available (SQLITE_ENABLE_FTS3, SQLITE_ENABLE_FTS4,
   SQLITE_ENABLE_FTS5)
 - Pattern parser in FTS3 extension supports nested parenthesis and operators
   `AND`, `OR` (SQLITE_ENABLE_FTS3_PARENTHESIS)
@@ -84,8 +84,8 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig
 
 %description    devel
-This package contains the header files and development documentation 
-for %{name}. If you like to develop programs using %{name}, you will need 
+This package contains the header files and development documentation
+for %{name}. If you like to develop programs using %{name}, you will need
 to install %{name}-devel.
 
 %package        doc
@@ -94,7 +94,7 @@ BuildArch:      noarch
 
 %description    doc
 This package contains most of the static HTML files that comprise the
-www.sqlite.org website, including all of the SQL Syntax and the 
+www.sqlite.org website, including all of the SQL Syntax and the
 C/C++ interface specs and other miscellaneous documentation.
 
 %package     -n lemon

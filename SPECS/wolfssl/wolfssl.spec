@@ -22,7 +22,7 @@ BuildRequires:  libtool
 BuildRequires:  glibc
 
 %description
-The wolfSSL library is a small, fast, portable implementation of TLS/SSL 
+The wolfSSL library is a small, fast, portable implementation of TLS/SSL
 for embedded devices to the cloud. wolfSSL supports up to TLS 1.3 and DTLS 1.3!
 
 This package contains the shared library.
@@ -31,15 +31,15 @@ This package contains the shared library.
 Summary:        Development files for the wolfSSL encryption library
 
 %description    devel
-The wolfSSL embedded SSL library (formerly CyaSSL) is a lightweight 
-SSL/TLS library written in ANSI C and targeted for embedded, RTOS, 
-and resource-constrained environments - primarily because of its small 
-size, speed, and feature set. It is commonly used in standard operating 
-environments as well because of its royalty-free pricing and excellent 
-cross platform support. wolfSSL supports industry standards up to the 
-current TLS 1.3 and DTLS 1.3, is up to 20 times smaller than OpenSSL, 
-and offers progressive ciphers such as ChaCha20, Curve25519, Blake2b 
-and Post-Quantum TLS 1.3 groups. User benchmarking and feedback reports 
+The wolfSSL embedded SSL library (formerly CyaSSL) is a lightweight
+SSL/TLS library written in ANSI C and targeted for embedded, RTOS,
+and resource-constrained environments - primarily because of its small
+size, speed, and feature set. It is commonly used in standard operating
+environments as well because of its royalty-free pricing and excellent
+cross platform support. wolfSSL supports industry standards up to the
+current TLS 1.3 and DTLS 1.3, is up to 20 times smaller than OpenSSL,
+and offers progressive ciphers such as ChaCha20, Curve25519, Blake2b
+and Post-Quantum TLS 1.3 groups. User benchmarking and feedback reports
 dramatically better performance when using wolfSSL over OpenSSL.
 
 %prep -a

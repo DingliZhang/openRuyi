@@ -19,7 +19,7 @@ Source3:        sudo-i
 
 # NOTE: Temporarily disable applying CVE patches below.
 # These patches (CVE-2025-32462 / CVE-2025-32463) have not yet been checked
-# against the latest upstream version. 
+# against the latest upstream version.
 # Until verification is done, do not apply them to avoid conflicts.
 # TODO: Re-enable if upstream has not fixed the issues.
 # Patch0:         0001-CVE-2025-32462.patch

@@ -70,7 +70,7 @@ install -Dpm 0644 -t %{buildroot}%{_libdir}/pkgconfig lmdb.pc
 
 # TODO: Fix tests
 %check
-: 
+:
 
 %ldconfig_scriptlets libs
 

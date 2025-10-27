@@ -25,7 +25,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(libxml-2.0)
-# BuildRequires:  doxygen graphviz 
+# BuildRequires:  doxygen graphviz
 
 %description
 sdbus-cpp is a modern C++ D-Bus library for Linux, designed as a lightweight

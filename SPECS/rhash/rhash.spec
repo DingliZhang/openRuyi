@@ -19,7 +19,7 @@ BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(openssl)
 
 BuildOption(prep): -n RHash-%{version}
-BuildOption(install): install-lib-so-link 
+BuildOption(install): install-lib-so-link
 BuildOption(install): install-lib-headers
 BuildOption(install): install-gmo
 

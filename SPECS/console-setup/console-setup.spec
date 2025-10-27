@@ -40,7 +40,7 @@ This package provides a command-line converter to build console fonts from BDF
 sources.
 
 # No configure
-%conf 
+%conf
 
 # No tests
 %check

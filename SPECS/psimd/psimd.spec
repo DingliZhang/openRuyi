@@ -7,7 +7,7 @@
 
 %define commit 072586a71b55b7f8c584153d223e95687148a900
 %define commitdate 20200517
- 
+
 Name:           psimd-devel
 Version:        0.0.%{commitdate}
 Release:        %autorelease
@@ -20,7 +20,7 @@ BuildSystem:    cmake
 
 BuildOption(conf): -DCMAKE_POLICY_VERSION_MINIMUM:STRING=3.5
 BuildRequires:  cmake
- 
+
 %description
 psimd is a header-only C/C++ library that provides a portable interface to
 128-bit SIMD intrinsics on x86, ARM, and WebAssembly.

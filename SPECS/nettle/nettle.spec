@@ -38,7 +38,7 @@ Requires:       gmp-devel%{?_isa}
 Nettle is a cryptographic library that is designed to fit easily in more
 or less any context: In crypto toolkits for object-oriented languages
 (C++, Python, Pike, ...), in applications like LSH or GNUPG, or even in
-kernel space.  This package contains the files needed for developing 
+kernel space.  This package contains the files needed for developing
 applications with nettle.
 
 %files

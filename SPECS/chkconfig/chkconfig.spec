@@ -32,7 +32,7 @@ BuildRequires:  pkgconfig(systemd)
 %description
 Chkconfig is a basic system utility.  It updates and queries runlevel
 information for system services.  Chkconfig manipulates the numerous
-symbolic links in /etc/rc.d, to relieve system administrators of some 
+symbolic links in /etc/rc.d, to relieve system administrators of some
 of the drudgery of manually editing the symbolic links.
 
 # No configure

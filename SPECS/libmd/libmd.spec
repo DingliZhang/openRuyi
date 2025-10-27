@@ -17,7 +17,7 @@ Source0:        https://archive.hadrons.org/software/libmd/libmd-%{version}.tar.
 Source1:        https://archive.hadrons.org/software/libmd/libmd-%{version}.tar.xz.asc
 Source2:        %{name}.keyring
 BuildSystem:    autotools
-BuildOption(conf):  --disable-static 
+BuildOption(conf):  --disable-static
 BuildOption(conf):  --disable-silent-rules
 
 BuildRequires:  pkgconfig

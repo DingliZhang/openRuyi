@@ -26,8 +26,8 @@ Source:         https://github.com/abseil/abseil-cpp/archive/%{version}/%{name}-
 # didn't bring i386 specific patch along with this spec
 # we didn't add support for s390x and ppc64 either
 BuildRequires:  cmake
-BuildRequires:  ninja 
-BuildRequires:  gcc-c++ 
+BuildRequires:  ninja
+BuildRequires:  gcc-c++
 BuildRequires:  gmock-devel gtest-devel
 BuildSystem:    cmake
 
@@ -57,34 +57,34 @@ Abseil is an open-source collection of C++ library code designed to augment
 the C++ standard library. The Abseil library code is collected from
 Google's own C++ code base, has been extensively tested and used in
 production, and is the same code we depend on in our daily coding lives.
- 
+
 In some cases, Abseil provides pieces missing from the C++ standard; in
 others, Abseil provides alternatives to the standard for special needs we've
 found through usage in the Google code base. We denote those cases clearly
 within the library code we provide you.
- 
+
 Abseil is not meant to be a competitor to the standard library; we've just
 found that many of these utilities serve a purpose within our code base,
 and we now want to provide those resources to the C++ community as a whole.
- 
+
 %package testing
 Summary:        Libraries needed for running tests on the installed %{name}
 Requires:       %{name} = %{version}-%{release}
- 
+
 Provides:       bundled(cctz)
- 
+
 %description testing
 %{summary}.
- 
+
 %package devel
 Summary:        Development files for %{name}
 Requires:       %{name} = %{version}-%{release}
 Requires:       %{name}-testing = %{version}-%{release}
- 
+
 # Some of the headers from CCTZ are part of the -devel subpackage. See the
 # corresponding virtual Provides in the base package for full details.
 Provides:       bundled(cctz)
- 
+
 %description devel
 Development headers for %{name}
 
@@ -184,7 +184,7 @@ Development headers for %{name}
 %{_libdir}/libabsl_tracing_internal.so.%{lib_version}
 %{_libdir}/libabsl_utf8_for_code_point.so.%{lib_version}
 %{_libdir}/libabsl_vlog_config_internal.so.%{lib_version}
- 
+
 %files testing
 # TESTONLY libraries (that are actually installed):
 # absl/base/CMakeLists.txt
@@ -209,12 +209,12 @@ Development headers for %{name}
 %{_libdir}/libabsl_per_thread_sem_test_common.so.%{lib_version}
 # absl/time/CMakeLists.txt
 %{_libdir}/libabsl_time_internal_test_util.so.%{lib_version}
- 
+
 %files devel
 %{_includedir}/absl
 %{_libdir}/libabsl_*.so
 %{_libdir}/cmake/absl
 %{_libdir}/pkgconfig/absl_*.pc
- 
+
 %changelog
 %{?autochangelog}

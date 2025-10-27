@@ -27,8 +27,8 @@ BuildOption(conf): --enable-gssapi --enable-ntlm --with-devrandom=/dev/urandom
 BuildRequires:  gdbm-devel
 BuildRequires:  krb5-devel
 BuildRequires:  libtool
-BuildRequires:  openssl-devel 
-BuildRequires:  pkgconfig 
+BuildRequires:  openssl-devel
+BuildRequires:  pkgconfig
 
 %description
 The Cyrus SASL (Simple Authentication and Security Layer) is a framework for

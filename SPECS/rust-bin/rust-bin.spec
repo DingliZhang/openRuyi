@@ -58,4 +58,3 @@ rm %{buildroot}%{_prefix}/lib/rustlib/manifest-*
 
 %changelog
 %{?autochangelog}
-

@@ -28,9 +28,9 @@ BuildRequires:  pyproject-rpm-macros
 BuildRequires:  expat
 
 %description
-lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It 
-provides safe and convenient access to these libraries using the ElementTree It 
-extends the ElementTree API significantly to offer support for XPath, RelaxNG, 
+lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It
+provides safe and convenient access to these libraries using the ElementTree It
+extends the ElementTree API significantly to offer support for XPath, RelaxNG,
 XML Schema, XSLT, C14N and much more.
 
 %package     -n python3-lxml
@@ -43,9 +43,9 @@ Suggests:       python3-lxml+html_clean
 %endif
 
 %description -n python3-lxml
-lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It 
-provides safe and convenient access to these libraries using the ElementTree It 
-extends the ElementTree API significantly to offer support for XPath, RelaxNG, 
+lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It
+provides safe and convenient access to these libraries using the ElementTree It
+extends the ElementTree API significantly to offer support for XPath, RelaxNG,
 XML Schema, XSLT, C14N and much more.
 
 %if %{with extras}

@@ -13,7 +13,7 @@ License:        BSD and GPLv1+
 Url:            http://www.hboehm.info/gc/
 #!RemoteAsset
 Source0:        https://github.com/bdwgc/bdwgc/releases/download/v%{version}/gc-%{version}.tar.gz
-BuildSystem:    autotools 
+BuildSystem:    autotools
 
 BuildRequires: gcc gcc-c++ libtool
 BuildOption(conf): --disable-static --disable-docs --enable-cplusplus --enable-large-config --enable-threads=posix

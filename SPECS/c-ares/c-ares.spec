@@ -63,4 +63,3 @@ to build packages that depend on c-ares.
 
 %changelog
 %{?autochangelog}
-

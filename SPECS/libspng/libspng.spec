@@ -21,22 +21,22 @@ BuildRequires:  gcc-c++
 BuildRequires:  meson
 BuildRequires:  pkgconfig(libpng)
 BuildRequires:  pkgconfig(zlib)
- 
+
 %description
 Libspng is a C library for reading and writing Portable Network Graphics (PNG)
 format files with a focus on security and ease of use.
- 
+
 Libspng is an alternative to libpng, the projects are separate and the APIs are
 not compatible. This package contains the runtime shared library.
- 
+
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name} = %{version}
- 
+
 %description    devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
- 
+
 %ldconfig_scriptlets
 
 %files

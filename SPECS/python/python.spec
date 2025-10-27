@@ -388,7 +388,7 @@ mv %{buildroot}%{_includedir}/python%{pybasever}/pyconfig.h \
     %{buildroot}%{_includedir}/python%{pybasever}/%{_pyconfig_h}
 cat > %{buildroot}%{_includedir}/python%{pybasever}/pyconfig.h << EOF
 #include <bits/wordsize.h>
- 
+
 #if __WORDSIZE == 32
 #include "%{_pyconfig32_h}"
 #elif __WORDSIZE == 64

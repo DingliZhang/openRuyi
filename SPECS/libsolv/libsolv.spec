@@ -29,16 +29,16 @@ BuildOption(conf):           -DENABLE_LZMA_COMPRESSION=ON
 BuildOption(conf):           -DENABLE_BZIP2_COMPRESSION=ON
 BuildOption(conf):           -DENABLE_ZSTD_COMPRESSION=ON
 BuildOption(conf):           -DENABLE_ZCHUNK_COMPRESSION=ON
-BuildOption(conf):           -DENABLE_CONDA=ON        
-BuildOption(conf):           -DENABLE_SUSEREPO=ON     
-BuildOption(conf):           -DENABLE_COMPS=ON        
+BuildOption(conf):           -DENABLE_CONDA=ON
+BuildOption(conf):           -DENABLE_SUSEREPO=ON
+BuildOption(conf):           -DENABLE_COMPS=ON
 BuildOption(conf):           -DENABLE_PERL=ON          # Requires: swig, perl-devel
 BuildOption(conf):           -DENABLE_RUBY=OFF         # Requires: swig, ruby-devel
 BuildOption(conf):           -DENABLE_PYTHON=ON        # Requires: swig, python3-devel
 BuildOption(conf):           -DENABLE_APPDATA=OFF      # Requires: pkgconfig(appstream-glib)
 BuildOption(conf):           -DENABLE_HELIXREPO=ON     # Requires: pkgconfig(sqlite3)
-BuildOption(conf):           -DENABLE_DEBIAN=OFF       
-BuildOption(conf):           -DENABLE_ARCHREPO=OFF     
+BuildOption(conf):           -DENABLE_DEBIAN=OFF
+BuildOption(conf):           -DENABLE_ARCHREPO=OFF
 
 
 # BuildRequires:       swig perl-devel ruby-devel python3-devel

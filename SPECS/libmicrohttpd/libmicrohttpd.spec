@@ -38,7 +38,7 @@ shared libraries.
 Summary:        Development files for libmicrohttpd
 License:        LGPL-2.1-or-later
 Requires:       %{name} = %{version}
-Requires:       pkgconfig 
+Requires:       pkgconfig
 Requires:       pkgconfig(gnutls)
 
 %description devel

@@ -31,7 +31,7 @@ BuildRequires:  libtool
 BuildRequires:  openssl-devel
 
 %description
-ISA-L_crypto is a collection of optimized low-level functions 
+ISA-L_crypto is a collection of optimized low-level functions
 targeting storage applications.
 
 This package contains the shared library.

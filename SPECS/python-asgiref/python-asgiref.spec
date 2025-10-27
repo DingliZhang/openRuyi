@@ -27,7 +27,7 @@ BuildOption(install): -l %{srcname} +auto
 # https://github.com/django/asgiref/commit/9c6df6e02700092eb19adefff3552d44388f69b8
 # This code is modified and probably cannot be unvendored.
 Provides:       bundled(python3dist(async-timeout)) == 3.0.1
- 
+
 %description
 ASGI is a standard for Python asynchronous web apps and servers to
 communicate with each other, and positioned as an asynchronous successor to

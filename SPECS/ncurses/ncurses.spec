@@ -31,10 +31,10 @@ BuildRequires:  gpm-devel
 BuildRequires:  pkgconfig
 
 %description
-The ncurses (new curses) library is a free software emulation of 
-curses in System V Release 4.0 (SVr4), and more. It uses terminfo 
-format, supports pads and color and multiple highlights and forms 
-characters and function-key mapping, and has all the other SVr4-curses 
+The ncurses (new curses) library is a free software emulation of
+curses in System V Release 4.0 (SVr4), and more. It uses terminfo
+format, supports pads and color and multiple highlights and forms
+characters and function-key mapping, and has all the other SVr4-curses
 enhancements over BSD curses.
 
 %package        devel

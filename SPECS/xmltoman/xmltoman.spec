@@ -20,7 +20,7 @@ BuildOption(install): PREFIX="%{_prefix}"
 
 BuildRequires:  perl(XML::Parser)
 Requires:       perl(XML::Parser)
-BuildRequires:  make 
+BuildRequires:  make
 
 %description
 xmltoman and xmlmantohtml are two very simple scripts for converting XML

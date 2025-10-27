@@ -113,4 +113,3 @@ rm -f %{buildroot}%{_libdir}/icu/%{version}/{Makefile.inc,pkgdata.inc}
 
 %changelog
 %{?autochangelog}
-

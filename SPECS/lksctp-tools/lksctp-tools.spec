@@ -31,14 +31,14 @@ This package is intended to supplement the Linux Kernel SCTP Reference
 Implementation now available in the Linux kernel source tree in
 versions 2.5.36 and following. For more information on LKSCTP see the
 package documentation README file, section titled "LKSCTP - Linux
-Kernel SCTP." 
+Kernel SCTP."
 
-%package devel  
+%package devel
 Summary:    Development files for %{name}
 Requires:   %{name} = %{version}-%{release}
 
 %description devel
-Development files for %{name} which include header files and dynamic 
+Development files for %{name} which include header files and dynamic
 libraries.
 
 %conf -p
@@ -51,7 +51,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 %ldconfig_scriptlets
 
-%files  
+%files
 %defattr(-,root,root)
 %license COPYING*
 %doc AUTHORS ChangeLog README doc/*.txt

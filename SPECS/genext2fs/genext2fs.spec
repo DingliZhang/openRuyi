@@ -16,15 +16,15 @@ Source0:        https://github.com/bestouff/genext2fs/archive/refs/tags/v%{versi
 BuildSystem:    autotools
 
 BuildRequires:  autoconf automake gcc make libtool
- 
+
 %description
 genext2fs generates an ext2 filesystem as a normal (non-root) user.
 It does not require you to mount the image file to copy files on it,
 nor does it require that you become the superuser to make device nodes.
- 
+
 %conf -p
 autoreconf -fi
- 
+
 %files
 %license COPYING
 %doc AUTHORS NEWS README.md

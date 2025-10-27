@@ -22,12 +22,12 @@ BuildRequires:  gcc-c++
 BuildRequires:  python3
 BuildSystem:    cmake
 
-BuildOption(conf): -Dbuild_doc=OFF 
-BuildOption(conf): -Dbuild_search=OFF 
+BuildOption(conf): -Dbuild_doc=OFF
+BuildOption(conf): -Dbuild_search=OFF
 BuildOption(conf): -Dbuild_wizard=OFF
-BuildOption(conf): -DCMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed -Wl,-z,relro,-z,now" 
-BuildOption(conf): -DCMAKE_MODULE_LINKER_FLAGS="-Wl,--as-needed -Wl,-z,relro,-z,now" 
-BuildOption(conf): -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--as-needed -Wl,-z,relro,-z,now" 
+BuildOption(conf): -DCMAKE_EXE_LINKER_FLAGS="-Wl,--as-needed -Wl,-z,relro,-z,now"
+BuildOption(conf): -DCMAKE_MODULE_LINKER_FLAGS="-Wl,--as-needed -Wl,-z,relro,-z,now"
+BuildOption(conf): -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--as-needed -Wl,-z,relro,-z,now"
 BuildOption(conf): -DBUILD_SHARED_LIBS=OFF
 BuildOption(conf): -DBUILD_STATIC_LIBS=ON
 

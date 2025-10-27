@@ -26,7 +26,7 @@ BuildOption(conf): --enable-werror
 BuildOption(conf): --disable-docs
 %endif
 
-BuildRequires:  autoconf gcc make libtool 
+BuildRequires:  autoconf gcc make libtool
 BuildRequires:  pkgconfig(libev)
 BuildRequires:  gnutls-devel >= 3.7.5
 BuildRequires:  openssl-devel >= 3.5.0

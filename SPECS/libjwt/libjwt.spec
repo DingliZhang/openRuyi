@@ -18,13 +18,13 @@ BuildSystem:    cmake
 BuildOption(conf): -DBUILD_SHARED_LIBS:BOOL=ON
 BuildOption(conf): -DBUILD_STATIC_LIBS:BOOL=OFF
 BuildOption(conf): -DBUILD_EXAMPLES:BOOL=OFF
- 
+
 BuildRequires:  cmake
 BuildRequires:  jansson-devel
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  openssl-devel
- 
+
 %description
 A Javascript Web Token library in C. libjwt provides a simple API for creating,
 signing, and verifying JWTs.
@@ -32,14 +32,14 @@ signing, and verifying JWTs.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name} = %{version}
- 
+
 %description    devel
 This package contains libraries and header files for developing applications
 that use the libjwt library.
- 
+
 %install -a
 find %{buildroot} -type f -name "*.a" -delete -print
- 
+
 %ldconfig_scriptlets
 
 %files

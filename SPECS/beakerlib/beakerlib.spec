@@ -21,7 +21,7 @@ BuildOption(install): DESTDIR=%{buildroot}/usr
 
 BuildRequires:  perl
 BuildRequires:  util-linux
-BuildRequires:  make 
+BuildRequires:  make
 
 Requires:       /bin/bash
 Requires:       /bin/sh
@@ -40,7 +40,7 @@ Summary: Files for syntax highlighting BeakerLib tests in VIM editor
 Requires:      vim
 BuildRequires: vim
 BuildRequires: make
- 
+
 %description vim-syntax
 Files for syntax highlighting BeakerLib tests in VIM editor
 

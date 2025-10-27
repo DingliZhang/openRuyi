@@ -106,4 +106,3 @@ find %{buildroot} -type f -name "*.la" -delete
 
 %changelog
 %{?autochangelog}
-

@@ -101,7 +101,7 @@ rm -f %{buildroot}%{_bindir}/decode-edid.pl
 rm -f %{buildroot}%{_bindir}/{ddcmon,decode-edid}
 
 # for i2c-dev ondemand loading through kmod
-mkdir -p %{buildroot}%{_sysconfdir}/modprobe.d 
+mkdir -p %{buildroot}%{_sysconfdir}/modprobe.d
 echo "alias char-major-89-* i2c-dev" > \
   %{buildroot}%{_sysconfdir}/modprobe.d/i2c-dev.conf
 # for /dev/i2c-# creation (which are needed for kmod i2c-dev autoloading)

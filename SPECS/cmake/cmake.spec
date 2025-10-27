@@ -40,7 +40,7 @@ generation, code generation, and template instantiation.
 
 %package        data
 Summary:        Common data-files for cmake
-Requires:       cmake = %{version}-%{release} 
+Requires:       cmake = %{version}-%{release}
 Requires:       cmake-rpm-macros = %{version}-%{release}
 BuildArch:      noarch
 
@@ -63,7 +63,7 @@ BuildArch:      noarch
 This package contains common RPM macros for cmake.
 
 %conf
-# cmake also need openssl to make FetchContent() usable, but in rpm building 
+# cmake also need openssl to make FetchContent() usable, but in rpm building
 # process we should download all sources in advance
 echo "set(CMAKE_USE_OPENSSL OFF)" | cat - CMakeLists.txt > tmpfile && mv tmpfile CMakeLists.txt
 ./bootstrap --prefix=%{_prefix} --datadir=/share/cmake \
@@ -71,7 +71,7 @@ echo "set(CMAKE_USE_OPENSSL OFF)" | cat - CMakeLists.txt > tmpfile && mv tmpfile
              --no-system-libs \
              --parallel=`/usr/bin/getconf _NPROCESSORS_ONLN` \
              --no-system-cppdap \
-             --no-system-librhash 
+             --no-system-librhash
 
 %install -a
 # install cmake rpm macros
@@ -121,7 +121,7 @@ rm -rf %{buildroot}%{_datadir}/emacs
 
 %files filesystem -f data_dirs.mf -f lib_dirs.mf
 
-%files data 
+%files data
 %{_datadir}/cmake
 %{_datadir}/aclocal/cmake.m4
 %{_datadir}/bash-completion

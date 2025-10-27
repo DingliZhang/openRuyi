@@ -37,7 +37,7 @@ Summary:        Development files for the cpuinfo library
 This package contains the header files and development files for the
 cpuinfo library.
 
-%files 
+%files
 %license LICENSE
 %doc README.md
 %{_bindir}/cache-info

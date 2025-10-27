@@ -24,7 +24,7 @@ BuildOption(conf): --with-pic
 
 BuildRequires:  autoconf automake libtool
 BuildRequires:  pkgconfig
-BuildRequires:  pkgconfig(gpg-error) 
+BuildRequires:  pkgconfig(gpg-error)
 
 %description
 KSBA is a library to simplify the task of working with X.509

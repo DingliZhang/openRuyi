@@ -28,17 +28,17 @@ BuildArch:      noarch
 %endif
 
 %description
-The Cython language makes writing C extensions for the Python language as easy 
+The Cython language makes writing C extensions for the Python language as easy
 as Python itself. Cython is a source code translator based on Pyrex,
 but supports more cutting edge functionality and optimizations.
 
-The Cython language is a superset of the Python language (almost all Python 
-code is also valid Cython code), but Cython additionally supports optional 
-static typing to natively call C functions, operate with C++ classes and 
+The Cython language is a superset of the Python language (almost all Python
+code is also valid Cython code), but Cython additionally supports optional
+static typing to natively call C functions, operate with C++ classes and
 declare fast C types on variables and class attributes.
 This allows the compiler to generate very efficient C code from Cython code.
 
-This makes Cython the ideal language for writing glue code for external C/C++ 
+This makes Cython the ideal language for writing glue code for external C/C++
 libraries, and for fast C modules that speed up the execution of Python code.
 
 %package     -n python3-Cython
@@ -57,17 +57,17 @@ Provides:       cython%{?_isa} = %{version}-%{release}
 Provides:       bundled(python3dist(tempita))
 
 %description -n python3-Cython
-The Cython language makes writing C extensions for the Python language as easy 
+The Cython language makes writing C extensions for the Python language as easy
 as Python itself. Cython is a source code translator based on Pyrex,
 but supports more cutting edge functionality and optimizations.
 
-The Cython language is a superset of the Python language (almost all Python 
-code is also valid Cython code), but Cython additionally supports optional 
-static typing to natively call C functions, operate with C++ classes and 
+The Cython language is a superset of the Python language (almost all Python
+code is also valid Cython code), but Cython additionally supports optional
+static typing to natively call C functions, operate with C++ classes and
 declare fast C types on variables and class attributes.
 This allows the compiler to generate very efficient C code from Cython code.
 
-This makes Cython the ideal language for writing glue code for external C/C++ 
+This makes Cython the ideal language for writing glue code for external C/C++
 libraries, and for fast C modules that speed up the execution of Python code.
 
 %prep

@@ -28,7 +28,7 @@ BuildOption(conf): --disable-systemd
 BuildOption(build): CFLAGS='%{optflags} -Wl,-z,lazy -DCONNTRACKD_LIB_DIR=\"%{_libdir}/conntrack-tools\"'
 
 BuildRequires:    libnfnetlink-devel libnetfilter_conntrack-devel libtirpc-devel
-BuildRequires:    libnetfilter_cttimeout-devel libnetfilter_cthelper-devel 
+BuildRequires:    libnetfilter_cttimeout-devel libnetfilter_cthelper-devel
 BuildRequires:    libmnl-devel libnetfilter_queue-devel pkgconfig bison flex
 BuildRequires:    gcc make
 %if %{with systemd}

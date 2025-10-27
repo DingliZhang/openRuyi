@@ -36,8 +36,8 @@ for use in Python programs.
 Summary:        Python 3 bindings for GObject Introspection
 
 %description -n python3-pygobject
-The python3-gobject package provides a convenient wrapper for the GObject 
-library and and other libraries that are compatible with GObject Introspection, 
+The python3-gobject package provides a convenient wrapper for the GObject
+library and and other libraries that are compatible with GObject Introspection,
 for use in Python 3 programs.
 
 

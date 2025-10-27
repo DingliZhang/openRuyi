@@ -38,7 +38,7 @@ hardware, particularly for wired Ethernet devices. It can be used to:
   - Control DMA ring sizes and interrupt moderation
   - Control receive queue selection for multiqueue devices
   - Upgrade firmware in flash memory
- 
+
 # TODO: make test pass.
 %check
 
@@ -52,6 +52,6 @@ hardware, particularly for wired Ethernet devices. It can be used to:
 %{_datadir}/bash-completion/completions/ethtool
 %{_mandir}/man8/ethtool.8*
 %{_datadir}/metainfo/%{appstream_id}.metainfo.xml
- 
+
 %changelog
 %{?autochangelog}

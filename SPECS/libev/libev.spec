@@ -48,10 +48,10 @@ This package holds the development files for libev.
 %package libevent-devel
 Summary:          Compatibility development header with libevent for %{name}.
 Requires:         %{name}-devel%{?_isa} = %{version}-%{release}
- 
+
 # The event.h file actually conflicts with the one from libevent-devel
 Conflicts:        libevent-devel
- 
+
 %description libevent-devel
 This package contains a development header to make libev compatible with
 libevent.

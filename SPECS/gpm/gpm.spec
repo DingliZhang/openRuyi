@@ -52,9 +52,9 @@ develop applications that use the GPM library.
 %install -a
 chmod 0755 %{buildroot}/%{_libdir}/libgpm.so.%{LIBVER}
 ln -sf libgpm.so.%{LIBVER} %{buildroot}/%{_libdir}/libgpm.so
- 
+
 rm -f %{buildroot}%{_datadir}/emacs/site-lisp/t-mouse.el
- 
+
 mkdir -p %{buildroot}%{_unitdir}
 install -m 644 conf/gpm-* %{buildroot}%{_sysconfdir}
 
