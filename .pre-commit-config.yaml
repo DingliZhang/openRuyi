@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+#
+# SPDX-License-Identifier: MulanPSL-2.0
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+        files: \.spec$
+    -   id: end-of-file-fixer
+        files: \.spec$
+    -   id: check-added-large-files
+# TODO:
+# -   repo: https://github.com/fsfe/reuse-tool
+#     rev: v6.1.0
+#     hooks:
+#       - id: reuse
