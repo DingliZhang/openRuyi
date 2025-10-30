@@ -9,20 +9,23 @@
 Name:           python-%{srcname}
 Version:        4.7
 Release:        %autorelease
+Summary:        Build manual page from Python's ArgumentParser object
 License:        Apache-2.0
 URL:            https://github.com/praiskup/argparse-manpage
-Summary:        Build manual page from Python's ArgumentParser object
-Provides:       python3-%{srcname}
-%python_provide python3-%{srcname}
 #!RemoteAsset
 Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/argparse_manpage-%{version}.tar.gz
 BuildArch:      noarch
+BuildSystem:    pyproject
+
+BuildOption(install): -l argparse_manpage build_manpages +auto
 
 BuildRequires:  pyproject-rpm-macros
 BuildRequires:  pytest
 BuildRequires:  python3-devel
-BuildSystem:    pyproject
-BuildOption(install): -l argparse_manpage build_manpages +auto
+
+Provides:       python3-%{srcname}
+%python_provide python3-%{srcname}
+
 %description
 This package provides tools to build manual pages from Python's
 @code{ArgumentParser} object.
@@ -31,7 +34,6 @@ This package provides tools to build manual pages from Python's
 
 %generate_buildrequires
 %pyproject_buildrequires
-
 
 %files -f %{pyproject_files}
 %doc README*
