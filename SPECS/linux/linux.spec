@@ -88,25 +88,24 @@ echo "-%{release}" > localversion
 %make_build %{kernel_make_flags}
 
 %install
-%define modpath %{buildroot}%{_libdir}/modules/%{kver}
+%define modpath %{_prefix}/lib/modules/%{kver}
 %define kpath %{buildroot}%{_prefix}/lib/kernel
 %define ksrcpath %{buildroot}%{_usrsrc}/kernels/%{kver}
-install -d %{modpath} %{kpath} %{ksrcpath}
+install -d %{buildroot}%{modpath} %{ksrcpath}
 
 %make_build %{kernel_make_flags} INSTALL_MOD_PATH=%{buildroot}%{_prefix} INSTALL_MOD_STRIP=1 DEPMOD=true modules_install
 
 %make_build run-command %{kernel_make_flags} KBUILD_RUN_COMMAND="$(pwd)/scripts/package/install-extmod-build %{ksrcpath}"
 
-ln -sf ../../../../src/kernels/%{kver} %{modpath}/build
-ln -sf ../../../../src/kernels/%{kver} %{modpath}/source
+ln -sf ../../../../src/kernels/%{kver} %{buildroot}%{modpath}/build
+ln -sf ../../../../src/kernels/%{kver} %{buildroot}%{modpath}/source
 
-install -Dm644 $(make %{kernel_make_flags} -s image_name) %{kpath}/vmlinuz-%{kver}
+install -Dm644 $(make %{kernel_make_flags} -s image_name) %{buildroot}%{modpath}/vmlinuz
 
 echo "Module signing would happen here for version %{kver}."
 
 %post
-%{_sbindir}/depmod -a %{kver}
-%{_bindir}/kernel-install add %{kver} %{_prefix}/lib/kernel/vmlinuz-%{kver}
+%{_bindir}/kernel-install add %{kver} %{modpath}/vmlinuz
 
 %postun
 if [ $1 -eq 0 ] ; then
@@ -118,15 +117,16 @@ fi
 %doc README
 
 %files core
-%{_prefix}/lib/kernel/vmlinuz-%{kver}
+%{modpath}/vmlinuz
 
 %files modules
-%{_prefix}/lib/modules/*
+%{modpath}/*
+%exclude %{modpath}/vmlinuz
 
 %files devel
 %{_usrsrc}/kernels/%{kver}/
-%{_libdir}/modules/%{kver}/build
-%{_libdir}/modules/%{kver}/source
+%{modpath}/build
+%{modpath}/source
 
 %changelog
 %{?autochangelog}
