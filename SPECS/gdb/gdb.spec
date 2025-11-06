@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
+# SPDX-FileContributor: Jingkun Zheng <zhengjingkun@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -219,6 +220,9 @@ fi
 %files gdbserver
 %{_bindir}/gdbserver
 %{_mandir}/*/gdbserver.1*
+%ifarch x86_64
+%{_libdir}/libinproctrace.so
+%endif
 
 %files doc
 %{_infodir}/annotate.info*
