@@ -71,6 +71,8 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/modprobe.d
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/depmod.d
 mkdir -p $RPM_BUILD_ROOT%{_prefix}/lib/modprobe.d
 
+%check
+
 %files
 %dir %{_sysconfdir}/depmod.d
 %dir %{_sysconfdir}/modprobe.d
