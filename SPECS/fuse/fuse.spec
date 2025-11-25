@@ -11,7 +11,6 @@ Version:        2.9.9
 Release:        %autorelease
 Summary:        Filesystem in Userspace (FUSE) utilities and libraries
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
-Group:          System/Filesystems
 URL:            https://github.com/libfuse/libfuse
 #!RemoteAsset
 Source0:        https://github.com/libfuse/libfuse/releases/download/fuse-%{version}/fuse-%{version}.tar.gz
@@ -43,7 +42,6 @@ This package contains helper programs and runtime libraries for using FUSE mount
 
 %package devel
 Summary:        Development files for FUSE (userspace filesystem)
-Group:          Development/Languages/C and C++
 Requires:       %{name} = %{version}
 Requires:       glibc-devel
 

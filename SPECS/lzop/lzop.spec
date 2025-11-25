@@ -10,7 +10,6 @@ Version:        1.04
 Release:        %autorelease
 Summary:        A fast LZ-based file compressor
 License:        GPL-2.0-or-later
-Group:          Productivity/Archiving/Compression
 URL:            https://www.lzop.org/
 #!RemoteAsset
 Source:         https://www.lzop.org/download/lzop-%{version}.tar.gz

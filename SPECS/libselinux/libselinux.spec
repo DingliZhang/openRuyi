@@ -56,7 +56,6 @@ system's SELinux state.
 
 %package devel
 Summary:        Development files for the SELinux runtime library
-Group:          Development/Libraries/C and C++
 Requires:       glibc-devel
 Requires:       libselinux = %{version}
 #Automatic dependency on libsepol-devel via pkgconfig

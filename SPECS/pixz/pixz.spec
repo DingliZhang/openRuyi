@@ -10,7 +10,6 @@ Version:        1.0.7
 Release:        %autorelease
 Summary:        A parallel, indexing version of XZ
 License:        BSD-2-Clause
-Group:          Productivity/Archiving/Compression
 URL:            https://github.com/vasi/pixz
 #!RemoteAsset
 Source:         https://github.com/vasi/pixz/archive/refs/tags/v%{version}.tar.gz

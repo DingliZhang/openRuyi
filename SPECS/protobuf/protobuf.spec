@@ -11,7 +11,6 @@ Version:        32.0
 Release:        %autorelease
 Summary:        Protocol Buffers - Google's data interchange format
 License:        BSD-3-Clause
-Group:          Development/Libraries/C and C++
 URL:            https://github.com/protocolbuffers/protobuf
 #!RemoteAsset
 Source0:        https://github.com/protocolbuffers/protobuf/releases/download/v%{version}/%{name}-%{version}.tar.gz
@@ -70,7 +69,6 @@ RPC protocols and file formats.
 
 %package devel
 Summary:        Header files, libraries and development documentation for %{name}
-Group:          Development/Libraries/C and C++
 Requires:       protobuf
 Provides:       libprotobuf-devel
 # java related, haven't decided how to deal with it

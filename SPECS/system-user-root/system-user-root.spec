@@ -9,7 +9,6 @@ Version:        20190513
 Release:        %autorelease
 Summary:        System user and group root
 License:        MIT
-Group:          System/Fhs
 Source1:        system-user-root.conf
 Provides:       group(root)
 Provides:       group(shadow)

@@ -62,7 +62,6 @@ compiling programs using the LZMA library.
 %package static
 Summary:        Static version of LZMA library
 License:        Public-Domain
-Group:          Development/Libraries/C and C++
 Requires:       xz-devel = %{version}
 
 %description static

@@ -9,7 +9,6 @@ Version:        3.8.2
 Release:        %autorelease
 Summary:        The GNU Parser Generator
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 URL:            https://www.gnu.org/software/bison/bison.html
 #!RemoteAsset
 Source:         https://ftpmirror.gnu.org/gnu/bison/bison-%{version}.tar.xz

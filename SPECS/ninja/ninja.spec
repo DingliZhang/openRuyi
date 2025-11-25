@@ -10,7 +10,6 @@ Version:        1.13.1
 Release:        %autorelease
 Summary:        A small build system closest in spirit to Make
 License:        Apache-2.0
-Group:          Development/Tools/Building
 URL:            https://ninja-build.org/
 #!RemoteAsset
 Source0:        https://github.com/ninja-build/ninja/archive/v%{version}/ninja-%{version}.tar.gz

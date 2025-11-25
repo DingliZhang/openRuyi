@@ -10,7 +10,6 @@ Version:        0.193
 Release:        %autorelease
 Summary:        Higher-level library to access ELF files
 License:        GPL-3.0-or-later
-Group:          Development/Tools/Building
 URL:            https://sourceware.org/elfutils/
 #!RemoteAsset
 Source0:        https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
@@ -36,7 +35,6 @@ symbols, thread state and stacktraces for processes and core files.
 
 %package -n libasm1
 Summary:        A collection of utilities and DSOs to handle compiled objects
-Group:          System/Libraries
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
 
 %description -n libasm1
@@ -46,7 +44,6 @@ BPF instructions.) This is part of the elfutils package.
 
 %package -n libasm-devel
 Summary:        A collection of utilities and DSOs to handle compiled objects
-Group:          Development/Libraries/C and C++
 Requires:       libasm1 = %{version}
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
 
@@ -56,7 +53,6 @@ applications that require libasm.
 
 %package -n libelf1
 Summary:        Library to read and write ELF files
-Group:          System/Libraries
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
 
 %description -n libelf1
@@ -65,7 +61,6 @@ This is part of the elfutils package.
 
 %package -n libelf-devel
 Summary:        Development files for libelf
-Group:          Development/Libraries/C and C++
 Requires:       libelf1 = %{version}
 Conflicts:      libelf0-devel
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
@@ -76,7 +71,6 @@ applications that require libelf.
 
 %package -n libdw1
 Summary:        Library to access DWARF debugging information
-Group:          System/Libraries
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
 
 %description -n libdw1
@@ -85,7 +79,6 @@ information. This is part of the elfutils package.
 
 %package -n libdw-devel
 Summary:        Development files for libdw
-Group:          Development/Libraries/C and C++
 Requires:       libdw1 = %{version}
 Requires:       libelf-devel = %{version}
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
@@ -96,7 +89,6 @@ applications that require libdw.
 
 %package -n libdebuginfod1-dummy
 Summary:        Library for build-id HTTP ELF/DWARF server
-Group:          System/Libraries
 Provides:       libdebuginfod1 = %{version}
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
 
@@ -109,7 +101,6 @@ The package is dummy.
 
 %package -n libdebuginfod-dummy-devel
 Summary:        Libraries and headers to build debuginfod client applications
-Group:          Development/Libraries/C and C++
 Provides:       libdebuginfod-devel = %{version}
 License:        GPL-2.0-or-later OR LGPL-3.0-or-later
 Requires:       libdebuginfod1-dummy = %{version}
@@ -121,7 +112,6 @@ The package is dummy.
 
 %package -n debuginfod-dummy-client
 Summary:        Command line client for build-id HTTP ELF/DWARF server
-Group:          Development/Tools/Building
 Provides:       debuginfod-client = %{version}
 
 %description -n debuginfod-dummy-client

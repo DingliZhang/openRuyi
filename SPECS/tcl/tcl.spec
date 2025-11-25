@@ -53,7 +53,6 @@ http://wiki.tcl.tk .
 
 %package devel
 Summary:        Header Files and C API Documentation for Tcl
-Group:          Development/Libraries/Tcl
 Requires:       tcl = %version
 
 %description devel

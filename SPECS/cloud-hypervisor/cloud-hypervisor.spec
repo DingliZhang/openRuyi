@@ -17,7 +17,6 @@ Summary:        Cloud Hypervisor is a Virtual Machine Monitor (VMM) that runs on
 Version:        %{gitver}.%{gitnum}
 Release:        %autorelease
 License:        ASL 2.0 or BSD-3-clause
-Group:          Applications/System
 #!RemoteAsset
 Source0:        https://github.com/cloud-hypervisor/obs-packaging/raw/%{obs_packaging_commit}/cloud-hypervisor/src/%{name}-%{version}.tar.gz
 #!RemoteAsset

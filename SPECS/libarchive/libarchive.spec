@@ -49,7 +49,6 @@ This package contains the bsdtar cmdline utility.
 
 %package -n bsdtar
 Summary:        Utility to read several different streaming archive formats
-Group:          Productivity/Archiving/Compression
 Requires:       %{name} >= %{version}
 
 %description -n bsdtar

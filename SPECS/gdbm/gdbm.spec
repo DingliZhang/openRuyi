@@ -11,7 +11,6 @@ Version:        1.26
 Release:        %autorelease
 Summary:        GNU dbm key/data database
 License:        GPL-3.0-or-later
-Group:          Development/Libraries/C and C++
 URL:            https://www.gnu.org/software/gdbm/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
@@ -47,7 +46,6 @@ a database.
 Summary:        GNU dbm key/data database
 # O/P added in 12.2
 License:        GPL-3.0-or-later
-Group:          System/Libraries
 Obsoletes:      gdbm < %{version}-%{release}
 Provides:       gdbm = %{version}-%{release}
 Provides:       %{name} = %{version}
@@ -70,7 +68,6 @@ a database.
 Summary:        GNU dbm key/data database compat wrapper
 # Was provided in older sonames
 License:        GPL-3.0-or-later
-Group:          System/Libraries
 Conflicts:      libgdbm4
 
 %description -n %{lcompat}
@@ -84,7 +81,6 @@ This library is providing compatibility wrappers.
 %package devel
 Summary:        Development files for the dbm key/data database library
 License:        GPL-3.0-or-later AND LGPL-2.1-or-later
-Group:          Development/Libraries/C and C++
 Requires:       %{lcompat} = %{version}
 Requires:       %{lname} = %{version}
 

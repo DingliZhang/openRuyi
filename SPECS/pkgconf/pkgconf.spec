@@ -28,7 +28,6 @@ Version:        2.2.0
 Release:        %autorelease
 Summary:        Package compiler and linker metadata toolkit
 License:        ISC
-Group:          Development/Tools/Building
 URL:            https://pkgconf.org/
 #!RemoteAsset
 Source0:        https://distfiles.dereferenced.org/%{name}/%{name}-%{version}.tar.xz
@@ -56,7 +55,6 @@ and handles .pc files in a similar manner as pkg-config.
 %package -n %{libname}
 Summary:        Backend library for %{name}
 License:        ISC
-Group:          System/Libraries
 
 %description -n %{libname}
 This package provides libraries for applications to use the functionality
@@ -65,7 +63,6 @@ of %{name}.
 %package -n %{devname}
 Summary:        Development files for lib%{name}
 License:        ISC
-Group:          Development/Libraries/C and C++
 Requires:       %{libname}%{?_isa} = %{version}-%{release}
 # Avoid dependency loop on itself by specifying the Provides directly
 Provides:       pkgconfig(libpkgconf) = %{version}
@@ -78,7 +75,6 @@ to use functionality provided by %{name}.
 %package m4
 Summary:        m4 macros for pkgconf
 License:        GPL-2.0-or-later WITH Autoconf-exception-2.0
-Group:          Development/Libraries/Other
 BuildArch:      noarch
 # Ensure that it Conflicts and Obsoletes pkgconfig since it contains content formerly from it
 Conflicts:      pkgconfig < %{pkgconfig_obsver}
@@ -92,7 +88,6 @@ when using pkgconf with autotools.
 Summary:        %{name} shim to provide /usr/bin/pkg-config
 # Ensure that it Conflicts with pkg-config and is considered "better"
 License:        ISC
-Group:          Development/Tools/Building
 Conflicts:      pkg-config < %{pkgconfig_obsver}
 Obsoletes:      pkg-config < %{pkgconfig_obsver}
 Provides:       pkg-config = %{pkgconfig_obsver}

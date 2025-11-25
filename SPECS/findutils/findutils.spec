@@ -9,7 +9,6 @@ Version:        4.10.0
 Release:        %autorelease
 Summary:        The GNU versions of find utilities (find and xargs)
 License:        GPL-3.0-or-later
-Group:          Productivity/File utilities
 URL:            https://www.gnu.org/software/findutils/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/%{name}/%{name}-%{version}.tar.xz

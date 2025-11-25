@@ -9,7 +9,6 @@ Version:        2.23
 Release:        %autorelease
 Summary:        Displays where a particular program in your path is located
 License:        GPL-3.0-or-later
-Group:          System/Base
 URL:            https://savannah.gnu.org/projects/which/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/which/which-%{version}.tar.gz

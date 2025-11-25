@@ -252,7 +252,6 @@ Requires:       libvtv%{libvtv_sover} >= %{version}-%{release}
 Suggests:       gcc15-info gcc15-locale
 %endif
 
-Group:          Development/Languages/C and C++
 #!RemoteAsset
 Source:         https://ftpmirror.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
 Patch2:         gcc-add-defaultsspec.diff
@@ -311,7 +310,6 @@ gcc-rust and gcc-m2.
 
 %package -n gcc15-32bit
 Summary:        The GNU C Compiler 32bit support
-Group:          Development/Languages/C and C++
 Requires:       gcc15 = %{version}-%{release}
 Requires:       libgcc_s%{libgcc_s}-32bit >= %{version}-%{release}
 Requires:       libgomp%{libgomp_sover}-32bit >= %{version}-%{release}
@@ -337,7 +335,6 @@ This package contains 32bit support for the GNU Compiler Collection.
 
 %package -n gcc15-64bit
 Summary:        The GNU C Compiler 64bit support
-Group:          Development/Languages/C and C++
 Requires:       gcc15 = %{version}-%{release}
 Requires:       libgcc_s%{libgcc_s}-64bit >= %{version}-%{release}
 Requires:       libgomp%{libgomp_sover}-64bit >= %{version}-%{release}
@@ -373,7 +370,6 @@ This package contains 64bit support for the GNU Compiler Collection.
 %package devel
 Summary:        GCC plugins development enviroment
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gmp-devel
 Requires:       mpc-devel
@@ -384,7 +380,6 @@ Files required for developing and compiling GCC plugins.
 %package locale
 Summary:        Locale Data for the GNU Compiler Collection
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 Requires:       gcc15 = %{version}-%{release}
 
 %description locale
@@ -394,7 +389,6 @@ in the current locale.
 %package PIE
 Summary:        A default configuration to build all binaries in PIE mode
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15 = %{version}-%{release}
 
 %description PIE
@@ -406,7 +400,6 @@ space randomization (ASLR).
 %package c++
 Summary:        The GNU C++ Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-c++ = %{version}-%{release}
 Requires:       libstdc++%{libstdcxx_sover}-devel%{libdevel_suffix} = %{version}-%{release}
@@ -417,7 +410,6 @@ This package contains the GNU compiler for C++.
 %package c++-32bit
 Summary:        The GNU C++ Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-c++ = %{version}-%{release}
 Requires:       libstdc++%{libstdcxx_sover}-devel%{libdevel_suffix}-32bit = %{version}-%{release}
@@ -428,7 +420,6 @@ This package contains the GNU compiler for C++.
 %package c++-64bit
 Summary:        The GNU C++ Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-c++ = %{version}-%{release}
 Requires:       libstdc++%{libstdcxx_sover}-devel%{libdevel_suffix}-64bit = %{version}-%{release}
@@ -439,7 +430,6 @@ This package contains the GNU compiler for C++.
 %package -n libstdc++%{libstdcxx_sover}-devel%{libdevel_suffix}
 Summary:        Include Files and Libraries mandatory for Development
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/C and C++
 Requires:       glibc-devel
 Requires:       libstdc++%{libstdcxx_sover} >= %{version}-%{release}
 
@@ -450,7 +440,6 @@ library. It is needed for compiling C++ code.
 %package -n libstdc++%{libstdcxx_sover}-devel%{libdevel_suffix}-32bit
 Summary:        Include Files and Libraries mandatory for Development
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/C and C++
 Requires:       glibc-devel-32bit glibc-32bit
 Requires:       libstdc++%{libstdcxx_sover}-32bit >= %{version}-%{release}
 
@@ -461,7 +450,6 @@ library. It is needed for compiling C++ code.
 %package -n libstdc++%{libstdcxx_sover}-devel%{libdevel_suffix}-64bit
 Summary:        Include Files and Libraries mandatory for Development
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/C and C++
 Requires:       glibc-devel-64bit
 Requires:       libstdc++%{libstdcxx_sover}-64bit >= %{version}-%{release}
 
@@ -472,7 +460,6 @@ library. It is needed for compiling C++ code.
 %package -n libstdc++%{libstdcxx_sover}-pp%{libstdcxx_suffix}
 Summary:        GDB pretty printers for the C++ standard library
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 # The -pp packages are tied to a specific shared library
 Requires:       libstdc++%{libstdcxx_sover} = %{version}-%{release}
 Requires:       libstdc++%{libstdcxx_sover}-pp%{libstdcxx_suffix} = %{version}-%{release}
@@ -491,7 +478,6 @@ from GDB.
 %package -n libstdc++%{libstdcxx_sover}-pp%{libstdcxx_suffix}-32bit
 Summary:        GDB pretty printers for the C++ standard library
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 # The -pp packages are tied to a specific shared library
 Requires:       libstdc++%{libstdcxx_sover}-32bit = %{version}-%{release}
 Requires:       libstdc++%{libstdcxx_sover}-pp%{libstdcxx_suffix} = %{version}-%{release}
@@ -510,7 +496,6 @@ from GDB.
 %package -n libstdc++%{libstdcxx_sover}-pp%{libstdcxx_suffix}-64bit
 Summary:        GDB pretty printers for the C++ standard library
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 # The -pp packages are tied to a specific shared library
 Requires:       libstdc++%{libstdcxx_sover}-64bit = %{version}-%{release}
 Requires:       libstdc++%{libstdcxx_sover}-pp%{libstdcxx_suffix} = %{version}-%{release}
@@ -529,7 +514,6 @@ from GDB.
 %package -n libgcc_s%{libgcc_s}%{libgcc_s_suffix}
 Summary:        C compiler runtime library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Base
 Provides:       libgcc_s%{libgcc_s} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -545,7 +529,6 @@ Libgcc is needed for dynamically linked C programs.
 %package -n libgcc_s%{libgcc_s}%{libgcc_s_suffix}-32bit
 Summary:        C compiler runtime library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Base
 Provides:       libgcc_s%{libgcc_s}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -561,7 +544,6 @@ Libgcc is needed for dynamically linked C programs.
 %package -n libgcc_s%{libgcc_s}%{libgcc_s_suffix}-64bit
 Summary:        C compiler runtime library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Base
 Provides:       libgcc_s%{libgcc_s}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -577,7 +559,6 @@ Libgcc is needed for dynamically linked C programs.
 %package -n libgomp%{libgomp_sover}%{libgomp_suffix}
 Summary:        The GNU compiler collection OpenMP runtime library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Base
 Provides:       libgomp%{libgomp_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -597,7 +578,6 @@ option.
 %package -n libgomp%{libgomp_sover}%{libgomp_suffix}-32bit
 Summary:        The GNU compiler collection OpenMP runtime library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Base
 Provides:       libgomp%{libgomp_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -617,7 +597,6 @@ option.
 %package -n libgomp%{libgomp_sover}%{libgomp_suffix}-64bit
 Summary:        The GNU compiler collection OpenMP runtime library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Base
 Provides:       libgomp%{libgomp_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -637,7 +616,6 @@ option.
 %package -n libstdc++%{libstdcxx_sover}%{libstdcxx_suffix}
 Summary:        The standard C++ shared library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Libraries
 Suggests:       libstdc++%{libstdcxx_sover}-locale
 Provides:       libstdc++%{libstdcxx_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
@@ -659,7 +637,6 @@ The standard C++ library, needed for dynamically linked C++ programs.
 %package -n libstdc++%{libstdcxx_sover}%{libstdcxx_suffix}-32bit
 Summary:        The standard C++ shared library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Libraries
 Suggests:       libstdc++%{libstdcxx_sover}-locale
 Provides:       libstdc++%{libstdcxx_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
@@ -681,7 +658,6 @@ The standard C++ library, needed for dynamically linked C++ programs.
 %package -n libstdc++%{libstdcxx_sover}%{libstdcxx_suffix}-64bit
 Summary:        The standard C++ shared library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Libraries
 Suggests:       libstdc++%{libstdcxx_sover}-locale
 Provides:       libstdc++%{libstdcxx_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
@@ -703,7 +679,6 @@ The standard C++ library, needed for dynamically linked C++ programs.
 %package -n libstdc++%{libstdcxx_sover}%{libstdcxx_suffix}-locale
 Summary:        Standard C++ Library Locales
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Libraries
 Provides:       libstdc++%{libstdcxx_sover}-locale = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -715,7 +690,6 @@ The standard C++ library locale data.
 %package info
 Summary:        Documentation for the GNU compiler collection
 License:        GFDL-1.2-only
-Group:          Documentation/Other
 PreReq:         texinfo
 BuildArch:      noarch
 
@@ -726,7 +700,6 @@ and internals documentation.
 %package objc
 Summary:        GNU Objective C Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-objc = %{version}-%{release}
 Requires:       libobjc%{libobjc_sover} >= %{version}-%{release}
@@ -739,7 +712,6 @@ Nextstep OS. The source code is available in the gcc package.
 %package objc-32bit
 Summary:        GNU Objective C Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-objc = %{version}-%{release}
 Requires:       libobjc%{libobjc_sover}-32bit >= %{version}-%{release}
@@ -752,7 +724,6 @@ Nextstep OS. The source code is available in the gcc package.
 %package objc-64bit
 Summary:        GNU Objective C Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-objc = %{version}-%{release}
 Requires:       libobjc%{libobjc_sover}-64bit >= %{version}-%{release}
@@ -765,7 +736,6 @@ Nextstep OS. The source code is available in the gcc package.
 %package -n libobjc%{libobjc_sover}%{libobjc_suffix}
 Summary:        Library for the GNU Objective C Compiler
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Libraries/Other
 Provides:       libobjc%{libobjc_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -781,7 +751,6 @@ The library for the GNU Objective C compiler.
 %package -n libobjc%{libobjc_sover}%{libobjc_suffix}-32bit
 Summary:        Library for the GNU Objective C Compiler
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Libraries/Other
 Provides:       libobjc%{libobjc_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -797,7 +766,6 @@ The library for the GNU Objective C compiler.
 %package -n libobjc%{libobjc_sover}%{libobjc_suffix}-64bit
 Summary:        Library for the GNU Objective C Compiler
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Libraries/Other
 Provides:       libobjc%{libobjc_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -813,7 +781,6 @@ The library for the GNU Objective C compiler.
 %package obj-c++
 Summary:        GNU Objective C++ Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-c++ = %{version}-%{release}
 Requires:       gcc15-obj-c++ = %{version}-%{release}
 Requires:       gcc15-objc = %{version}-%{release}
@@ -826,7 +793,6 @@ Nextstep OS. The source code is available in the gcc package.
 %package obj-c++-32bit
 Summary:        GNU Objective C++ Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-c++-32bit = %{version}-%{release}
 Requires:       gcc15-obj-c++ = %{version}-%{release}
 Requires:       gcc15-objc-32bit = %{version}-%{release}
@@ -839,7 +805,6 @@ Nextstep OS. The source code is available in the gcc package.
 %package obj-c++-64bit
 Summary:        GNU Objective C++ Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-c++-64bit = %{version}-%{release}
 Requires:       gcc15-obj-c++ = %{version}-%{release}
 Requires:       gcc15-objc-64bit = %{version}-%{release}
@@ -852,7 +817,6 @@ Nextstep OS. The source code is available in the gcc package.
 %package -n cpp15
 Summary:        The GCC Preprocessor
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 
 %description -n cpp15
 This Package contains just the preprocessor that is used by the X11
@@ -861,7 +825,6 @@ packages.
 %package ada
 Summary:        GNU Ada Compiler Based on GCC (GNAT)
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-ada = %{version}-%{release}
 Requires:       libada15 = %{version}-%{release}
@@ -873,7 +836,6 @@ tools based on the GNU GCC technology.
 %package ada-32bit
 Summary:        GNU Ada Compiler Based on GCC (GNAT)
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-ada = %{version}-%{release}
 Requires:       libada15-32bit = %{version}-%{release}
@@ -885,7 +847,6 @@ tools based on the GNU GCC technology.
 %package ada-64bit
 Summary:        GNU Ada Compiler Based on GCC (GNAT)
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-ada = %{version}-%{release}
 Requires:       libada15-64bit = %{version}-%{release}
@@ -897,7 +858,6 @@ tools based on the GNU GCC technology.
 %package -n libada15
 Summary:        GNU Ada Runtime Libraries
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Libraries
 Provides:       libgnarl-15 = %{version}-%{release}
 Conflicts:      libgnarl-15
 Provides:       libgnat-15 = %{version}-%{release}
@@ -918,7 +878,6 @@ implementation of Distributed Systems Programming (GLADE) and the Posix
 %package -n libada15-32bit
 Summary:        GNU Ada Runtime Libraries
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Libraries
 Provides:       libgnarl-15-32bit = %{version}-%{release}
 Conflicts:      libgnarl-15-32bit
 Provides:       libgnat-15-32bit = %{version}-%{release}
@@ -939,7 +898,6 @@ implementation of Distributed Systems Programming (GLADE) and the Posix
 %package -n libada15-64bit
 Summary:        GNU Ada Runtime Libraries
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          System/Libraries
 Provides:       libgnarl-15-64bit = %{version}-%{release}
 Conflicts:      libgnarl-15-64bit
 Provides:       libgnat-15-64bit = %{version}-%{release}
@@ -960,7 +918,6 @@ implementation of Distributed Systems Programming (GLADE) and the Posix
 %package fortran
 Summary:        The GNU Fortran Compiler and Support Files
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Fortran
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-fortran = %{version}-%{release}
 Requires:       libgfortran%{libgfortran_sover} >= %{version}-%{release}
@@ -974,7 +931,6 @@ This is the Fortran compiler of the GNU Compiler Collection (GCC).
 %package fortran-32bit
 Summary:        The GNU Fortran Compiler and Support Files
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Fortran
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-fortran = %{version}-%{release}
 Requires:       libgfortran%{libgfortran_sover}-32bit >= %{version}-%{release}
@@ -988,7 +944,6 @@ This is the Fortran compiler of the GNU Compiler Collection (GCC).
 %package fortran-64bit
 Summary:        The GNU Fortran Compiler and Support Files
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Fortran
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-fortran = %{version}-%{release}
 Requires:       libgfortran%{libgfortran_sover}-64bit >= %{version}-%{release}
@@ -1002,7 +957,6 @@ This is the Fortran compiler of the GNU Compiler Collection (GCC).
 %package -n libgfortran%{libgfortran_sover}%{libgfortran_suffix}
 Summary:        The GNU Fortran Compiler Runtime Library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/Fortran
 %ifarch %quadmath_arch
 Requires:       libquadmath%{libquadmath_sover} >= %{version}-%{release}
 %endif
@@ -1022,7 +976,6 @@ of the GNU Compiler Collection (GCC).
 %package -n libgfortran%{libgfortran_sover}%{libgfortran_suffix}-32bit
 Summary:        The GNU Fortran Compiler Runtime Library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/Fortran
 %ifarch %quadmath_arch
 Requires:       libquadmath%{libquadmath_sover}-32bit >= %{version}-%{release}
 %endif
@@ -1042,7 +995,6 @@ of the GNU Compiler Collection (GCC).
 %package -n libgfortran%{libgfortran_sover}%{libgfortran_suffix}-64bit
 Summary:        The GNU Fortran Compiler Runtime Library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/Fortran
 %ifarch %quadmath_arch
 Requires:       libquadmath%{libquadmath_sover}-64bit >= %{version}-%{release}
 %endif
@@ -1062,7 +1014,6 @@ of the GNU Compiler Collection (GCC).
 %package -n libquadmath%{libquadmath_sover}%{libquadmath_suffix}
 Summary:        The GNU Fortran Compiler Quadmath Runtime Library
 License:        LGPL-2.1-only
-Group:          Development/Languages/Fortran
 Provides:       libquadmath%{libquadmath_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1080,7 +1031,6 @@ operations.
 %package -n libquadmath%{libquadmath_sover}%{libquadmath_suffix}-32bit
 Summary:        The GNU Fortran Compiler Quadmath Runtime Library
 License:        LGPL-2.1-only
-Group:          Development/Languages/Fortran
 Provides:       libquadmath%{libquadmath_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1098,7 +1048,6 @@ operations.
 %package -n libquadmath%{libquadmath_sover}%{libquadmath_suffix}-64bit
 Summary:        The GNU Fortran Compiler Quadmath Runtime Library
 License:        LGPL-2.1-only
-Group:          Development/Languages/Fortran
 Provides:       libquadmath%{libquadmath_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1116,7 +1065,6 @@ operations.
 %package -n libquadmath%{libquadmath_sover}-devel%{libdevel_suffix}
 Summary:        The GNU Fortran Compiler Quadmath Runtime Library Development Files
 License:        LGPL-2.1-only
-Group:          Development/Languages/Fortran
 Requires:       libquadmath%{libquadmath_sover} >= %{version}-%{release}
 
 %description -n libquadmath%{libquadmath_sover}-devel%{libdevel_suffix}
@@ -1125,7 +1073,6 @@ The libquadmatah runtime library development files.
 %package -n libquadmath%{libquadmath_sover}-devel%{libdevel_suffix}-32bit
 Summary:        The GNU Fortran Compiler Quadmath Runtime Library Development Files
 License:        LGPL-2.1-only
-Group:          Development/Languages/Fortran
 Requires:       libquadmath%{libquadmath_sover}-32bit >= %{version}-%{release}
 
 %description -n libquadmath%{libquadmath_sover}-devel%{libdevel_suffix}-32bit
@@ -1134,7 +1081,6 @@ The libquadmatah runtime library development files.
 %package -n libquadmath%{libquadmath_sover}-devel%{libdevel_suffix}-64bit
 Summary:        The GNU Fortran Compiler Quadmath Runtime Library Development Files
 License:        LGPL-2.1-only
-Group:          Development/Languages/Fortran
 Requires:       libquadmath%{libquadmath_sover}-64bit >= %{version}-%{release}
 
 %description -n libquadmath%{libquadmath_sover}-devel%{libdevel_suffix}-64bit
@@ -1143,7 +1089,6 @@ The libquadmatah runtime library development files.
 %package -n libitm%{libitm_sover}%{libitm_suffix}
 Summary:        The GNU Compiler Transactional Memory Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libitm%{libitm_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1160,7 +1105,6 @@ The runtime library needed to run programs compiled with the
 %package -n libitm%{libitm_sover}%{libitm_suffix}-32bit
 Summary:        The GNU Compiler Transactional Memory Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libitm%{libitm_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1177,7 +1121,6 @@ The runtime library needed to run programs compiled with the
 %package -n libitm%{libitm_sover}%{libitm_suffix}-64bit
 Summary:        The GNU Compiler Transactional Memory Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libitm%{libitm_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1194,7 +1137,6 @@ The runtime library needed to run programs compiled with the
 %package -n libasan%{libasan_sover}%{libasan_suffix}
 Summary:        The GNU Compiler Address Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libasan%{libasan_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1211,7 +1153,6 @@ The runtime library needed to run programs compiled with the
 %package -n libasan%{libasan_sover}%{libasan_suffix}-32bit
 Summary:        The GNU Compiler Address Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libasan%{libasan_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1228,7 +1169,6 @@ The runtime library needed to run programs compiled with the
 %package -n libasan%{libasan_sover}%{libasan_suffix}-64bit
 Summary:        The GNU Compiler Address Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libasan%{libasan_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1245,7 +1185,6 @@ The runtime library needed to run programs compiled with the
 %package -n libtsan%{libtsan_sover}%{libtsan_suffix}
 Summary:        The GNU Compiler Thread Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libtsan%{libtsan_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1262,7 +1201,6 @@ The runtime library needed to run programs compiled with the
 %package -n libtsan%{libtsan_sover}%{libtsan_suffix}-32bit
 Summary:        The GNU Compiler Thread Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libtsan%{libtsan_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1279,7 +1217,6 @@ The runtime library needed to run programs compiled with the
 %package -n libtsan%{libtsan_sover}%{libtsan_suffix}-64bit
 Summary:        The GNU Compiler Thread Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libtsan%{libtsan_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1296,7 +1233,6 @@ The runtime library needed to run programs compiled with the
 %package -n libhwasan%{libhwasan_sover}%{libhwasan_suffix}
 Summary:        The GNU Compiler Hardware-assisted Address Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libhwasan%{libhwasan_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1313,7 +1249,6 @@ The runtime library needed to run programs compiled with the
 %package -n libhwasan%{libhwasan_sover}%{libhwasan_suffix}-32bit
 Summary:        The GNU Compiler Hardware-assisted Address Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libhwasan%{libhwasan_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1330,7 +1265,6 @@ The runtime library needed to run programs compiled with the
 %package -n libhwasan%{libhwasan_sover}%{libhwasan_suffix}-64bit
 Summary:        The GNU Compiler Hardware-assisted Address Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libhwasan%{libhwasan_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1347,7 +1281,6 @@ The runtime library needed to run programs compiled with the
 %package -n libatomic%{libatomic_sover}%{libatomic_suffix}
 Summary:        The GNU Compiler Atomic Operations Runtime Library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/C and C++
 Provides:       libatomic%{libatomic_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1363,7 +1296,6 @@ The runtime library for atomic operations of the GNU Compiler Collection (GCC).
 %package -n libatomic%{libatomic_sover}%{libatomic_suffix}-32bit
 Summary:        The GNU Compiler Atomic Operations Runtime Library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/C and C++
 Provides:       libatomic%{libatomic_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1379,7 +1311,6 @@ The runtime library for atomic operations of the GNU Compiler Collection (GCC).
 %package -n libatomic%{libatomic_sover}%{libatomic_suffix}-64bit
 Summary:        The GNU Compiler Atomic Operations Runtime Library
 License:        GPL-3.0-or-later WITH GCC-exception-3.1
-Group:          Development/Languages/C and C++
 Provides:       libatomic%{libatomic_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1395,7 +1326,6 @@ The runtime library for atomic operations of the GNU Compiler Collection (GCC).
 %package -n liblsan%{liblsan_sover}%{liblsan_suffix}
 Summary:        The GNU Compiler Leak Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       liblsan%{liblsan_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1412,7 +1342,6 @@ The runtime library needed to run programs compiled with the
 %package -n liblsan%{liblsan_sover}%{liblsan_suffix}-32bit
 Summary:        The GNU Compiler Leak Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       liblsan%{liblsan_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1429,7 +1358,6 @@ The runtime library needed to run programs compiled with the
 %package -n liblsan%{liblsan_sover}%{liblsan_suffix}-64bit
 Summary:        The GNU Compiler Leak Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       liblsan%{liblsan_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1446,7 +1374,6 @@ The runtime library needed to run programs compiled with the
 %package -n libubsan%{libubsan_sover}%{libubsan_suffix}
 Summary:        The GNU Compiler Undefined Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libubsan%{libubsan_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1463,7 +1390,6 @@ The runtime library needed to run programs compiled with the
 %package -n libubsan%{libubsan_sover}%{libubsan_suffix}-32bit
 Summary:        The GNU Compiler Undefined Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libubsan%{libubsan_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1480,7 +1406,6 @@ The runtime library needed to run programs compiled with the
 %package -n libubsan%{libubsan_sover}%{libubsan_suffix}-64bit
 Summary:        The GNU Compiler Undefined Sanitizer Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libubsan%{libubsan_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1497,7 +1422,6 @@ The runtime library needed to run programs compiled with the
 %package -n libvtv%{libvtv_sover}%{libvtv_suffix}
 Summary:        The GNU Compiler Vtable Verifier Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libvtv%{libvtv_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1514,7 +1438,6 @@ The runtime library needed to run programs compiled with the
 %package -n libvtv%{libvtv_sover}%{libvtv_suffix}-32bit
 Summary:        The GNU Compiler Vtable Verifier Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libvtv%{libvtv_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1531,7 +1454,6 @@ The runtime library needed to run programs compiled with the
 %package -n libvtv%{libvtv_sover}%{libvtv_suffix}-64bit
 Summary:        The GNU Compiler Vtable Verifier Runtime Library
 License:        MIT
-Group:          Development/Languages/C and C++
 Provides:       libvtv%{libvtv_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1548,7 +1470,6 @@ The runtime library needed to run programs compiled with the
 %package go
 Summary:        GNU Go Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-go = %{version}-%{release}
 Requires:       libgo%{libgo_sover} >= %{version}-%{release}
@@ -1560,7 +1481,6 @@ files based on the GNU GCC technology.
 %package go-32bit
 Summary:        GNU Go Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-go = %{version}-%{release}
 Requires:       libgo%{libgo_sover}-32bit >= %{version}-%{release}
@@ -1572,7 +1492,6 @@ files based on the GNU GCC technology.
 %package go-64bit
 Summary:        GNU Go Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-go = %{version}-%{release}
 Requires:       libgo%{libgo_sover}-64bit >= %{version}-%{release}
@@ -1584,7 +1503,6 @@ files based on the GNU GCC technology.
 %package -n libgo%{libgo_sover}%{libgo_suffix}
 Summary:        GNU Go compiler runtime library
 License:        BSD-3-Clause
-Group:          Development/Languages/Other
 Provides:       libgo%{libgo_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1600,7 +1518,6 @@ Runtime library for the GNU Go language.
 %package -n libgo%{libgo_sover}%{libgo_suffix}-32bit
 Summary:        GNU Go compiler runtime library
 License:        BSD-3-Clause
-Group:          Development/Languages/Other
 Provides:       libgo%{libgo_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1616,7 +1533,6 @@ Runtime library for the GNU Go language.
 %package -n libgo%{libgo_sover}%{libgo_suffix}-64bit
 Summary:        GNU Go compiler runtime library
 License:        BSD-3-Clause
-Group:          Development/Languages/Other
 Provides:       libgo%{libgo_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1632,7 +1548,6 @@ Runtime library for the GNU Go language.
 %package d
 Summary:        GNU D Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-d = %{version}-%{release}
 Requires:       libgdruntime%{libgdruntime_sover} >= %{version}-%{release}
@@ -1645,7 +1560,6 @@ files based on the GNU GCC technology.
 %package d-32bit
 Summary:        GNU D Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-d = %{version}-%{release}
 Requires:       libgdruntime%{libgdruntime_sover}-32bit >= %{version}-%{release}
@@ -1658,7 +1572,6 @@ files based on the GNU GCC technology.
 %package d-64bit
 Summary:        GNU D Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-d = %{version}-%{release}
 Requires:       libgdruntime%{libgdruntime_sover}-64bit >= %{version}-%{release}
@@ -1671,7 +1584,6 @@ files based on the GNU GCC technology.
 %package -n libgphobos%{libgphobos_sover}%{libgphobos_suffix}
 Summary:        GNU D compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libgphobos%{libgphobos_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1687,7 +1599,6 @@ Runtime library for the GNU D language.
 %package -n libgphobos%{libgphobos_sover}%{libgphobos_suffix}-32bit
 Summary:        GNU D compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libgphobos%{libgphobos_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1703,7 +1614,6 @@ Runtime library for the GNU D language.
 %package -n libgphobos%{libgphobos_sover}%{libgphobos_suffix}-64bit
 Summary:        GNU D compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libgphobos%{libgphobos_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1719,7 +1629,6 @@ Runtime library for the GNU D language.
 %package -n libgdruntime%{libgdruntime_sover}%{libgdruntime_suffix}
 Summary:        GNU D compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libgdruntime%{libgdruntime_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1735,7 +1644,6 @@ Runtime library for the GNU D language.
 %package -n libgdruntime%{libgdruntime_sover}%{libgdruntime_suffix}-32bit
 Summary:        GNU D compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libgdruntime%{libgdruntime_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1751,7 +1659,6 @@ Runtime library for the GNU D language.
 %package -n libgdruntime%{libgdruntime_sover}%{libgdruntime_suffix}-64bit
 Summary:        GNU D compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libgdruntime%{libgdruntime_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1767,7 +1674,6 @@ Runtime library for the GNU D language.
 %package -n libgccjit%{libgccjit_sover}%{libgccjit_suffix}
 Summary:        The GNU Compiler Collection JIT library
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 Provides:       libgccjit%{libgccjit_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1788,7 +1694,6 @@ Support for embedding GCC inside programs and libraries
 %package -n libgccjit%{libgccjit_sover}-devel%{libdevel_suffix}
 Summary:        Support for embedding GCC inside programs and libraries
 License:        GPL-3.0-or-later
-Group:          Development/Languages/C and C++
 Provides:       libgccjit%{libgccjit_sover}-devel = %{version}-%{release}
 # Only one gccjit package can be installed at the same time since
 # header files conflict
@@ -1801,7 +1706,6 @@ Package contains header files and documentation for GCC JIT front-end.
 %package rust
 Summary:        GNU Rust Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-rust = %{version}-%{release}
 
@@ -1811,7 +1715,6 @@ This package contains a Rust compiler.
 %package rust-32bit
 Summary:        GNU Rust Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-rust = %{version}-%{release}
 
@@ -1821,7 +1724,6 @@ This package contains a Rust compiler.
 %package rust-64bit
 Summary:        GNU Rust Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-rust = %{version}-%{release}
 
@@ -1831,7 +1733,6 @@ This package contains a Rust compiler.
 %package m2
 Summary:        GNU Modula-2 Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15 = %{version}-%{release}
 Requires:       gcc15-m2 = %{version}-%{release}
 Requires:       libm2cor%{libm2_sover} >= %{version}-%{release}
@@ -1847,7 +1748,6 @@ This package contains a Modula-2 compiler.
 %package m2-32bit
 Summary:        GNU Modula-2 Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-32bit = %{version}-%{release}
 Requires:       gcc15-m2 = %{version}-%{release}
 Requires:       libm2cor%{libm2_sover}-32bit >= %{version}-%{release}
@@ -1863,7 +1763,6 @@ This package contains a Modula-2 compiler.
 %package m2-64bit
 Summary:        GNU Modula-2 Compiler
 License:        GPL-3.0-or-later
-Group:          Development/Languages/Other
 Requires:       gcc15-64bit = %{version}-%{release}
 Requires:       gcc15-m2 = %{version}-%{release}
 Requires:       libm2cor%{libm2_sover}-64bit >= %{version}-%{release}
@@ -1879,7 +1778,6 @@ This package contains a Modula-2 compiler.
 %package -n libm2log%{libm2_sover}%{libm2_suffix}
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2log%{libm2_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1895,7 +1793,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2log%{libm2_sover}%{libm2_suffix}-32bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2log%{libm2_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1911,7 +1808,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2log%{libm2_sover}%{libm2_suffix}-64bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2log%{libm2_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1927,7 +1823,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2cor%{libm2_sover}%{libm2_suffix}
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2cor%{libm2_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1943,7 +1838,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2cor%{libm2_sover}%{libm2_suffix}-32bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2cor%{libm2_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1959,7 +1853,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2cor%{libm2_sover}%{libm2_suffix}-64bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2cor%{libm2_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1975,7 +1868,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2iso%{libm2_sover}%{libm2_suffix}
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2iso%{libm2_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -1991,7 +1883,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2iso%{libm2_sover}%{libm2_suffix}-32bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2iso%{libm2_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2007,7 +1898,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2iso%{libm2_sover}%{libm2_suffix}-64bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2iso%{libm2_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2023,7 +1913,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2pim%{libm2_sover}%{libm2_suffix}
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2pim%{libm2_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2039,7 +1928,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2pim%{libm2_sover}%{libm2_suffix}-32bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2pim%{libm2_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2055,7 +1943,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2pim%{libm2_sover}%{libm2_suffix}-64bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2pim%{libm2_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2071,7 +1958,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2min%{libm2_sover}%{libm2_suffix}
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2min%{libm2_sover} = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2087,7 +1973,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2min%{libm2_sover}%{libm2_suffix}-32bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2min%{libm2_sover}-32bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2103,7 +1988,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n libm2min%{libm2_sover}%{libm2_suffix}-64bit
 Summary:        GNU Modula-2 compiler runtime library
 License:        BSL-1.0
-Group:          Development/Languages/Other
 Provides:       libm2min%{libm2_sover}-64bit = %{version}-%{release}
 # Only one package may provide this - allows multiple gcc versions
 # to co-exist without an overly large list of provides/obsoletes
@@ -2119,7 +2003,6 @@ Runtime library for the GNU Modula-2 language.
 %package -n gcc15-testresults
 Summary:        Testsuite results
 License:        Public-Domain
-Group:          Development/Languages/C and C++
 
 %description -n gcc15-testresults
 Results from running the gcc and target library testsuites.

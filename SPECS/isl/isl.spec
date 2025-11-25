@@ -10,7 +10,6 @@ Version:        0.27
 Release:        %autorelease
 Summary:        Integer Set Library
 License:        MIT
-Group:          Development/Languages/C and C++
 URL:            https://libisl.sourceforge.io/
 #!RemoteAsset
 Source:         https://libisl.sourceforge.io/isl-%{version}.tar.xz
@@ -27,7 +26,6 @@ It is used by Cloog and the GCC Graphite optimization framework.
 
 %package devel
 Summary:        Development tools for ISL
-Group:          Development/Languages/C and C++
 Requires:       libisl%{islsover} = %{version}-%{release}
 
 %description devel
@@ -35,7 +33,6 @@ Development tools and headers for the ISL.
 
 %package -n libisl%{islsover}
 Summary:        The ISL shared library
-Group:          System/Libraries
 
 %description -n libisl%{islsover}
 The shared library for the ISL.

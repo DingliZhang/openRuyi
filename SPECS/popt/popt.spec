@@ -32,7 +32,6 @@ parsing arbitrary strings into argv[] arrays using shell-like rules.
 
 %package devel
 Summary:        Development files for the popt library
-Group:          Development/Libraries/C and C++
 Requires:       %{name} = %{version}
 Requires:       glibc-devel
 

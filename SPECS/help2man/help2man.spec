@@ -9,7 +9,6 @@ Version:        1.49.3
 Release:        %autorelease
 Summary:        Script for generating man pages from --help output
 License:        GPL-3.0-or-later
-Group:          Development/Tools/Doc Generators
 URL:            https://www.gnu.org/software/help2man/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/help2man/%{name}-%{version}.tar.xz

@@ -15,7 +15,6 @@ Version:        2.4.7
 Release:        %autorelease
 Summary:        A Tool to Build Shared Libraries
 License:        GFDL-1.2-or-later AND GPL-2.0-or-later AND LGPL-2.1-or-later
-Group:          Development/Tools/Building
 URL:            https://www.gnu.org/software/libtool/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/libtool/libtool-%{version}.tar.xz
@@ -50,7 +49,6 @@ architectures to build shared libraries in a generic fashion.
 %package -n libltdl7
 Summary:        Libtool Runtime Library
 License:        LGPL-2.1-or-later
-Group:          Development/Libraries/C and C++
 
 %description -n libltdl7
 Library needed by programs that use the ltdl interface of GNU libtool.

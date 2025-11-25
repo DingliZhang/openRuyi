@@ -18,7 +18,6 @@ Version:        1.90.0
 Release:        %autorelease
 Summary:        A systems programming language
 License:        Apache-2.0 OR MIT
-Group:          Development/Languages/Rust
 URL:            https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
 #!RemoteAsset
 Source0:        https://static.rust-lang.org/dist/rust-%{version}-riscv64gc-unknown-linux-gnu.tar.gz

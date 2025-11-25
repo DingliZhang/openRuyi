@@ -10,7 +10,6 @@ Version:        1.20.2
 Release:        %autorelease
 Summary:        Utility Macro Headers for X.Org development
 License:        MIT
-Group:          Development/Libraries/X11
 URL:            https://xorg.freedesktop.org/
 #!RemoteAsset
 Source:         https://www.x.org/releases/individual/util/util-macros-%{version}.tar.xz

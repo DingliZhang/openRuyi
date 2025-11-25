@@ -9,7 +9,6 @@ Version:        4.9
 Release:        %autorelease
 Summary:        A Stream-Oriented Non-Interactive Text Editor
 License:        GPL-3.0-or-later
-Group:          System/Base
 URL:            https://www.gnu.org/software/sed/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/sed/%{name}-%{version}.tar.xz

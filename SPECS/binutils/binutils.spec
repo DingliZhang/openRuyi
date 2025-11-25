@@ -47,7 +47,6 @@ to compile a program or kernel.
 %package devel
 Summary:        GNU binutils (BFD development files)
 License:        GPL-3.0-or-later
-Group:          Development/Libraries/C and C++
 Requires:       binutils = %{version}-%{release}
 Requires:       zlib-devel
 Requires:       libzstd-devel

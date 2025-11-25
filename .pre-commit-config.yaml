@@ -5,6 +5,13 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 repos:
+-   repo: local
+    hooks:
+    -  id: no-group-tag
+       name: "check no Group tag"
+       language: pygrep
+       entry: '^Group:'
+       files: \.spec$
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:

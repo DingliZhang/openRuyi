@@ -9,7 +9,6 @@ Version:        1.25
 Release:        %autorelease
 Summary:        Lossless file compressor based on the LZMA algorithm
 License:        GPL-3.0-or-later
-Group:          Archiving/Compression
 URL:            https://www.nongnu.org/lzip/lzip.html
 #!RemoteAsset
 Source:         https://download.savannah.nongnu.org/releases/lzip/lzip-%{version}.tar.gz

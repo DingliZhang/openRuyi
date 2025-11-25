@@ -10,7 +10,6 @@ Version:        0.0.28
 Release:        %autorelease
 Summary:        Tool for Converting XML Files to Various Formats
 License:        GPL-2.0-or-later
-Group:          Productivity/Publishing/XML
 URL:            https://pagure.io/xmlto/
 #!RemoteAsset
 Source:         https://releases.pagure.org/%{name}/%{name}-%{version}.tar.bz2

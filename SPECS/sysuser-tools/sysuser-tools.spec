@@ -9,7 +9,6 @@ Version:        3.3
 Release:        %autorelease
 Summary:        Auto provides for system users
 License:        MIT
-Group:          System/Packages
 Source:         sysusers.prov
 # Source1:        sysusers.attr
 Source2:        sysusers-generate-pre
@@ -26,7 +25,6 @@ Generate auto provides for system users.
 
 %package -n sysuser-shadow
 Summary:        Tool to execute sysusers.d with shadow utilities
-Group:          System/Packages
 Requires(pre):  (/usr/bin/useradd or busybox)
 # prefer original shadow over busybox by default
 Suggests:       shadow

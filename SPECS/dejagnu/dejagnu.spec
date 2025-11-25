@@ -9,7 +9,6 @@ Version:        1.6.3
 Release:        %autorelease
 Summary:        Framework for Running Test Suites on Software Tools
 License:        GPL-3.0-or-later
-Group:          Development/Tools/Building
 URL:            https://www.gnu.org/software/dejagnu/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz

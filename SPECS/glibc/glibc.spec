@@ -128,7 +128,6 @@ This package contains the testsuite results from the GNU C Library.
 %package info
 Summary:        Info Files for the GNU C Library
 License:        GFDL-1.1-only
-Group:          Documentation/Other
 BuildArch:      noarch
 
 %description info

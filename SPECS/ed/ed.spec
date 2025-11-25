@@ -9,7 +9,6 @@ Version:        1.21.1
 Release:        %autorelease
 Summary:        A line-oriented text editor
 License:        GPL-3.0-or-later AND LGPL-2.1-or-later
-Group:          Productivity/Text/Editors
 URL:            https://www.gnu.org/software/ed/
 #!RemoteAsset
 Source:         https://ftpmirror.gnu.org/ed/ed-%{version}.tar.lz

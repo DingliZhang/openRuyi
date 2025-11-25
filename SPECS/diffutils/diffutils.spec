@@ -10,7 +10,6 @@ Version:        3.12
 Release:        %autorelease
 Summary:        GNU diff Utilities
 License:        GFDL-1.2-only AND GPL-3.0-or-later
-Group:          Productivity/Text/Utilities
 URL:            https://www.gnu.org/software/diffutils/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/%{name}/%{name}-%{version}.tar.xz

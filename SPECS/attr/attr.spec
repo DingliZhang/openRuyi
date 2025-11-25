@@ -10,7 +10,6 @@ Version:        2.5.2
 Release:        %autorelease
 Summary:        Commands for Manipulating Extended Attributes
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
-Group:          System/Filesystems
 URL:            https://savannah.nongnu.org/projects/attr/
 #!RemoteAsset
 Source:         https://download-mirror.savannah.gnu.org/releases/attr/attr-%{version}.tar.gz
@@ -32,7 +31,6 @@ the same name.
 
 %package -n %{lname}
 Summary:        A dynamic library for filesystem extended attribute support
-Group:          System/Libraries
 Obsoletes:      libattr < %{version}-%{release}
 Provides:       libattr = %{version}-%{release}
 
@@ -42,7 +40,6 @@ the extended attribute library functions.
 
 %package -n libattr-devel
 Summary:        Header files for libattr
-Group:          Development/Libraries/C and C++
 Requires:       %{lname} = %{version}
 Requires:       glibc-devel
 Provides:       attr-devel = %{version}-%{release}
@@ -56,7 +53,6 @@ IRIX compatibility interface is also provided.
 
 %package -n libattr-devel-static
 Summary:        Static libraries for libattr development
-Group:          Development/Libraries/C and C++
 Requires:       libattr-devel = %{version}
 Provides:       libattr-devel:%{_libdir}/libattr.a
 

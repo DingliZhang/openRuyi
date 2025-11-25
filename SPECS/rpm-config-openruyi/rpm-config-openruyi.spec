@@ -11,7 +11,6 @@ Version:        20251029
 Release:        %autorelease
 Summary:        specific RPM configuration files
 License:        GPL-2.0-or-later
-Group:          System/Packages
 URL:            https://git.oerv.ac.cn/openruyi/rpm-config-openruyi
 Source:         https://git.oerv.ac.cn/openRuyi/rpm-config-openruyi/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildRequires:  gzip

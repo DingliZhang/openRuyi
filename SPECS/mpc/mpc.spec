@@ -9,7 +9,6 @@ Version:        1.3.1
 Release:        %autorelease
 Summary:        multiple-precision complex shared library
 License:        LGPL-3.0-or-later
-Group:          Development/Libraries/C and C++
 URL:            http://www.multiprecision.org/mpc/
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/mpc/mpc-%{version}.tar.gz
@@ -27,7 +26,6 @@ built upon and follows the same principles as MPFR.
 
 %package -n libmpc3
 Summary:        MPC multiple-precision complex shared library
-Group:          Development/Libraries/C and C++
 
 %description -n libmpc3
 MPC is a C library for the arithmetic of complex numbers with
@@ -36,7 +34,6 @@ built upon and follows the same principles as MPFR.
 
 %package devel
 Summary:        MPC multiple-precision complex library development files
-Group:          Development/Libraries/C and C++
 Requires:       libmpc3 = %{version}
 Requires:       pkgconfig(gmp) >= 5.0.0
 Requires:       pkgconfig(mpfr) >= 4.1.0

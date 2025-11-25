@@ -9,7 +9,6 @@ Version:        2.8
 Release:        %autorelease
 Summary:        GNU patch
 License:        GPL-3.0-or-later
-Group:          Productivity/Text/Utilities
 URL:            https://ftp.gnu.org/gnu/patch/
 #!RemoteAsset
 Source:         https://ftpmirror.gnu.org/gnu/patch/%{name}-%{version}.tar.xz
