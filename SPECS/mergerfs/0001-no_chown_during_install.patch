@@ -1,0 +1,11 @@
+diff --color -r -u mergerfs-2.41.1_1.old/libfuse/Makefile mergerfs-2.41.1_1/libfuse/Makefile
+--- mergerfs-2.41.1_1.old/libfuse/Makefile	2025-12-01 13:10:56
++++ mergerfs-2.41.1_1/libfuse/Makefile	2025-12-01 13:12:25
+@@ -174,7 +174,6 @@
+ install-utils: mergerfs-fusermount mount.mergerfs strip
+ 	$(INSTALL) -D $(BUILDDIR)/mergerfs-fusermount "$(INSTALLBINDIR)/mergerfs-fusermount"
+ 	$(INSTALL) -D $(BUILDDIR)/mount.mergerfs "$(INSTALLSBINDIR)/mount.mergerfs"
+-	$(CHOWN) root:root "$(INSTALLBINDIR)/mergerfs-fusermount"
+ 	$(CHMOD) u+s "$(INSTALLBINDIR)/mergerfs-fusermount"
+ 
+ install: $(INSTALLUTILS)
