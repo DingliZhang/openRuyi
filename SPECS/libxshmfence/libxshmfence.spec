@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileContributor: Icenowy Zheng <uwu@icenowy.me>
+#
+# SPDX-License-Identifier: MulanPSL-2.0
+
+Name:           libxshmfence
+Version:        1.3.3
+Release:        %autorelease
+Summary:        X Fixes library
+License:        MIT
+URL:            https://www.x.org/
+#!RemoteAsset
+Source:         https://www.x.org/archive/individual/lib/%{name}-%{version}.tar.xz
+
+BuildSystem:    autotools
+BuildOption(conf): --enable-futex
+BuildOption(conf): --disable-static
+
+BuildRequires:  pkgconfig(xproto)
+
+%description
+X library for implementing synchornization with shared memory.
+
+%package devel
+Summary:        Development files for %{name}
+Requires:       %{name} = %{version}-%{release}
+Requires:       pkgconfig
+
+%description devel
+%{name} development package
+
+%ldconfig_scriptlets
+
+%files
+%license COPYING
+%{_libdir}/libxshmfence.so.*
+
+%files devel
+%{_includedir}/X11/xshmfence.h
+%{_libdir}/pkgconfig/*.pc
+%{_libdir}/libxshmfence.so
+
+%changelog
+%{?autochangelog}
