@@ -44,17 +44,16 @@
 # We don't want eBPF support yet
 %bcond bpf 0
 
-%global base_version 257
+%global base_version 258
 
 Name:           systemd
-Version:        %{base_version}.9
+Version:        %{base_version}.2
 Release:        %autorelease
 Summary:        System and service manager
 License:        LGPL-2.1-or-later AND MIT AND GPL-2.0-or-later
 URL:            https://systemd.io
 #!RemoteAsset
 Source0:        https://github.com/systemd/systemd/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch0:         0001-cryptsetup-util-move-definition-of-crypt_token_max.patch
 # These are essential files
 Source1:        systemd-user
 BuildSystem:    meson
@@ -824,15 +823,11 @@ fi
 %doc %{_prefix}/lib/modprobe.d/README
 %doc %{_prefix}/lib/sysctl.d/README
 %doc %{_prefix}/lib/tmpfiles.d/README
-%doc %{_docdir}/systemd/CODING_STYLE.md
-%doc %{_docdir}/systemd/DISTRO_PORTING.md
 %doc %{_docdir}/systemd/ENVIRONMENT.md
-%doc %{_docdir}/systemd/HACKING.md
 %doc %{_docdir}/systemd/NEWS
 %doc %{_docdir}/systemd/README
 %doc %{_docdir}/systemd/README.logs
 %doc %{_docdir}/systemd/TRANSIENT-SETTINGS.md
-%doc %{_docdir}/systemd/TRANSLATORS.md
 %doc %{_docdir}/systemd/UIDS-GIDS.md
 %ghost %dir %attr(0755,-,-) /etc/systemd/system/basic.target.wants
 %ghost %dir %attr(0755,-,-) /etc/systemd/system/default.target.wants
@@ -882,6 +877,7 @@ fi
 %{_datadir}/bash-completion/completions/systemd-path
 %{_datadir}/bash-completion/completions/systemd-run
 %{_datadir}/bash-completion/completions/systemd-sysext
+%{_datadir}/bash-completion/completions/userdbctl
 %{_datadir}/factory/etc/issue
 %{_datadir}/factory/etc/locale.conf
 %{_datadir}/factory/etc/nsswitch.conf
@@ -914,6 +910,7 @@ fi
 %{_bindir}/systemd-mount
 %{_bindir}/systemd-notify
 %{_bindir}/systemd-path
+%{_bindir}/systemd-pty-forward
 %{_bindir}/systemd-run
 %{_bindir}/systemd-socket-activate
 %{_bindir}/systemd-stdio-bridge
@@ -930,8 +927,6 @@ fi
 %{_bindir}/poweroff
 %{_bindir}/reboot
 %{_bindir}/shutdown
-%{_bindir}/runlevel
-%{_bindir}/telinit
 %if %{with bpf}
 %{_bindir}/systemd-bpf
 %endif
@@ -958,6 +953,10 @@ fi
 %{_datadir}/polkit-1/actions/org.freedesktop.timedate1.policy
 %{_datadir}/polkit-1/actions/io.systemd.credentials.policy
 %{_datadir}/polkit-1/actions/io.systemd.mount-file-system.policy
+%{_datadir}/polkit-1/actions/io.systemd.namespace-resource.policy
+%if %{without bootstrap}
+%{_datadir}/polkit-1/rules.d/10-systemd-logind-root-ignore-inhibitors.rules.example
+%endif
 %dir %{_datadir}/dbus-1/services
 %{_datadir}/dbus-1/services/org.freedesktop.systemd1.service
 %dir %{_datadir}/systemd
@@ -984,6 +983,7 @@ fi
 %{_datadir}/zsh/site-functions/_systemd-tmpfiles
 %{_datadir}/zsh/site-functions/_timedatectl
 %{_datadir}/zsh/site-functions/_oomctl
+%{_datadir}/zsh/site-functions/_sd_bus_address
 %{_datadir}/zsh/site-functions/_sd_machines
 %{_datadir}/zsh/site-functions/_varlinkctl
 %if %{with bpf}
@@ -996,6 +996,7 @@ fi
 %{_prefix}/lib/environment.d/99-environment.conf
 %{_sysconfdir}/ssh/ssh_config.d/20-systemd-ssh-proxy.conf
 %{_sysconfdir}/profile.d/70-systemd-shell-extra.sh
+%{_sysconfdir}/profile.d/80-systemd-osc-context.sh
 %{_sysconfdir}/X11/xinit/xinitrc.d/50-systemd-user.sh
 %{_localstatedir}/lib/systemd/catalog/database
 %{_localstatedir}/log/btmp
