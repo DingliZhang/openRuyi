@@ -1,0 +1,18 @@
+#!/bin/bash
+targetpkg="$1"
+if [ "${targetpkg%-lang}" != "$1" ]; then
+	targetpkg="${targetpkg%-lang}"
+elif [ "${targetpkg%-locale}" != "$1" ]; then
+	targetpkg="${targetpkg%-locale}"
+elif [ "${targetpkg%-locale-base}" != "$1" ]; then
+	targetpkg="${targetpkg%-locale-base}"
+else
+	# discard input
+	cat >/dev/null
+	exit 0
+fi
+while read line; do
+	l="${line%%/LC_MESSAGES/*}"
+	l="${l##*/}"
+	echo "$targetpkg:$l"
+done

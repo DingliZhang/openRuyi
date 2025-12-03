@@ -7,12 +7,11 @@
 # ignore the explicit bash requires from the kernel mod scripts
 %define __requires_exclude ^/bin/bash$
 Name:           rpm-config-openruyi
-Version:        20251029
+Version:        20251203
 Release:        %autorelease
 Summary:        specific RPM configuration files
 License:        GPL-2.0-or-later
-URL:            https://git.oerv.ac.cn/openruyi/rpm-config-openruyi
-Source:         https://git.oerv.ac.cn/openRuyi/rpm-config-openruyi/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+URL:            https://git.oerv.ac.cn/openruyi/openruyi-repo
 BuildRequires:  gzip
 #!BuildIgnore:  rpm-config-openruyi
 # RPM owns the directories we need
@@ -20,39 +19,52 @@ Requires:       rpm
 Provides:       rpm-config
 BuildArch:      noarch
 
+%sourcelist
+brp-openruyi
+find-provides.ksyms
+find-requires.ksyms
+find-supplements.ksyms
+firmware.attr
+firmware.prov
+kernel.attr
+kmp.attr
+locale.attr
+locale.prov
+macros
+macros.buildsystem
+macros.ldconfig
+macros.sbat
+macros.vendor
+macros.vpath
+modulesload.attr
+
 %description
 This package contains the RPM configuration data for the openruyi
 distribution families.
 
 %prep
-%autosetup -p1 -n rpm-config-openruyi
-
-%build
-# Set up the macros
-sed -e 's/@ul_version@/%{?ul_version}%{!?ul_version:0}/' \
-    -e '/@is_openruyi@%{?is_openruyi:nomatch}/d' \
-    -e 's/@is_openruyi@/%{?is_openruyi}%{!?is_openruyi:0}/' \
-  < macros.in > macros
+%setup -c -T
+cp -p %{sources} .
 
 %install
-# Install vendor macros and rpmrc
 mkdir -p %{buildroot}%{_rpmconfigdir}/openruyi
-cp -a macros %{buildroot}%{_rpmconfigdir}/openruyi/macros
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/openruyi macros
 
-# Install vendor dependency generators
-cp -a fileattrs %{buildroot}%{_rpmconfigdir}
-cp -a scripts/* %{buildroot}%{_rpmconfigdir}
-cp -a macros.d %{buildroot}%{_rpmconfigdir}
+mkdir -p %{buildroot}%{_fileattrsdir}
+install -p -m 644 -t %{buildroot}%{_fileattrsdir} *.attr
+install -p -m 755 -t %{buildroot}%{_rpmconfigdir} brp-openruyi
+mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/ *.prov
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/ *.ksyms
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d macros.*
 
 %files
-%license COPYING
-%doc README.md
-%{_rpmconfigdir}/openruyi/
+%dir %{_rpmconfigdir}/openruyi/
+%{_rpmconfigdir}/openruyi/macros
 %{_rpmconfigdir}/macros.d/macros.*
 %{_rpmconfigdir}/fileattrs/*
 %{_rpmconfigdir}/brp-openruyi
 %{_rpmconfigdir}/firmware.prov
-%{_rpmconfigdir}/sysvinitdeps.sh
 %{_rpmconfigdir}/locale.prov
 # kmod deps
 %{_rpmconfigdir}/find-provides.ksyms

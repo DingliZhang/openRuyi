@@ -1,0 +1,2 @@
+%__modulesload_requires		%{_rpmconfigdir}/find-requires.ksyms
+%__modulesload_path		^(/usr)?/lib/modules-load.d/.*\.conf$

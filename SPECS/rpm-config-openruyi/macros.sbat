@@ -1,0 +1,8 @@
+# Common SBAT values for secure boot
+# https://github.com/rhboot/shim/blob/main/SBAT.md
+
+# Common
+%sbat_distro_url      mailto:security@openruyi.org
+
+%sbat_distro          openRuyi
+%sbat_distro_summary  ISCAS openRuyi

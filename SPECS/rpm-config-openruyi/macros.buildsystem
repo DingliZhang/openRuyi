@@ -1,0 +1,9 @@
+# Example buildsystem for autotools
+%buildsystem_autotools_conf() %configure \\\
+                              --disable-silent-rules \\\
+                              --disable-rpath \\\
+                              --docdir=%{_docdir}/%{name} \\\
+                              %*
+%buildsystem_autotools_build() %make_build %*
+%buildsystem_autotools_install() %make_install %*
+%buildsystem_autotools_check() echo Not checking, sorry!
