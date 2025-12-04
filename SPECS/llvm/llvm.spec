@@ -10,7 +10,7 @@
 #region version
 %global maj_ver 21
 %global min_ver 1
-%global patch_ver 4
+%global patch_ver 7
 #global rc_ver rc3
 #endregion version
 # Build compat packages llvmN instead of main package for the current LLVM
