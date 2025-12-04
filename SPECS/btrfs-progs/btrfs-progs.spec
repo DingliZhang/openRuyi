@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           btrfs-progs
-Version:        6.17
+Version:        6.17.1
 Release:        %autorelease
 Summary:        Userspace programs for btrfs
 License:        GPL-2.0-only AND LGPL-2.1-or-later
