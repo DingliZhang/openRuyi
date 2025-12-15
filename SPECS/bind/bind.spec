@@ -119,9 +119,11 @@ install -m 644 %{SOURCE6} %{buildroot}%{_localstatedir}/named/127.0.0.zone
 install -m 644 %{SOURCE7} %{buildroot}%{_localstatedir}/named/localhost.zone
 install -m 644 %{SOURCE8} %{buildroot}%{_localstatedir}/named/localhost.ip6.zone
 
-%post
+%pre
 %sysusers_create_package %{name} %{SOURCE2}
 %tmpfiles_create_package %{name} %{SOURCE3}
+
+%post
 %systemd_post named.service
 
 %preun
