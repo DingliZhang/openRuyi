@@ -35,6 +35,7 @@ macros.sbat
 macros.vendor
 macros.vpath
 modulesload.attr
+rpmrc
 
 %description
 This package contains the RPM configuration data for the openruyi
@@ -47,6 +48,7 @@ cp -p %{sources} .
 %install
 mkdir -p %{buildroot}%{_rpmconfigdir}/openruyi
 install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/openruyi macros
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/openruyi rpmrc
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 install -p -m 644 -t %{buildroot}%{_fileattrsdir} *.attr
@@ -59,6 +61,7 @@ install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d macros.*
 %files
 %dir %{_rpmconfigdir}/openruyi/
 %{_rpmconfigdir}/openruyi/macros
+%{_rpmconfigdir}/openruyi/rpmrc
 %{_rpmconfigdir}/macros.d/macros.*
 %{_rpmconfigdir}/fileattrs/*
 %{_rpmconfigdir}/brp-openruyi

@@ -1,0 +1,4 @@
+include: /usr/lib/rpm/rpmrc
+
+optflags: riscv64 -O2 -g -march=rva23u64
+optflags: x86_64  -O2 -g
