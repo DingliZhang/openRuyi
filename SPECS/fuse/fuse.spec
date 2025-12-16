@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: laokz <zhangkai@iscas.ac.cn>
-# SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: yyjeqhc <jialin.oerv@isrc.iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -15,17 +15,18 @@ URL:            https://github.com/libfuse/libfuse
 #!RemoteAsset
 Source0:        https://github.com/libfuse/libfuse/releases/download/fuse-%{version}/fuse-%{version}.tar.gz
 Source1:        fuse.conf
+BuildSystem:    autotools
+
 Patch0:         0001-fuse-install-fix.patch
 Patch1:         0002-fusermount-compile-as-pie.patch
 Patch2:         0003-closefrom.patch
-BuildSystem:    autotools
 
-BuildOption(conf): --with-pkgconfigdir=%{_libdir}/pkgconfig
-BuildOption(conf): --enable-lib
-BuildOption(conf): --enable-util
-BuildOption(conf): --enable-example
+BuildOption(conf):  --with-pkgconfigdir=%{_libdir}/pkgconfig
+BuildOption(conf):  --enable-lib
+BuildOption(conf):  --enable-util
+BuildOption(conf):  --enable-example
 
-BuildOption(build): CFLAGS="%{optflags} -g -fno-strict-aliasing"
+BuildOption(build):  CFLAGS="%{optflags} -g -fno-strict-aliasing"
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -40,12 +41,12 @@ FUSE (Filesystem in Userspace) is an interface by the Linux kernel
 for userspace programs to export a filesystem to the kernel.
 This package contains helper programs and runtime libraries for using FUSE mounts.
 
-%package devel
+%package        devel
 Summary:        Development files for FUSE (userspace filesystem)
 Requires:       %{name} = %{version}
 Requires:       glibc-devel
 
-%description devel
+%description    devel
 This package contains all include files, libraries, and configuration
 files needed to develop programs that use the FUSE library.
 
