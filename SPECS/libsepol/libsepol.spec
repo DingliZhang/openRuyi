@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           libsepol
-Version:        3.8.1
+Version:        3.9
 Release:        %autorelease
 Summary:        SELinux binary policy manipulation library
 License:        LGPL-2.1-or-later
@@ -59,7 +59,9 @@ policies.
 
 # no configure script
 %conf
-:
+
+# Disable tests as they rely on checkpolicy source code.
+%check
 
 %files utils
 %defattr(-,root,root)
