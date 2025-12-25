@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
-# SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: jingyupu <pujingyu@iscas.ac.cn>
+# SPDX-FileContributor: yyjeqhc <jialin.oerv@isrc.iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -9,7 +10,7 @@
 %define tar_name qtbase-everywhere-src
 %define tar_suffix %{nil}
 
-%bcond xcb 0
+%bcond xcb 1
 %bcond mysql 0
 %bcond postgresql 0
 %bcond tests 0
@@ -84,6 +85,7 @@ BuildOption(conf):  -DQT_BUILD_TESTS=OFF
 %if %{with xcb}
 BuildOption(conf):  -DFEATURE_system_xcb_xinput=ON
 BuildOption(conf):  -DFEATURE_xcb_native_painting=ON
+BuildOption(conf):  -DFEATURE_xcb=ON
 %else
 BuildOption(conf):  -DFEATURE_xcb=OFF
 %endif
@@ -133,16 +135,18 @@ BuildRequires:  pkgconfig(vulkan)
 BuildRequires:  pkgconfig(sqlite3)
 BuildRequires:  unixODBC-devel
 %if %{with xcb}
-BuildRequires:  pkgconfig(xcb)
 BuildRequires:  pkgconfig(xcb-glx)
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  pkgconfig(x11-xcb)
+BuildRequires:  pkgconfig(xcb)
 BuildRequires:  pkgconfig(xcb-icccm)
+BuildRequires:  pkgconfig(xcb-cursor)
 BuildRequires:  pkgconfig(xcb-image)
 BuildRequires:  pkgconfig(xcb-keysyms)
 BuildRequires:  pkgconfig(xcb-renderutil)
-BuildRequires:  pkgconfig(xcb-cursor)
-BuildRequires:  pkgconfig(xcb-xkb)
-BuildRequires:  pkgconfig(x11)
-BuildRequires:  pkgconfig(x11-xcb)
+BuildRequires:  pkgconfig(xcb-util)
+BuildRequires:  pkgconfig(xkbcommon)
+BuildRequires:  pkgconfig(xkbcommon-x11)
 BuildRequires:  pkgconfig(xrender)
 BuildRequires:  pkgconfig(sm)
 BuildRequires:  pkgconfig(ice)
@@ -200,6 +204,10 @@ Static library files for Qt6.
 %package        gui
 Summary:        Qt6 GUI-related libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+%if %{with xcb}
+Requires:       pkgconfig(xcb-util)
+Requires:       pkgconfig(xkbcommon-x11)
+%endif
 # Requires:       glx-utils
 
 %description    gui
@@ -216,7 +224,6 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 rm -rf src/3rdparty/{harfbuzz-ng,freetype,libjpeg,libpng,sqlite,zlib,pcre2}
 
 %install -a
-
 mkdir -p %{buildroot}%{_qt6_pluginsdir}/{designer,iconengines,script,styles}
 mkdir -p %{buildroot}%{_sysconfdir}/xdg/QtProject
 
@@ -357,6 +364,11 @@ sed -i \
 %{_qt6_pluginsdir}/printsupport/
 %{_qt6_pluginsdir}/wayland*/
 %{_qt6_pluginsdir}/egldeviceintegrations/
+%if %{with xcb}
+%dir %{_qt6_pluginsdir}/xcbglintegrations/
+%{_qt6_pluginsdir}/xcbglintegrations/libqxcb-egl-integration.so
+%{_qt6_libdir}/libQt6XcbQpa.so.6*
+%endif
 %{_qt6_datadir}/wayland/
 
 %files static
