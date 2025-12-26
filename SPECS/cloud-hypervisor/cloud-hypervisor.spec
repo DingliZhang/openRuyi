@@ -7,7 +7,6 @@
 
 %global gitver 48.0
 %global gitnum 0
-%global gitrev ge8886df3
 
 %global obs_packaging_commit bac875451133f6b968f5487fe2322d9c1a46a8ef
 
