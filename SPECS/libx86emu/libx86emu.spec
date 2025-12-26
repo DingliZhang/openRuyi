@@ -43,6 +43,9 @@ Header files and libraries for developing with libx86emu.
 # No configure.
 %conf
 
+# No check
+%check
+
 %files
 %doc README.md
 %license LICENSE
