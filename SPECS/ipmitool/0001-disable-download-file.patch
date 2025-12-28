@@ -1,0 +1,20 @@
+diff --git a/Makefile.am b/Makefile.am
+index ce3267f..a1af16c 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -52,13 +52,8 @@ dist-hook:
+ if DOWNLOAD
+ 
+ enterprise-numbers:
+-	@echo Downloading IANA PEN database...
+-	@$(DOWNLOAD) "$(IANA_PEN)" > tmpfile.$$PPID || {\
+-		echo "FAILED to download the IANA PEN database"; \
+-		rm tmpfile.$$PPID; \
+-		false; \
+-	}
+-	@mv tmpfile.$$PPID $@
++	@echo "*** Skipping IANA PEN database download"
++	@touch $@
+ 
+ install-pen-database: enterprise-numbers
+ 	mkdir -m 755 -p $(DESTDIR)$(IANADIR)
