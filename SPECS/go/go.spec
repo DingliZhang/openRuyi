@@ -2,8 +2,12 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Jingwiw <wangjingwei@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
+
+# code.google.com/p/go/issues/detail?id=5238
+%global debug_package %{nil}
 
 %bcond bootstrap 1
 
@@ -103,17 +107,16 @@ Contains the Go standard library pre-compiled with race detector support.
 %autosetup -p1 -n %{name}
 
 %if %{with bootstrap}
-mkdir -p %{name}-bootstrap
-tar -xf %{SOURCE1} -C %{name}-bootstrap --strip-components=1
+mkdir -p %{_builddir}/%{name}-bootstrap
+tar -xf %{SOURCE1} -C %{_builddir}/%{name}-bootstrap --strip-components=1
 %endif
 
 %build
-export GOROOT_FINAL=%{_libdir}/%{name}/
+export GOROOT_FINAL=%{_libdir}/%{name}
 export GOHOSTOS=linux
 export GOHOSTARCH=%{gohostarch}
-export CGO_ENABLED=1
 %if %{with bootstrap}
-export GOROOT_BOOTSTRAP=%{_builddir}/%{name}/%{name}-bootstrap
+export GOROOT_BOOTSTRAP=%{_builddir}/%{name}-bootstrap
 %else
 export GOROOT_BOOTSTRAP=%{_libdir}/golang
 %endif
