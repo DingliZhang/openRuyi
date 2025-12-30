@@ -12,7 +12,7 @@ Summary:        System for layout and rendering of internationalized text
 License:        LGPL-2.0-or-later
 URL:            https://www.pango.org/
 VCS:            git:https://gitlab.gnome.org/GNOME/pango
-#!RemoteAsset:  890640c841dae77d3ae3d8fe8953784b930fa241b17423e6120c7bfdf8b891e7
+#!RemoteAsset:  sha256:890640c841dae77d3ae3d8fe8953784b930fa241b17423e6120c7bfdf8b891e7
 Source0:        https://download.gnome.org/sources/pango/1.57/pango-%{version}.tar.xz
 BuildSystem:    meson
 
