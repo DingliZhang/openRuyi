@@ -9,8 +9,8 @@ Version:        0.10.1
 Release:        %autorelease
 Summary:        Library providing Trusted Platform Module (TPM) functionality
 License:        BSD-3-Clause
-#!RemoteAsset
 URL:            https://github.com/stefanberger/libtpms
+#!RemoteAsset
 Source:         https://github.com/stefanberger/libtpms/archive/refs/tags/v%{version}.tar.gz
 BuildSystem:    autotools
 
