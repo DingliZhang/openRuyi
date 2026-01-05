@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
@@ -7,13 +7,13 @@
 %bcond as_wget 1
 
 Name:           wget2
-Version:        2.2.0
+Version:        2.2.1
 Release:        %autorelease
 Summary:        An advanced file and recursive website downloader
 License:        GPL-3.0-or-later AND LGPL-3.0-or-later AND GFDL-1.3-or-later
 URL:            https://gitlab.com/gnuwget/wget2
-#!RemoteAsset
-Source:         https://ftp.gnu.org/gnu/wget/wget2-%{version}.tar.gz
+#!RemoteAsset:  sha256:d7544b13e37f18e601244fce5f5f40688ac1d6ab9541e0fbb01a32ee1fb447b4
+Source:         https://ftpmirror.gnu.org/gnu/wget/wget2-%{version}.tar.gz
 BuildSystem:    autotools
 
 BuildOption(conf): --disable-static
