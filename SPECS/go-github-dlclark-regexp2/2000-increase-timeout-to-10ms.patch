@@ -1,0 +1,24 @@
+Description: Increase timeout from 1 ms to 10 ms to prevent test errors
+ For example:
+  === RUN   TestDeadline
+      fastclock_test.go:31: deadline (1ms) expired too soon (after 1.415402ms)
+  === RUN   TestStopTimeoutClock
+      fastclock_test.go:53: Expected duration less than 2ms, got 2.504717ms
+Author: Anthony Fok <foka@debian.org>
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2023-10-11
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/fastclock_test.go
++++ b/fastclock_test.go
+@@ -9,7 +9,8 @@
+ func init() {
+ 	//speed up testing by making the timeout clock 1ms instead of 100ms...
+ 	//bad for benchmark tests though
+-	SetTimeoutCheckPeriod(time.Millisecond)
++	// Debian: Prevent failure on busy/slower machines by setting to 10ms instead
++	SetTimeoutCheckPeriod(time.Millisecond * 10)
+ }
+ func TestDeadline(t *testing.T) {
+ 	for _, delay := range []time.Duration{
