@@ -44,12 +44,11 @@ URL:            https://github.com/ROCm/llvm-project
 Source0:        %{url}/archive/refs/tags/rocm-%{rocm_version}.tar.gz
 Source1:        rocm-llvm.prep.in
 
-Patch0:         0001-comgr-link-with-static-llvm.patch
 # RISC-V support patches
 # https://salsa.debian.org/rocm-team/rocm-llvm/-/merge_requests/2
-Patch1:         0002-Use-signed-char-in-comgr-building.patch
+Patch0:         0002-Use-signed-char-in-comgr-building.patch
 # Backport mainline comgr patches since 7.1.1 is build on llvm-20
-Patch2:         0003-adapt-comgr-api-to-llvm-21.patch
+Patch1:         0003-adapt-comgr-api-to-llvm-21.patch
 
 BuildRequires:  clang >= %{llvm_maj_ver}
 BuildRequires:  clang-devel >= %{llvm_maj_ver}
