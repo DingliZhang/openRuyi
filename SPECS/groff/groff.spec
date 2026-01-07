@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
@@ -47,9 +47,9 @@ Provides:       bundled(gnulib)
 
 Requires:       coreutils
 Requires:       groff-base = %{version}-%{release}
-Requires(post): /usr/sbin/update-alternatives
-Requires(postun): /usr/sbin/update-alternatives
-Requires(preun): /usr/sbin/update-alternatives
+Requires(post): update-alternatives
+Requires(postun): update-alternatives
+Requires(preun): update-alternatives
 
 Recommends:     psutils
 
@@ -67,9 +67,9 @@ groff-x11 package.
 
 %package        base
 Summary:        Parts of the groff formatting system required to display manual pages
-Requires(post):  /usr/sbin/update-alternatives
-Requires(postun):  /usr/sbin/update-alternatives
-Requires(preun):  /usr/sbin/update-alternatives
+Requires(post):  update-alternatives
+Requires(postun):  update-alternatives
+Requires(preun):  update-alternatives
 
 %description    base
 The groff-base package contains only necessary parts of groff formatting
@@ -155,18 +155,18 @@ sed --in-place 's|#! /bin/sed -f|#! /usr/bin/sed -f|' %{buildroot}%{_datadir}/gr
 
 %post
 # set up the alternatives files
-/usr/sbin/update-alternatives --install %{_mandir}/man7/roff.7.gz roff.7.gz %{_mandir}/man7/roff.%{name}.7.gz 300 \
+update-alternatives --install %{_mandir}/man7/roff.7.gz roff.7.gz %{_mandir}/man7/roff.%{name}.7.gz 300 \
     >/dev/null 2>&1 || :
 
 %preun
 if [ $1 -eq 0 ]; then
-    /usr/sbin/update-alternatives --remove roff.7.gz %{_mandir}/man7/roff.%{name}.7.gz >/dev/null 2>&1 || :
+    update-alternatives --remove roff.7.gz %{_mandir}/man7/roff.%{name}.7.gz >/dev/null 2>&1 || :
 fi
 
 %postun
 if [ $1 -ge 1 ]; then
     if [ "$(readlink /etc/alternatives/roff.7.gz)" == "%{_mandir}/man7/roff.%{name}.7.gz" ]; then
-        /usr/sbin/update-alternatives --set roff.7.gz %{_mandir}/man7/roff.%{name}.7.gz >/dev/null 2>&1 || :
+        update-alternatives --set roff.7.gz %{_mandir}/man7/roff.%{name}.7.gz >/dev/null 2>&1 || :
     fi
 fi
 
@@ -177,19 +177,19 @@ fi
 
 %post base
 # set up the alternatives files
-/usr/sbin/update-alternatives --install %{_bindir}/soelim soelim %{_bindir}/soelim.%{name} 300 \
+update-alternatives --install %{_bindir}/soelim soelim %{_bindir}/soelim.%{name} 300 \
     --slave %{_mandir}/man1/soelim.1.gz soelim.1.gz %{_mandir}/man1/soelim.%{name}.1.gz \
     >/dev/null 2>&1 || :
 
 %preun base
 if [ $1 -eq 0 ]; then
-    /usr/sbin/update-alternatives --remove soelim %{_bindir}/soelim.%{name} >/dev/null 2>&1 || :
+    update-alternatives --remove soelim %{_bindir}/soelim.%{name} >/dev/null 2>&1 || :
 fi
 
 %postun base
 if [ $1 -ge 1 ]; then
     if [ "$(readlink /etc/alternatives/soelim)" == "%{_bindir}/soelim.%{name}" ]; then
-        /usr/sbin/update-alternatives --set soelim %{_bindir}/soelim.%{name} >/dev/null 2>&1 || :
+        update-alternatives --set soelim %{_bindir}/soelim.%{name} >/dev/null 2>&1 || :
     fi
 fi
 
