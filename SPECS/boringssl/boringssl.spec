@@ -1,12 +1,12 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
 # SPDX-FileContributor: Julian Zhu <julian.oerv@isrc.iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           boringssl
-Version:        0.20251002.0
+Version:        0.20251124.0
 Release:        %autorelease
 Summary:        Fork of OpenSSL that is designed to meet Google's needs.
 License:        Apache-2.0
@@ -24,7 +24,7 @@ BuildRequires:  ninja
 BuildOption(conf):  -GNinja
 
 # FIXME: Avoid having warnings treated as errors on line asn1_test.cc:2441
-%global optflags %{optflags} -Wno-array-bounds
+%global build_cxxflags %{build_cxxflags} -Wno-array-bounds
 
 %description
 Although BoringSSL is an open source project, it is not intended for general
@@ -43,6 +43,14 @@ use, as OpenSSL is.  We don't recommend that third parties depend upon it.
 Doing so is likely to be frustrating because there are no guarantees of API
 or ABI stability.
 
+%prep -a
+# Workaround gcc LTO error: type xxx violates the C++ One Definition Rule [-Werror=odr]
+sed -i 's/\bwrapped_callback\b/wrapped_callback1/g'  decrepit/obj/obj_decrepit.cc
+sed -i 's/\bwrapped_callback\b/wrapped_callback2/g'  decrepit/dsa/dsa_decrepit.cc
+sed -i 's/\bAPI\b/API1/g' crypto/fipsmodule/ecdsa/ecdsa_test.cc
+
+# Disable tests as go module need network.
+%check
 
 %files
 %{_bindir}/bssl
