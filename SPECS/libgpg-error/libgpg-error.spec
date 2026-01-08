@@ -1,19 +1,17 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           libgpg-error
-Version:        1.55
+Version:        1.58
 Release:        %autorelease
 Summary:        Library That Defines Common Error Values for All GnuPG Components
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later
 URL:            https://www.gnupg.org/software/libgpg-error/
-#!RemoteAsset
+#!RemoteAsset:  sha256:f943aea9a830a8bd938e5124b579efaece24a3225ff4c3d27611a80ce1260c27
 Source0:        https://gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2
-#!RemoteAsset
-Source1:        https://gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2.sig
 BuildRequires:  libtool
 BuildRequires:  pkgconfig
 BuildSystem:    autotools
