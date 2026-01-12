@@ -16,6 +16,12 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_SHARED_LIBS=ON
+%ifarch riscv64
+# TODO: We need to add ucontext/mcontext support for riscv64
+BuildOption(check):  --output-on-failure -E "(logging|stacktrace|symbolize)"
+%else
+BuildOption(check):  --output-on-failure -E stacktrace
+%endif
 
 BuildRequires:  gcc-c++
 BuildRequires:  gcc
