@@ -1,5 +1,6 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
+# SPDX-FileContributor: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
@@ -17,6 +18,9 @@ Source:         https://ftpmirror.gnu.org/gnu/time/%{name}-%{version}.tar.gz
 #!RemoteAsset
 Source2:        https://ftpmirror.gnu.org/gnu/time/%{name}-%{version}.tar.gz.sig
 BuildSystem:    autotools
+
+# Fixes build failure on GCC 15+
+Patch1:         time-1.9-gcc-15.patch
 
 %description
 The "time" command runs another program, then displays information
