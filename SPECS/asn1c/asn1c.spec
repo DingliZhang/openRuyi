@@ -1,7 +1,8 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025-2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025-2026 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -11,13 +12,15 @@ Release:        %autorelease
 Summary:        ASN.1 Compiler
 License:        BSD-2-Clause
 URL:            http://lionet.info/asn1c/
+VCS:            git:https://github.com/vlm/asn1c
 #!RemoteAsset
 Source:         https://github.com/vlm/asn1c/archive/refs/tags/v%{version}.tar.gz
 BuildSystem:    autotools
 
 BuildRequires:  autoconf
 BuildRequires:  automake
-BuildRequires:  bison flex
+BuildRequires:  bison
+BuildRequires:  flex
 BuildRequires:  libtool
 BuildRequires:  gcc
 
