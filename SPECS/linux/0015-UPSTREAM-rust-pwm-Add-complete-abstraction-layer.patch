@@ -1,7 +1,7 @@
-From d21e95a4f9db905ffdf28febb11feff17328fc46 Mon Sep 17 00:00:00 2001
+From 86e28547a0dcea13060d2aac2245a5e2eb6eef04 Mon Sep 17 00:00:00 2001
 From: Michal Wilczynski <m.wilczynski@samsung.com>
 Date: Thu, 16 Oct 2025 15:38:03 +0200
-Subject: [PATCH 15/99] UPSTREAM: rust: pwm: Add complete abstraction layer
+Subject: [PATCH 015/190] UPSTREAM: rust: pwm: Add complete abstraction layer
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

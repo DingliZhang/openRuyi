@@ -1,8 +1,8 @@
-From db752f21e8cd8f0105a3e0687056fee4b8a2d349 Mon Sep 17 00:00:00 2001
+From 1b33e19db9c3de3e3a7ef81b898ded0e4b183627 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 Date: Sat, 25 Oct 2025 14:23:56 +0200
-Subject: [PATCH 17/99] UPSTREAM: rust: pwm: Drop wrapping of PWM polarity and
- state
+Subject: [PATCH 017/190] UPSTREAM: rust: pwm: Drop wrapping of PWM polarity
+ and state
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

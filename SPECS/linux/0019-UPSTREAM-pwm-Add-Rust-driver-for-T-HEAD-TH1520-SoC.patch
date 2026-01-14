@@ -1,7 +1,7 @@
-From 31a04136b19bc601b8ba1cb74509ececdd14cd08 Mon Sep 17 00:00:00 2001
+From b4a2db4366861ac8607ed8562dbb45028a91ea79 Mon Sep 17 00:00:00 2001
 From: Michal Wilczynski <m.wilczynski@samsung.com>
 Date: Thu, 16 Oct 2025 15:38:04 +0200
-Subject: [PATCH 19/99] UPSTREAM: pwm: Add Rust driver for T-HEAD TH1520 SoC
+Subject: [PATCH 019/190] UPSTREAM: pwm: Add Rust driver for T-HEAD TH1520 SoC
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

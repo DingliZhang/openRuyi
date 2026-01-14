@@ -1,7 +1,7 @@
-From 3189f86caedd92f5ecb4a1806e5aaacaf9cf0df9 Mon Sep 17 00:00:00 2001
+From 9a8434a171aaf5cc35fc3a8fa9dca516464bb120 Mon Sep 17 00:00:00 2001
 From: Miguel Ojeda <ojeda@kernel.org>
 Date: Wed, 29 Oct 2025 19:19:40 +0100
-Subject: [PATCH 18/99] UPSTREAM: rust: pwm: Fix broken intra-doc link
+Subject: [PATCH 018/190] UPSTREAM: rust: pwm: Fix broken intra-doc link
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

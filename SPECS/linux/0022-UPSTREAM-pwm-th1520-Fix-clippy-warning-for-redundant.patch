@@ -1,8 +1,8 @@
-From d856e67ab1fabfeb311df1f23154629e08b77694 Mon Sep 17 00:00:00 2001
+From b3841d9561504dd958647565064f123de51126f1 Mon Sep 17 00:00:00 2001
 From: Michal Wilczynski <m.wilczynski@samsung.com>
 Date: Tue, 28 Oct 2025 13:22:35 +0100
-Subject: [PATCH 22/99] UPSTREAM: pwm: th1520: Fix clippy warning for redundant
- struct field init
+Subject: [PATCH 022/190] UPSTREAM: pwm: th1520: Fix clippy warning for
+ redundant struct field init
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
