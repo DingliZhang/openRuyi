@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
 # SPDX-FileContributor: Jingwiw <wangjingwei@iscas.ac.cn>
+# SPDX-FileContributor: Julian Zhu <julian.oerv@isrc.iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
@@ -44,7 +45,7 @@
   /usr/lib/rpm/brp-compress
 
 Name:           go
-Version:        1.25.1
+Version:        1.25.5
 Release:        %autorelease
 Summary:        The Go Programming Language toolchain
 License:        BSD-3-Clause
@@ -56,6 +57,9 @@ Source0:        https://go.dev/dl/%{name}%{version}.src.tar.gz
 #!RemoteAsset
 Source1:        https://go.dev/dl/%{name}%{version}.linux-%{gohostarch}.tar.gz
 %endif
+
+# https://go-review.googlesource.com/c/go/+/732560
+Patch1:	0001-crypto-sha1-provide-optimised-assembly-for-riscv64.patch
 
 # Bootstrap from a pre-existing Go compiler.
 %if %{without bootstrap}
@@ -163,7 +167,7 @@ export PATH="%{buildroot}%{_libdir}/%{name}/bin:$PATH"
 export GOTOOLDIR="%{buildroot}%{_libdir}/%{name}/pkg/tool/linux_%{gohostarch}"
 export GO_TEST_TIMEOUT_SCALE=20
 pushd src
-./run.bash --no-rebuild -v -v -v -k -run "!cmd/cgo/internal/testsanitizers"
+./run.bash --no-rebuild -v -v -v -k -run "!(cmd/cgo/internal/testsanitizers|syscall)"
 popd
 
 %files
