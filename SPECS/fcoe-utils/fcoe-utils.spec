@@ -10,33 +10,34 @@
 
 %global commit b233050
 
-Name:               fcoe-utils
-Version:            1.0.34
-Release:            %autorelease
-Summary:            Fibre Channel over Ethernet utilities
-License:            GPL-2.0-only
-URL:                http://www.open-fcoe.org
-#!RemoteAsset
-Source:             https://github.com/openSUSE/fcoe-utils/archive/%{commit}.tar.gz
-Patch0:             0001-fcoemon-add-snprintf-string-precision-modifiers-in-f.patch
-Patch1:             0002-Don-t-attempt-to-memcpy-zero-bytes.patch
-BuildSystem:        autotools
+Name:           fcoe-utils
+Version:        1.0.34
+Release:        %autorelease
+Summary:        Fibre Channel over Ethernet utilities
+License:        GPL-2.0-only
+URL:            http://www.open-fcoe.org
+VCS:            git:https://github.com/openSUSE/fcoe-utils
+#!RemoteAsset:  sha256:826be5406753bac482b3a0533f582755d2847b4972714aaa56dc611418c1fde7
+Source:         https://github.com/openSUSE/fcoe-utils/archive/%{commit}.tar.gz
+BuildSystem:    autotools
 
-BuildOption(conf): --with-systemdsystemunitdir=%{_unitdir}
+Patch0:         0001-fcoemon-add-snprintf-string-precision-modifiers-in-f.patch
+Patch1:         0002-Don-t-attempt-to-memcpy-zero-bytes.patch
 
-BuildRequires:      autoconf
-BuildRequires:      automake
-BuildRequires:      libtool
-BuildRequires:      pkgconfig(pciaccess)
-BuildRequires:      pkgconfig(lldpad)
-BuildRequires:      systemd-rpm-macros
-BuildRequires:      make gcc
-Requires:           lldpad
-Requires:           iproute2
-Requires:           multipath-tools
-Requires(post):     systemd
-Requires(preun):    systemd
-Requires(postun):   systemd
+BuildOption(conf):  --with-systemdsystemunitdir=%{_unitdir}
+
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  libtool
+BuildRequires:  pkgconfig(pciaccess)
+BuildRequires:  pkgconfig(lldpad)
+BuildRequires:  systemd-rpm-macros
+BuildRequires:  make
+BuildRequires:  gcc
+Requires:       lldpad
+Requires:       iproute2
+Requires:       multipath-tools
+%{?systemd_requires}
 
 %description
 Fibre Channel over Ethernet utilities: fcoeadm for configuration and
