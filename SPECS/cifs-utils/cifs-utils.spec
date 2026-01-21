@@ -10,30 +10,33 @@ Release:        %autorelease
 Summary:        Utilities for mounting and managing CIFS mounts
 License:        GPL-3.0-only
 URL:            http://linux-cifs.samba.org/cifs-utils/
+VCS:            git:git://git.samba.org/cifs-utils.git
 #!RemoteAsset
 Source:         https://download.samba.org/pub/linux-cifs/cifs-utils/cifs-utils-%{version}.tar.bz2
 BuildSystem:    autotools
 
-BuildOption(conf): --prefix=%{_prefix} ROOTSBINDIR=%{_sbindir}
-BuildOption(install): DESTDIR=%{buildroot}
+BuildOption(conf):  --prefix=%{_prefix}
+BuildOption(conf):  ROOTSBINDIR=%{_sbindir}
+BuildOption(install):  DESTDIR=%{buildroot}
 
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  gcc
-BuildRequires:  libcap-ng-devel
-BuildRequires:  libtalloc-devel
-BuildRequires:  krb5-devel
-BuildRequires:  keyutils-devel
+BuildRequires:  pkgconfig(libcap-ng)
+BuildRequires:  pkgconfig(talloc)
+BuildRequires:  pkgconfig(krb5)
+BuildRequires:  pkgconfig(libkeyutils)
 # for now,samba has not been packaged.
 # BuildRequires:  libwbclient-devel
-BuildRequires:  pam-devel
+BuildRequires:  pkgconfig(pam)
 BuildRequires:  make
+
+Recommends:     %{name}-info
 
 Requires:       keyutils
 Requires(post): alternatives
-Requires(preun):alternatives
-Recommends:     %{name}-info = %{version}
+Requires(preun):  alternatives
 
 %description
 The SMB/CIFS protocol is a standard file sharing protocol widely deployed
@@ -47,7 +50,7 @@ Summary:        Files needed for building plugins for %{name}
 This package contains the header file necessary for building ID mapping plugins
 for cifs-utils.
 
-%package -n     pam_cifscreds
+%package     -n pam_cifscreds
 Summary:        PAM module to manage NTLM credentials in kernel keyring
 
 %description -n pam_cifscreds
@@ -56,9 +59,9 @@ credentials for multiuser mounts.
 
 %package        info
 Summary:        Additional tools for querying information about CIFS mounts
-Requires:       %{name} = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description info
+%description    info
 This subpackage includes additional tools for querying information
 about CIFS mounts.
 
