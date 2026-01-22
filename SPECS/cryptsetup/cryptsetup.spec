@@ -34,14 +34,14 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  gettext-devel
-BuildRequires:  openssl-devel
-BuildRequires:  popt-devel
+BuildRequires:  pkgconfig(openssl)
+BuildRequires:  pkgconfig(popt)
 # We need libuuid.so also uuid.h - 251
 BuildRequires:  util-linux-devel
-BuildRequires:  json-c-devel
-BuildRequires:  libpwquality-devel
+BuildRequires:  pkgconfig(json-c)
+BuildRequires:  pkgconfig(pwquality)
 BuildRequires:  libblkid
-BuildRequires:  libssh-devel
+BuildRequires:  pkgconfig(libssh)
 BuildRequires:  make
 BuildRequires:  device-mapper-devel
 %if %{with asciidoc}
