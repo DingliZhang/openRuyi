@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Sun Yuechi <sunyuechi@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -17,9 +18,9 @@ Release:        %autorelease
 Summary:        Set of libraries and drivers for fast packet processing
 License:        BSD-3-Clause AND GPL-2.0-only AND LGPL-2.1-only
 URL:            http://dpdk.org
+VCS:            git:https://github.com/DPDK/dpdk
 #!RemoteAsset
 Source:         https://fast.dpdk.org/rel/dpdk-%{version}.tar.xz
-
 BuildSystem:    meson
 
 BuildOption(prep):  -p1 -n dpdk%{version_suffix}-%{version}
@@ -61,7 +62,7 @@ applications with the Data Plane Development Kit.
 
 %package        tools
 Summary:        Tools for setting up Data Plane Development Kit environment
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       kmod
 Requires:       pciutils
 Requires:       iproute2
