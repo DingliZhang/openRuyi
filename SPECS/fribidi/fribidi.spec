@@ -26,7 +26,7 @@ is always written in logical order.
 
 %package        devel
 Summary:        Libraries and include files for FriBidi
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 Include files and libraries needed for developing applications which use
