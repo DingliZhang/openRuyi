@@ -2,33 +2,37 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
 %global _test_target test
-Name:               fio
-Version:            3.41
-Release:            %autorelease
-Summary:            Multithreaded IO generation tool
-License:            GPL-2.0-only
-URL:                http://git.kernel.dk/?p=fio.git;a=summary
+
+Name:           fio
+Version:        3.41
+Release:        %autorelease
+Summary:        Multithreaded IO generation tool
+License:        GPL-2.0-only
+URL:            https://fio.readthedocs.io/
+VCS:            git:https://git.kernel.org/pub/scm/linux/kernel/git/axboe/fio.git
 #!RemoteAsset
-Source0:            http://brick.kernel.dk/snaps/%{name}-%{version}.tar.bz2
+Source0:        http://brick.kernel.dk/snaps/%{name}-%{version}.tar.bz2
 BuildSystem:    autotools
 
-BuildOption(build): LDFLAGS="%{build_ldflags}"
-BuildOption(install): prefix=%{_prefix}
-BuildOption(install): mandir=%{_mandir}
-BuildOption(install): libdir=%{_libdir}/fio
-BuildOption(install): INSTALL="install -p"
+BuildOption(build):  LDFLAGS="%{build_ldflags}"
+BuildOption(install):  prefix=%{_prefix}
+BuildOption(install):  mandir=%{_mandir}
+BuildOption(install):  libdir=%{_libdir}/fio
+BuildOption(install):  INSTALL="install -p"
 
-BuildRequires:  gcc make
+BuildRequires:  gcc
+BuildRequires:  make
+BuildRequires:  libaio
 BuildRequires:  pkgconfig(libaio)
-BuildRequires:  libaio-devel libaio
-BuildRequires:  zlib-devel
-BuildRequires:  python3-devel
-BuildRequires:  libcurl-devel
-BuildRequires:  openssl-devel
+BuildRequires:  pkgconfig(zlib)
+BuildRequires:  pkgconfig(python3)
+BuildRequires:  pkgconfig(libcurl)
+BuildRequires:  pkgconfig(openssl)
 
 %description
 fio is an I/O tool that will spawn a number of threads or processes doing
