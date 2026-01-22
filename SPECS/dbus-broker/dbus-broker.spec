@@ -3,6 +3,7 @@
 # SPDX-FileContributor: Jingwiw <wangjingwei@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -17,28 +18,26 @@ License:        Apache-2.0
 URL:            https://github.com/bus1/dbus-broker
 #!RemoteAsset
 Source:         https://github.com/bus1/dbus-broker/releases/download/v%{version}/%{name}-%{version}.tar.xz
-
 BuildSystem:    meson
 
-BuildOption:    -Daudit=true
-BuildOption:    -Dselinux=true
+BuildOption(conf):  -Daudit=true
+BuildOption(conf):  -Dselinux=true
 %if %{with launcher}
-BuildOption:    -Dlauncher=true
+BuildOption(conf):  -Dlauncher=true
 %else
-BuildOption:    -Dlauncher=false
+BuildOption(conf):  -Dlauncher=false
 %endif
-BuildOption:    -Dtests=false
+BuildOption(conf):  -Dtests=false
 
-BuildRequires:  linux-headers >= 4.17
+BuildRequires:  linux-headers
 BuildRequires:  meson
 BuildRequires:  python3
 BuildRequires:  pkgconfig
-BuildRequires:  pkgconfig(audit) >= 3.0
-BuildRequires:  pkgconfig(expat) >= 2.2.3
-BuildRequires:  pkgconfig(glib-2.0) >= 2.50
-BuildRequires:  pkgconfig(libcap-ng) >= 0.6
-BuildRequires:  pkgconfig(libselinux) >= 3.2
-
+BuildRequires:  pkgconfig(audit)
+BuildRequires:  pkgconfig(expat)
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(libcap-ng)
+BuildRequires:  pkgconfig(libselinux)
 %if %{with launcher}
 BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(systemd)
