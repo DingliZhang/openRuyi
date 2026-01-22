@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Dingli Zhang <dingli@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -13,12 +14,12 @@ Release:        %autorelease
 Summary:        A free and portable font rendering engine
 License:        (FTL OR GPL-2.0-or-later) AND BSD-3-Clause AND MIT AND MIT-Modern-Variant AND LicenseRef-openRuyi-Public-Domain AND Zlib
 URL:            https://www.freetype.org
+VCS:            git:https://gitlab.freedesktop.org/freetype/freetype.git
 #!RemoteAsset
 Source0:        http://download.savannah.gnu.org/releases/freetype/freetype-%{version}.tar.xz
 #!RemoteAsset
 Source1:        http://download.savannah.gnu.org/releases/freetype/freetype-doc-%{version}.tar.xz
 Source2:        ftconfig.h
-
 BuildSystem:    autotools
 
 BuildRequires:  pkgconfig(libpng)
@@ -33,23 +34,21 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
 
-BuildOption(conf):        --disable-static
-BuildOption(conf):        --with-zlib=yes
-BuildOption(conf):        --with-bzip2=yes
-BuildOption(conf):        --with-png=yes
-BuildOption(conf):        --enable-freetype-config
+BuildOption(conf):  --disable-static
+BuildOption(conf):  --with-zlib=yes
+BuildOption(conf):  --with-bzip2=yes
+BuildOption(conf):  --with-png=yes
+BuildOption(conf):  --enable-freetype-config
 %if %{without bootstrap}
-BuildOption(conf):        --with-harfbuzz=yes
+BuildOption(conf):  --with-harfbuzz=yes
 %else
-BuildOption(conf):        --with-harfbuzz=no
+BuildOption(conf):  --with-harfbuzz=no
 %endif
-BuildOption(conf):        --with-brotli=yes
-
-BuildOption(install): gnulocaledir=$RPM_BUILD_ROOT%{_datadir}/locale
+BuildOption(conf):  --with-brotli=yes
+BuildOption(install):  gnulocaledir=$RPM_BUILD_ROOT%{_datadir}/locale
 
 Provides:       %{name}-bytecode
 Provides:       %{name}-subpixel
-Obsoletes:      freetype-freeworld < 2.9.1-2
 
 %patchlist
 freetype-2.3.0-enable-spr.patch
@@ -67,6 +66,18 @@ manage font files as well as efficiently load, hint and render
 individual glyphs. FreeType is not a font server or a complete
 text-rendering library.
 
+%package        devel
+Summary:        FreeType development libraries and header files
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       pkgconfig
+
+%description    devel
+The freetype-devel package includes the static libraries and header files
+for the FreeType font rendering engine.
+
+Install freetype-devel if you want to develop programs which will use
+FreeType.
+
 %prep -a
 tar xf %{SOURCE1} -C ..
 
@@ -74,19 +85,6 @@ tar xf %{SOURCE1} -C ..
 # fix libtool rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' builds/unix/libtool || :
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' builds/unix/libtool || :
-
-
-%package devel
-Summary:        FreeType development libraries and header files
-Requires:       %{name} = %{version}-%{release}
-Requires:       pkgconfig
-
-%description devel
-The freetype-devel package includes the static libraries and header files
-for the FreeType font rendering engine.
-
-Install freetype-devel if you want to develop programs which will use
-FreeType.
 
 %install -a
 # fix multilib issues
@@ -97,14 +95,6 @@ install -p -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_includedir}/freetype2/freetype/co
 
 # clean .a / .la
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
-
-%triggerpostun -- freetype < 2.0.5-3
-{
-  for I in %{_datadir}/fonts/*/TrueType /usr/share/X11/fonts/TTF; do
-      [ -d $I ] && [ -f $I/fonts.scale ] && [ -f $I/fonts.dir ] && touch $I/fonts.scale
-  done
-  exit 0
-}
 
 %files
 %license LICENSE.TXT docs/FTL.TXT docs/GPLv2.TXT
