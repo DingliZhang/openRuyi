@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
@@ -15,7 +16,11 @@ URL:            https://github.com/bestouff/genext2fs/
 Source0:        https://github.com/bestouff/genext2fs/archive/refs/tags/v%{version}.tar.gz
 BuildSystem:    autotools
 
-BuildRequires:  autoconf automake gcc make libtool
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  gcc
+BuildRequires:  make
+BuildRequires:  libtool
 
 %description
 genext2fs generates an ext2 filesystem as a normal (non-root) user.
