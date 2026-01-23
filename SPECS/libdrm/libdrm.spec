@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -11,19 +12,24 @@ Release:        %autorelease
 License:        MIT
 Summary:        Library for Direct Rendering Manager
 URL:            https://dri.freedesktop.org
+VCS:            git:https://gitlab.freedesktop.org/mesa/libdrm
 #!RemoteAsset
 Source0:        https://dri.freedesktop.org/libdrm/%{name}-%{version}.tar.xz
 Source1:        91-drm-modeset.rules
 BuildSystem:    meson
 
-BuildOption(conf): -Dudev=true
-BuildOption(conf): -Dvalgrind=disabled
-BuildOption(conf): -Dman-pages=disabled
-BuildOption(conf): -Dtests=false
-BuildOption(conf): -Dcairo-tests=disabled
+BuildOption(conf):  -Dudev=true
+BuildOption(conf):  -Dvalgrind=disabled
+BuildOption(conf):  -Dman-pages=disabled
+BuildOption(conf):  -Dtests=false
+BuildOption(conf):  -Dcairo-tests=disabled
 
-BuildRequires:  meson gcc linux-headers pixman-devel
-BuildRequires:  pkgconfig libatomic_ops-devel
+BuildRequires:  meson
+BuildRequires:  gcc
+BuildRequires:  linux-headers
+BuildRequires:  pkgconfig(pixman-1)
+BuildRequires:  pkgconfig
+BuildRequires:  pkgconfig(atomic_ops)
 BuildRequires:  pkgconfig(udev)
 BuildRequires:  pkgconfig(pciaccess)
 
@@ -34,10 +40,10 @@ Mesa, X drivers, and libva.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       linux-headers
 
-%description      devel
+%description    devel
 This package contains the header files and development libraries for libdrm.
 
 %install -a
