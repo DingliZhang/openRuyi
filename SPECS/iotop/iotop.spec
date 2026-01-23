@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: laokz <zhangkai@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -9,19 +10,18 @@ Name:           iotop
 Version:        1.30
 Release:        %autorelease
 Summary:        Simple top-like I/O monitor (implemented in C)
-
 License:        GPL-2.0-or-later
-URL:            https://github.com/Tomas-M/iotop/
+URL:            https://github.com/Tomas-M/iotop
 #!RemoteAsset
 Source:         https://github.com/Tomas-M/iotop/releases/download/v%{version}/iotop-%{version}.tar.xz
+BuildSystem:    autotools
+
+BuildOption(build):  NO_FLTO=1
+BuildOption(install):  V=1 STRIP=: BINDIR=$RPM_BUILD_ROOT%{_bindir}
 
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  (pkgconfig(ncursesw) or pkgconfig(ncurses))
-
-BuildSystem:          autotools
-BuildOption(build):   NO_FLTO=1
-BuildOption(install): V=1 STRIP=: BINDIR=$RPM_BUILD_ROOT%{_bindir}
+BuildRequires:  pkgconfig(ncurses)
 
 %description
 iotop does for I/O usage what top(1) does for CPU usage. It watches I/O
