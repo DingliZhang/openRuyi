@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <jialin.oerv@isrc.iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -10,7 +11,7 @@ Release:        %autorelease
 Summary:        JBIG1 lossless image compression tools
 License:        GPL-2.0-or-later
 URL:            http://www.cl.cam.ac.uk/~mgk25/jbigkit/
-# No git repo found.
+# VCS: No git repo found.
 #!RemoteAsset
 Source0:        http://www.cl.cam.ac.uk/~mgk25/download/jbigkit-%{version}.tar.gz
 BuildSystem:    autotools
@@ -31,7 +32,7 @@ simple command line interface for the JBIG1 standard (ISO/IEC 11544).
 
 %package        devel
 Summary:        Development files for jbigkit
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 The jbigkit-devel package contains files needed for development using
