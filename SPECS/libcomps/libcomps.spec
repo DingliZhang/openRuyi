@@ -33,7 +33,7 @@ comps XML files. Supports read/write XML file, structure(s) modification.
 
 %package        devel
 Summary:        Development files for libcomps library
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 Development files for libcomps library.
