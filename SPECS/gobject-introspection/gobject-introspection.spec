@@ -3,6 +3,7 @@
 # SPDX-FileContributor: Jingwiw <wangjingwei@iscas.ac.cn>
 # SPDX-FileContributor: Xuhai Chang <xuhai.oerv@isrc.iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -16,14 +17,15 @@ Version:        %{major_version}.0
 Release:        %autorelease
 Summary:        Introspection system for GObject-based libraries
 License:        GPL-2.0-or-later AND LGPL-2.0-or-later
-URL:            https://wiki.gnome.org/Projects/GObjectIntrospection
+URL:            https://gi.readthedocs.io/
+VCS:            git:https://gitlab.gnome.org/GNOME/gobject-introspection.git
 #!RemoteAsset
 Source0:        https://download.gnome.org/sources/%{name}/%{major_version}/%{name}-%{version}.tar.xz
+BuildSystem:    meson
 
-BuildSystem: meson
-BuildOption(conf): -Dgtk_doc=%{?with_doc:true}%{!?with_doc:false}
-BuildOption(conf): -Ddoctool=%{?with_doc:enabled}%{!?with_doc:disabled}
-BuildOption(conf): -Dcairo=%{?with_tests:enabled}%{!?with_tests:disabled}
+BuildOption(conf):  -Dgtk_doc=%{?with_doc:true}%{!?with_doc:false}
+BuildOption(conf):  -Ddoctool=%{?with_doc:enabled}%{!?with_doc:disabled}
+BuildOption(conf):  -Dcairo=%{?with_tests:enabled}%{!?with_tests:disabled}
 
 BuildRequires:  bison
 BuildRequires:  flex
@@ -47,7 +49,7 @@ GObject Introspection is a framework for generating and consuming API metadata
 for GObject-based libraries. This package contains the core runtime library,
 libgirepository, and the binary metadata (.typelib) files.
 
-%package devel
+%package        devel
 Summary:        The GObject Introspection development toolchain
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       python(abi) = %{python3_version}
@@ -56,7 +58,7 @@ Requires:       pkgconfig(glib-2.0) >= 2.80.0
 # https://bugzilla.redhat.com/show_bug.cgi?id=2135406
 Requires:       python3-setuptools
 
-%description devel
+%description    devel
 This is the primary package for developers. It contains the essential
 toolchain (g-ir-scanner, etc.), header files, and development metadata (.gir)
 needed to generate introspection data for other GObject-based libraries.
