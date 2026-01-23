@@ -26,7 +26,6 @@ BuildRequires:  make
 BuildRequires:  tpm2-tss-devel
 BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(libkeyutils)
-
 # for tests.
 BuildRequires:  xxd
 BuildRequires:  e2fsprogs
@@ -41,7 +40,7 @@ ima-evm-utils is used to prepare the file system for these extended attributes.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 This package provides the header files for %{name}
