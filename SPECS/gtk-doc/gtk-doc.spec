@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -12,11 +13,10 @@ License:        GPL-2.0-or-later AND GFDL-1.1-no-invariants-or-later
 URL:            https://gitlab.gnome.org/GNOME/gtk-doc/
 #!RemoteAsset
 Source:         http://download.gnome.org/sources/gtk-doc/1.35/gtk-doc-%{version}.tar.xz
+BuildSystem:    meson
 
 # from https://gitlab.gnome.org/GNOME/gtk-doc/-/merge_requests/74
 Patch0:         gtk-doc-mkhtml-test-fix.patch
-
-BuildSystem:    meson
 
 BuildRequires:  meson
 BuildRequires:  gcc
