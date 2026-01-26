@@ -24,7 +24,7 @@ BuildRequires:  make
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(libevent)
 BuildRequires:  pkgconfig(libuv)
-BuildRequires:  libev-devel
+BuildRequires:  pkgconfig(libev)
 
 %description
 libverto provides a way for libraries to expose asynchronous interfaces
@@ -41,7 +41,7 @@ glib will support signal in the future.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig
 
 %description    devel
