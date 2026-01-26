@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -11,11 +12,16 @@ Release:        %autorelease
 Summary:        Netlink library for netfilter
 License:        GPL-2.0-or-later
 URL:            http://netfilter.org
+VCS:            git:https://git.netfilter.org/libnfnetlink
 #!RemoteAsset
 Source0:        http://netfilter.org/projects/libnfnetlink/files/%{name}-%{version}.tar.bz2
 BuildSystem:    autotools
 
-BuildRequires:  linux-headers automake autoconf libtool pkgconfig
+BuildRequires:  linux-headers
+BuildRequires:  automake
+BuildRequires:  autoconf
+BuildRequires:  libtool
+BuildRequires:  pkgconfig
 BuildRequires:  make
 
 %description
@@ -25,7 +31,7 @@ netfilter subsystems and their userspace management tools.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       linux-headers
 
 %description    devel
