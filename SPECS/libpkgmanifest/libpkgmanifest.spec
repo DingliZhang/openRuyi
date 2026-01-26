@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -22,13 +23,11 @@ BuildOption(conf):  -DVERSION_MAJOR=0
 BuildOption(conf):  -DVERSION_MINOR=5
 BuildOption(conf):  -DVERSION_PATCH=9
 BuildOption(conf):  -DWITH_PYTHON=ON
-
 %if %{with docs}
 BuildOption(conf):  -DWITH_DOCS=ON
 %else
 BuildOption(conf):  -DWITH_DOCS=OFF
 %endif
-
 %if %{with tests}
 BuildOption(conf):  -DWITH_TESTS=ON
 %else
@@ -41,12 +40,10 @@ BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(yaml-cpp)
 BuildRequires:  pkgconfig(python3)
 BuildRequires:  swig
-
 %if %{with tests}
 BuildRequires:  pkgconfig(gmock)
 BuildRequires:  pkgconfig(gtest)
 %endif
-
 %if %{with docs}
 BuildRequires:  doxygen
 BuildRequires:  python3-sphinx
@@ -57,17 +54,19 @@ BuildRequires:  python3-sphinx
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 Development files for %{name}.
 
-%package     -n python3-%{name}
-Summary:        Python 3 bindings for the %{name} library
-Requires:       %{name} = %{version}-%{release}
+%package     -n python-%{name}
+Summary:        Python bindings for the %{name} library
+Provides:       python3-%{name} = %{version}-%{release}
+%python_provide python3-%{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description -n python3-%{name}
-Python 3 bindings for the %{name} library.
+%description -n python-%{name}
+Python bindings for the %{name} library.
 
 %files
 %license LICENSE
@@ -80,7 +79,7 @@ Python 3 bindings for the %{name} library.
 %{_libdir}/libpkgmanifest.so
 %{_libdir}/pkgconfig/libpkgmanifest.pc
 
-%files -n python3-libpkgmanifest
+%files -n python-libpkgmanifest
 %{python3_sitearch}/libpkgmanifest/
 %{python3_sitearch}/libpkgmanifest-*.dist-info/
 
