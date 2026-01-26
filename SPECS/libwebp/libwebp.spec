@@ -1,46 +1,48 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
-Name:          libwebp
-Version:       1.6.0
-Release:       %autorelease
-Summary:       Library and tools for the WebP graphics format
-License:       Apache-2.0 AND BSD-3-Clause
-URL:           https://github.com/webmproject/libwebp
+Name:           libwebp
+Version:        1.6.0
+Release:        %autorelease
+Summary:        Library and tools for the WebP graphics format
+License:        Apache-2.0 AND BSD-3-Clause
+URL:            https://github.com/webmproject/libwebp
 #!RemoteAsset
-Source:        https://github.com/webmproject/libwebp/archive/refs/tags/v%{version}.tar.gz
-Patch0:        0001-libwebp-cmakedir.patch
-Patch1:        0002-libwebp-rpath.patch
-BuildSystem:   cmake
+Source:         https://github.com/webmproject/libwebp/archive/refs/tags/v%{version}.tar.gz
+BuildSystem:    cmake
 
-BuildRequires: cmake
-BuildRequires: gcc
-BuildRequires: giflib-devel
-BuildRequires: pkgconfig(libjpeg)
-BuildRequires: libpng-devel
-BuildRequires: libtiff-devel
+Patch0:         0001-libwebp-cmakedir.patch
+Patch1:         0002-libwebp-rpath.patch
+
+BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  giflib-devel
+BuildRequires:  pkgconfig(libjpeg)
+BuildRequires:  pkgconfig(libpng)
+BuildRequires:  pkgconfig(libtiff-4)
 
 %description
 WebP is an image format that does lossy compression of digital
 photographic images. WebP consists of a codec based on VP8, and a
 container based on RIFF. This package contains the runtime libraries.
 
-%package       tools
-Summary:       The WebP command line tools
-Requires:      %{name}%{?_isa} = %{version}-%{release}
+%package        tools
+Summary:        The WebP command line tools
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description   tools
+%description    tools
 The %{name}-tools package contains the WebP command line tools (cwebp,
 dwebp, etc.) for encoding and decoding WebP images.
 
-%package       devel
-Summary:       Development files for libwebp
-Requires:      %{name}%{?_isa} = %{version}-%{release}
+%package        devel
+Summary:        Development files for libwebp
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description   devel
+%description    devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
