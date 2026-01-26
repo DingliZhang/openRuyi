@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Dingli Zhang <dingli@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -11,11 +12,12 @@ Release:        %autorelease
 Summary:        X.Org X11 libXext runtime library
 License:        MIT
 URL:            https://xorg.freedesktop.org/
+VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libxext.git
 #!RemoteAsset
 Source0:        https://xorg.freedesktop.org/releases/individual/lib/%{name}-%{version}.tar.gz
 BuildSystem:    autotools
 
-BuildOption(conf): --disable-static
+BuildOption(conf):  --disable-static
 
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xextproto)
@@ -32,20 +34,19 @@ Requires:       libX11
 %description
 X.Org X11 libXext runtime library
 
-%package devel
+%package        devel
 Summary:        X.Org X11 libXext development package
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig
 
-%description devel
+%description    devel
 X.Org X11 libXext development package
 
-%package doc
-Summary:    Documentation for %{name}
+%package        doc
+Summary:        Documentation for %{name}
 
-%description doc
+%description    doc
 The %{name}-doc package contains documentation for the %{name} library.
-
 
 %conf -p
 autoreconf -fiv
@@ -63,7 +64,6 @@ autoreconf -fiv
 %files doc
 %{_docdir}/libXext/*
 %{_mandir}/man3/*.3*
-
 
 %changelog
 %{?autochangelog}
