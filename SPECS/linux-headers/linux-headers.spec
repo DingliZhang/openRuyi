@@ -3,6 +3,7 @@
 # SPDX-FileContributor: Han Gao <gaohan@iscas.ac.cn>
 # SPDX-FileContributor: Jingwiw <wangjingwei@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -19,10 +20,11 @@ Release:        %autorelease
 Summary:        Header files for the Linux kernel for use by userspace
 License:        GPL-2.0-only AND LGPL-2.1-only AND MIT AND BSD-2-Clause AND BSD-3-Clause
 URL:            https://www.kernel.org/
+VCS:            git:https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 #!RemoteAsset:  sha256:b726a4d15cf9ae06219b56d87820776e34d89fbc137e55fb54a9b9c3015b8f1e
 Source0:        https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-%{version}.tar.xz
 
-BuildRequires: rsync
+BuildRequires:  rsync
 
 %description
 Linux-headers includes the C header files that specify the stable API
