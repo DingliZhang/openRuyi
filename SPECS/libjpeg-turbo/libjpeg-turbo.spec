@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -16,8 +17,8 @@ Source:         https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags
 Patch:          0001-libjpeg-turbo-cmake.patch
 BuildSystem:    cmake
 
-BuildOption(conf): -DENABLE_STATIC:BOOL=NO
-BuildOption(conf): -DFLOATTEST:STRING="fp-contract"
+BuildOption(conf):  -DENABLE_STATIC:BOOL=NO
+BuildOption(conf):  -DFLOATTEST:STRING="fp-contract"
 
 BuildRequires:  gcc
 BuildRequires:  cmake
@@ -29,7 +30,7 @@ images, accelerated with SIMD instructions.
 
 %package        devel
 Summary:        Headers for the libjpeg-turbo library
-Requires:       libjpeg-turbo = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 This package contains header files necessary for developing programs which use
@@ -37,7 +38,7 @@ the libjpeg-turbo library.
 
 %package        utils
 Summary:        Utilities for manipulating JPEG images
-Requires:       libjpeg-turbo = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    utils
 This package contains command-line utilities for creating, decompressing, and
@@ -45,7 +46,7 @@ transforming JPEG files.
 
 %package -n     turbojpeg
 Summary:        TurboJPEG library
-Requires:       libjpeg-turbo = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description -n turbojpeg
 This package contains the TurboJPEG shared library, a higher-level API for
@@ -53,8 +54,8 @@ JPEG compression and decompression.
 
 %package -n     turbojpeg-devel
 Summary:        Headers for the TurboJPEG library
-Requires:       turbojpeg = %{version}
-Requires:       libjpeg-turbo-devel = %{version}
+Requires:       turbojpeg = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description -n turbojpeg-devel
 This package contains header files for developing programs that use the
