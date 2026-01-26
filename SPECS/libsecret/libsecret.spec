@@ -14,6 +14,7 @@ Release:        %autorelease
 Summary:        Library for storing and retrieving passwords and other secrets
 License:        LGPL-2.1-or-later AND Apache-2.0 AND (GPL-2.0-or-later OR TGPPL-1.0) AND LicenseRef-openRuyi-Public-Domain
 URL:            https://wiki.gnome.org/Projects/Libsecret
+VCS:            git:https://gitlab.gnome.org/GNOME/libsecret
 #!RemoteAsset
 Source:         https://download.gnome.org/sources/%{name}/%{release_version}/%{name}-%{version}.tar.xz
 BuildSystem:    meson
@@ -36,7 +37,7 @@ KSecretService are both implementations of a Secret Service.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
