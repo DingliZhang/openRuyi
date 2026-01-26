@@ -21,7 +21,7 @@ BuildSystem:    autotools
 BuildOption(conf):  --disable-static
 BuildOption(conf):  --disable-silent-rules
 
-BuildRequires:  libmnl-devel
+BuildRequires:  pkgconfig(libmnl)
 BuildRequires:  make
 
 %description
