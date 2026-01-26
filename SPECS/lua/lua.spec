@@ -2,8 +2,11 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Xuhai Chang <xuhai.oerv@isrc.iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
+
+%global major_version 5.4
 
 Name:           lua
 Version:        5.4.8
@@ -11,6 +14,7 @@ Release:        %autorelease
 Summary:        Powerful, efficient, lightweight, embeddable scripting language
 License:        MIT
 URL:            https://www.lua.org/
+VCS:            git:https://github.com/lua/lua.git
 #!RemoteAsset
 Source0:        https://www.lua.org/ftp/lua-%{version}.tar.gz
 #!RemoteAsset
@@ -18,16 +22,36 @@ Source1:        https://www.lua.org/tests/lua-%{version}-tests.tar.gz
 Source2:        luaconf.h
 Source3:        mit.txt
 Source4:        macros.lua
+BuildSystem:    autotools
+
 Patch0:         0001-lua-5.4.6-idsize.patch
 Patch1:         0002-lua-5.4.0-beta-autotoolize.patch
 Patch2:         0003-lua-5.2.2-configure-linux.patch
 Patch3:         0004-lua-5.3.0-configure-compat-module.patch
+
+BuildOption(conf):  --with-readline --with-compat-module
+BuildOption(build):  LIBS="-lm -ldl"
+
 BuildRequires:  make
-BuildRequires:  automake autoconf libtool readline-devel ncurses-devel
-BuildSystem:    autotools
-BuildOption(conf): --with-readline --with-compat-module
-BuildOption(build): LIBS="-lm -ldl"
-%global major_version 5.4
+BuildRequires:  automake
+BuildRequires:  autoconf
+BuildRequires:  libtool
+BuildRequires:  pkgconfig(readline)
+BuildRequires:  pkgconfig(ncurses)
+
+%package        devel
+Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       pkgconfig
+
+%description    devel
+This package contains development files for %{name}.
+
+%package        help
+Summary:        Help files for %{name}
+
+%description    help
+%{summary}
 
 %description
 Lua is a powerful, efficient, lightweight, embeddable scripting language.
@@ -60,20 +84,6 @@ mkdir -p %{buildroot}/%{_datadir}/lua/%{major_version}
 install -p -m 644 %{SOURCE2} %{buildroot}%{_includedir}/luaconf.h
 install -Dpm 0644 %{SOURCE4} %{buildroot}/%{_rpmmacrodir}/macros.lua
 rm -rf %{buildroot}%{_libdir}/*.a
-
-%package devel
-Summary:        Development files for %{name}
-Requires:       %{name} = %{version}-%{release}
-Requires:       pkgconfig
-
-%description devel
-This package contains development files for %{name}.
-
-%package help
-Summary:        Help files for %{name}
-
-%description help
-%{summary}
 
 %files
 %defattr(-,root,root)
