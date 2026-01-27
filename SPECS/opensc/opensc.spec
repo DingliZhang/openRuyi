@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -39,16 +40,15 @@ BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  openssl-devel
-BuildRequires:  pcsc-lite-devel
-BuildRequires:  readline-devel
-BuildRequires:  zlib-devel
+BuildRequires:  pkgconfig(openssl)
+BuildRequires:  pkgconfig(libpcsclite)
+BuildRequires:  pkgconfig(readline)
+BuildRequires:  pkgconfig(zlib)
 BuildRequires:  bash-completion
 BuildRequires:  libxslt
 
 Requires:       %{name}-libs = %{version}-%{release}
 Requires:       pcsc-lite
-Provides:       bundled(simclist) = 1.5
 
 %description
 OpenSC provides a set of libraries and utilities to work with smart cards.
