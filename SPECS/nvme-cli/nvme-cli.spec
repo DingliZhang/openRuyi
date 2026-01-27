@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Yafen Fang <yafen@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -12,11 +13,11 @@ License:        GPL-2.0-only
 URL:            https://github.com/linux-nvme/nvme-cli
 #!RemoteAsset
 Source0:        https://github.com/linux-nvme/nvme-cli/archive/v%{version}.tar.gz
-
 BuildSystem:    meson
-BuildOption(conf): -Dudevrulesdir=%{_udevrulesdir}
-BuildOption(conf): -Dsystemddir=%{_unitdir}
-BuildOption(conf): -Ddocs=man
+
+BuildOption(conf):  -Dudevrulesdir=%{_udevrulesdir}
+BuildOption(conf):  -Dsystemddir=%{_unitdir}
+BuildOption(conf):  -Ddocs=man
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
