@@ -3,6 +3,7 @@
 # SPDX-FileContributor: Mahno <bestwow2014@gmail.com>
 # SPDX-FileContributor: Xuhai Chang <xuhai.oerv@isrc.iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -15,6 +16,7 @@ URL:            https://github.com/protocolbuffers/protobuf
 #!RemoteAsset
 Source0:        https://github.com/protocolbuffers/protobuf/releases/download/v%{version}/%{name}-%{version}.tar.gz
 BuildSystem:    cmake
+
 BuildOption(conf): -Dprotobuf_BUILD_TESTS=OFF
 BuildOption(conf): -Dprotobuf_ABSL_PROVIDER=package
 
@@ -67,19 +69,12 @@ Protocol Buffers are a way of encoding structured data in an efficient yet
 extensible format. Google uses Protocol Buffers for almost all of its internal
 RPC protocols and file formats.
 
-%package devel
+%package        devel
 Summary:        Header files, libraries and development documentation for %{name}
-Requires:       protobuf
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:       libprotobuf-devel
-# java related, haven't decided how to deal with it
-# currently mvn file will not be installed
-# brought from openSUSE:
-# Not generated automatically without javapackages-local as dependency
-# provides:       mvn(com.google.protobuf:protoc:exe:linux-%{protoc_arch}:)
 
-# vim related files are not installed, too
-
-%description devel
+%description    devel
 Protocol Buffers are a way of encoding structured data in an efficient yet
 extensible format. Google uses Protocol Buffers for almost all of its internal
 RPC protocols and file formats.
