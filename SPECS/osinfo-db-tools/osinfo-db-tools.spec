@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -17,15 +18,16 @@ BuildSystem:    meson
 
 BuildRequires:  meson
 BuildRequires:  gettext-devel
-BuildRequires:  glib-devel
+BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(json-glib-1.0)
 BuildRequires:  libarchive-devel
 BuildRequires:  libxml2-devel >= 2.6.0
-BuildRequires:  libxslt-devel >= 1.0.0
+BuildRequires:  pkgconfig(libxslt)
 BuildRequires:  pkgconfig(libsoup-3.0)
 # fo tests
 BuildRequires:  pytest
 BuildRequires:  python3dist(requests)
+
 %description
 This package provides tools for managing the osinfo database of
 information about operating systems for use with virtualization.
@@ -33,6 +35,7 @@ information about operating systems for use with virtualization.
 %install -a
 # Avoid illegal package names
 rm -rf %{buildroot}%{_datadir}/locale/*@*
+
 %find_lang %{name} --generate-subpackages
 
 %files
