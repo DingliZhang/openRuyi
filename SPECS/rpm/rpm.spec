@@ -1,62 +1,32 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
-%global librpmsover 10
+#
+# avoid bootstrapping problem
+%define _binary_payload w9.bzdio
+
 %bcond  python 1
 
 Name:           rpm
-%if %{with python}
-BuildRequires:  python-devel
-%endif
-BuildRequires:  config
-BuildRequires:  binutils
-BuildRequires:  bzip2
-BuildRequires:  cmake
-BuildRequires:  file-devel
-BuildRequires:  findutils
-BuildRequires:  gcc
-BuildRequires:  gettext-devel
-BuildRequires:  glibc-devel
-BuildRequires:  gzip
-BuildRequires:  acl-devel
-BuildRequires:  libarchive-devel
-BuildRequires:  bzip2-devel
-BuildRequires:  libcap-devel
-BuildRequires:  pkgconfig(libdw)
-BuildRequires:  libelf-devel
-BuildRequires:  libgcrypt-devel
-BuildRequires:  libselinux-devel
-BuildRequires:  libsemanage-devel
-BuildRequires:  libtool
-BuildRequires:  lua-devel
-Requires: lua
-BuildRequires:  make
-BuildRequires:  ncurses-devel
-BuildRequires:  patch
-BuildRequires:  perl
-BuildRequires:  popt-devel
-BuildRequires:  rpm-build
-BuildRequires:  xz-devel
-BuildRequires:  pkgconfig(libzstd)
-BuildRequires:  pkgconfig(zlib)
-Provides:       rpminst
-Requires:       rpm-config
 Summary:        The RPM Package Manager
 License:        GPL-2.0-or-later
 Version:        4.20.1
 Release:        %autorelease
 URL:            https://rpm.org/
+VCS:            git:https://github.com/rpm-software-management/rpm.git
 #!RemoteAsset
 Source:         https://ftp.osuosl.org/pub/rpm/releases/rpm-4.20.x/rpm-%{version}.tar.bz2
 #!RemoteAsset:  git+https://github.com/rpm-software-management/rpmpgp_legacy#1.1
 #!CreateArchive
 Source1:        rpmpgp_legacy-1.1.tar.gz
-Source5:        rpmsort
-Source8:        rpmconfigcheck
-Source13:       rpmconfigcheck.service
+Source2:        rpmsort
+Source3:        rpmconfigcheck
+Source4:        rpmconfigcheck.service
+
 # quilt patches start here
 Patch12:        localetag.diff
 Patch18:        refreshtestarch.diff
@@ -99,9 +69,44 @@ Patch158:       archcheck.diff
 Patch159:       emptypw.diff
 Patch160:       buildsysprep.diff
 Patch6464:      auto-config-update-aarch64-ppc64le.diff
-#
-# avoid bootstrapping problem
-%define _binary_payload w9.bzdio
+
+BuildRequires:  binutils
+BuildRequires:  bzip2
+BuildRequires:  cmake
+BuildRequires:  config
+BuildRequires:  findutils
+BuildRequires:  gcc
+BuildRequires:  gettext-devel
+BuildRequires:  glibc-devel
+BuildRequires:  gzip
+BuildRequires:  libtool
+BuildRequires:  make
+BuildRequires:  patch
+BuildRequires:  perl
+BuildRequires:  pkgconfig(bzip2)
+BuildRequires:  pkgconfig(libacl)
+BuildRequires:  pkgconfig(libarchive)
+BuildRequires:  pkgconfig(libcap)
+BuildRequires:  pkgconfig(libdw)
+BuildRequires:  pkgconfig(libelf)
+BuildRequires:  pkgconfig(libgcrypt)
+BuildRequires:  pkgconfig(liblzma)
+BuildRequires:  pkgconfig(libmagic)
+BuildRequires:  pkgconfig(libselinux)
+BuildRequires:  pkgconfig(libzstd)
+BuildRequires:  pkgconfig(lua)
+BuildRequires:  pkgconfig(ncurses)
+BuildRequires:  pkgconfig(popt)
+%if %{with python}
+BuildRequires:  pkgconfig(python3)
+%endif
+BuildRequires:  pkgconfig(zlib)
+BuildRequires:  rpm-build
+
+Provides:       rpminst
+
+Requires:       rpm-config
+Requires:       lua
 
 %description
 RPM Package Manager is the main tool for managing the software packages
@@ -112,41 +117,32 @@ is easy to update packages.  RPM keeps track of all these manipulations
 in a central database. This way it is possible to get an overview of
 all installed packages.  RPM also supports database queries.
 
-%package -n librpmbuild%{librpmsover}
-Summary:        Library for building RPM packages
-# Was part of rpm before
-Conflicts:      rpm < %{version}
-
-%description -n librpmbuild%{librpmsover}
-Thie package contains a library with functions for building RPM packages.
-
-%package -n python3-rpm
+%package     -n python-rpm
 Summary:        python binding for RPM
+Provides:       python3-rpm
 %python_provide python3-rpm
-Requires:       rpm = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description -n python3-rpm
+%description -n python-rpm
 Thie package provides python binding for RPM
 
-
-%package devel
+%package        devel
 Summary:        Development files for librpm
-Requires:       rpm = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 # for people confusing the one with the other
-Recommends:     rpm-build = %{version}
-Requires:       popt-devel
+Recommends:     rpm-build%{?_isa} = %{version}-%{release}
+Requires:       pkgconfig(popt)
 
-%description devel
+%description    devel
 This package contains the RPM C library and header files.  These
 development files will simplify the process of writing programs which
 manipulate RPM packages and databases and are intended to make it
 easier to create graphical package managers or any other tools that
 need an intimate knowledge of RPM packages in order to function.
 
-%package build
+%package        build
 Summary:        Tools and Scripts to create rpm packages
-Requires:       librpmbuild%{librpmsover} = %{version}
-Requires:       rpm = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:       rpm:%_bindir/rpmbuild
 Provides:       rpmbuild
 # build essentials
@@ -160,7 +156,7 @@ Requires:       findutils
 Requires:       gawk
 Requires:       gcc
 #Requires:       gcc-PIE
-Requires:       /usr/bin/gzip
+Requires:       %{_prefix}/bin/gzip
 Requires:       gettext-tools
 Requires:       glibc-devel
 Requires:       glibc-locale-base
@@ -173,24 +169,19 @@ Requires:       tar
 Requires:       util-linux
 Requires:       which
 Requires:       xz
-# needed for debuginfo generation
-Requires:       debugedit >= 5.0
-# drop candidates
+Requires:       debugedit
 Requires:       cpio
-Requires:       (perl-rpm-packaging if perl)
 Requires:       file
-# The point of the split
-Conflicts:      rpm < 4.15.0
 
-%description build
+%description    build
 If you want to build a rpm, you need this package. It provides rpmbuild
 and requires some packages that are usually required.
 
-%package plugin-unshare
+%package        plugin-unshare
 Summary:        Rpm plugin for Linux namespace isolation functionality
-Requires:       rpm = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description plugin-unshare
+%description    plugin-unshare
 Rpm plugin for Linux namespace isolation functionality.
 
 %prep
@@ -219,7 +210,7 @@ rm -rf sqlite
 %patch -P 150 -P 151 -P 154 -P 155 -P 156 -P 157 -P 158 -P 159
 %patch -P 160
 
-%ifarch aarch64 riscv64
+%ifarch riscv64
 %patch -P 6464
 %endif
 
@@ -229,23 +220,13 @@ rm -f m4/lt*.m4
 %build
 export CFLAGS="%{optflags} -ffunction-sections"
 export LDFLAGS="-Wl,-Bsymbolic-functions -ffunction-sections"
-%ifarch alpha
-export CFLAGS="-g -O0 -fno-strict-aliasing -ffunction-sections"
-%endif
 
 cpu="%{_target_cpu}"
-# convert to gnu style cpu version, see config.sub
-%ifarch ppc ppc64 ppc64le
-cpu="${cpu/#ppc/powerpc}"
-%endif
 
 mkdir _build
 cd _build
 cmake .. \
   -DRPM_HOST_SYSTEM_CPU="$cpu" \
-%ifarch %arm
-  -DRPM_HOST_SYSTEM_ABI=gnueabi \
-%endif
   -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
   -DCMAKE_INSTALL_MANDIR:PATH=share/man \
   -DCMAKE_INSTALL_INFODIR:PATH=share/info \
@@ -269,50 +250,47 @@ cmake .. \
   -DWITH_DBUS=OFF \
   -DENABLE_PYTHON=%{?with_python:ON}%{?!with_python:OFF} \
   -DENABLE_TESTSUITE=OFF \
-  -D__FIND_DEBUGINFO=/usr/lib/rpm/find-debuginfo \
+  -D__FIND_DEBUGINFO=%{_prefix}/lib/rpm/find-debuginfo \
   -D__AR:FILEPATH=ar -D__AS:FILEPATH=as \
   -D__CC:FILEPATH=gcc -D__CPP:FILEPATH="gcc -E" -D__CXX:FILEPATH=g++ \
-  -D__GPG:FILEPATH=/usr/bin/gpg2 -D__AWK:FILEPATH=/usr/bin/gawk
+  -D__GPG:FILEPATH=%{_prefix}/bin/gpg2 -D__AWK:FILEPATH=%{_prefix}/bin/gawk
 make %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}/usr/lib
-mkdir -p %{buildroot}/usr/share/locale
-ln -s ../share/locale %{buildroot}/usr/lib/locale
+mkdir -p %{buildroot}%{_prefix}/lib
+mkdir -p %{buildroot}%{_prefix}/share/locale
+ln -s ../share/locale %{buildroot}%{_prefix}/lib/locale
 pushd _build
 %make_install
 popd
 mkdir -p %{buildroot}/bin
-mkdir -p %{buildroot}/usr/sbin
-install -m 755 %{SOURCE8} %{buildroot}/usr/sbin
-mkdir -p %{buildroot}/usr/lib/systemd/system
-install -m 644 %{SOURCE13} %{buildroot}/usr/lib/systemd/system/
-mkdir -p %{buildroot}/usr/lib/rpm/macros.d
-mkdir -p %{buildroot}/usr/lib/rpm/openruyi
+mkdir -p %{buildroot}%{_prefix}/sbin
+install -m 755 %{SOURCE3} %{buildroot}%{_prefix}/sbin
+mkdir -p %{buildroot}%{_prefix}/lib/systemd/system
+install -m 644 %{SOURCE4} %{buildroot}%{_prefix}/lib/systemd/system/
+mkdir -p %{buildroot}%{_prefix}/lib/rpm/macros.d
+mkdir -p %{buildroot}%{_prefix}/lib/rpm/openruyi
 for d in BUILD RPMS SOURCES SPECS SRPMS BUILDROOT ; do
-  mkdir -p %{buildroot}/usr/src/packages/$d
-  chmod 755 %{buildroot}/usr/src/packages/$d
+  mkdir -p %{buildroot}%{_prefix}/src/packages/$d
+  chmod 755 %{buildroot}%{_prefix}/src/packages/$d
 done
-for d in %{buildroot}/usr/lib/rpm/platform/*-linux/macros ; do
+for d in %{buildroot}%{_prefix}/lib/rpm/platform/*-linux/macros ; do
   dd=${d%%-linux/macros}
   dd=${dd##*/}
-  mkdir %{buildroot}/usr/src/packages/RPMS/$dd
-  chmod 755 %{buildroot}/usr/src/packages/RPMS/$dd
+  mkdir %{buildroot}%{_prefix}/src/packages/RPMS/$dd
+  chmod 755 %{buildroot}%{_prefix}/src/packages/RPMS/$dd
 done
 export RPM_BUILD_ROOT
-%ifarch s390x
-[ -f scripts/brp-%_arch-linux ] && sh scripts/brp-%_arch-linux
-%endif
-rm -f %{buildroot}/usr/lib/rpmpopt
+rm -f %{buildroot}%{_prefix}/lib/rpmpopt
 rm -rf %{buildroot}%{_mandir}/{fr,ja,ko,pl,ru,sk}
 rm -f %{buildroot}%{_prefix}/share/locale/de/LC_MESSAGES/rpm.mo
-rm -f %{buildroot}/usr/lib/rpm/cpanflute %{buildroot}/usr/lib/rpm/cpanflute2
-install -m 755 %{SOURCE5} %{buildroot}/usr/lib/rpm
-rm -f %{buildroot}/usr/lib/locale %{buildroot}/usr/lib/rpmrc
+rm -f %{buildroot}%{_prefix}/lib/rpm/cpanflute %{buildroot}%{_prefix}/lib/rpm/cpanflute2
+install -m 755 %{SOURCE2} %{buildroot}%{_prefix}/lib/rpm
+rm -f %{buildroot}%{_prefix}/lib/locale %{buildroot}%{_prefix}/lib/rpmrc
 mkdir -p %{buildroot}/etc/rpm
 chmod 755 %{buildroot}/etc/rpm
 # remove some nonsense or non-working scripts
-pushd %{buildroot}/usr/lib/rpm/
+pushd %{buildroot}%{_prefix}/lib/rpm/
 for f in rpm2cpio.sh rpm.daily rpmdiff* rpm.log rpm.xinetd freshen.sh u_pkg.sh \
          ocaml-find-provides.sh ocaml-find-requires.sh fileattrs/ocaml.attr \
          magic magic.mgc magic.mime* rpmfile *.pl javadeps brp-redhat \
@@ -321,33 +299,27 @@ for f in rpm2cpio.sh rpm.daily rpmdiff* rpm.log rpm.xinetd freshen.sh u_pkg.sh \
 do
     rm -f $f
 done
-for i in /usr/share/automake-*/*; do
+for i in %{_prefix}/share/automake-*/*; do
   if test -f "$i" && test -f "${i##*/}"; then
     rm -f "${i##*/}"
   fi
 done
 popd
-%ifarch aarch64 ppc64le riscv64 loongarch64
-install $(command -v config.guess)       %{buildroot}/usr/lib/rpm
-install  -m 755 $(command -v config.sub) %{buildroot}/usr/lib/rpm
+%ifarch riscv64
+install $(command -v config.guess)       %{buildroot}%{_prefix}/lib/rpm
+install  -m 755 $(command -v config.sub) %{buildroot}%{_prefix}/lib/rpm
 %endif
 
-bash %{buildroot}/usr/lib/rpm/find-lang.sh %{buildroot} rpm
-# On arm the kernel architecture is ignored. Not the best idea, but lets stay compatible with other distros
-%ifarch armv7hl armv6hl
-# rpm is using the host_cpu as default for the platform, but armv6/7hl is not known by the kernel.
-# so we need to enforce the platform here.
-echo -n "%{_target_cpu}-openruyi-linux-gnueabi" > %{buildroot}/etc/rpm/platform
-%endif
+bash %{buildroot}%{_prefix}/lib/rpm/find-lang.sh %{buildroot} rpm
 
 # disable sysuser handling for now
-rm %{buildroot}/usr/lib/rpm/sysusers.sh
-sed -e '/^%%__systemd_sysusers/s/^/#/' -i %{buildroot}/usr/lib/rpm/macros
+rm %{buildroot}%{_prefix}/lib/rpm/sysusers.sh
+sed -e '/^%%__systemd_sysusers/s/^/#/' -i %{buildroot}%{_prefix}/lib/rpm/macros
 
 %files -f %{name}.lang
 %defattr(-,root,root)
 %license       COPYING
-%exclude /usr/lib/rpm/macros.d/macros.transaction_unshare
+%exclude %{_prefix}/lib/rpm/macros.d/macros.transaction_unshare
 %exclude %{_mandir}/man8/rpm-plugin-unshare*
        /etc/rpm
        %{_bindir}/gendiff
@@ -363,66 +335,63 @@ sed -e '/^%%__systemd_sysusers/s/^/#/' -i %{buildroot}/usr/lib/rpm/macros
        %{_bindir}/rpmsign
        %{_bindir}/rpmverify
        %{_bindir}/rpmsort
-       /usr/sbin/rpmconfigcheck
-       /usr/lib/systemd/system/rpmconfigcheck.service
-       %dir /usr/lib/rpm
-       /usr/lib/rpm/macros
-       /usr/lib/rpm/macros.d/
-       /usr/lib/rpm/platform/
-       /usr/lib/rpm/rpm.supp
-       /usr/lib/rpm/rpmdb_*
-       /usr/lib/rpm/rpmpopt-*
-       /usr/lib/rpm/rpmrc
-       /usr/lib/rpm/rpmsort
-       /usr/lib/rpm/rpmdump
-       /usr/lib/rpm/openruyi
-       /usr/lib/rpm/tgpg
+       %{_prefix}/sbin/rpmconfigcheck
+       %{_prefix}/lib/systemd/system/rpmconfigcheck.service
+       %dir %{_prefix}/lib/rpm
+       %{_prefix}/lib/rpm/macros
+       %{_prefix}/lib/rpm/macros.d/
+       %{_prefix}/lib/rpm/platform/
+       %{_prefix}/lib/rpm/rpm.supp
+       %{_prefix}/lib/rpm/rpmdb_*
+       %{_prefix}/lib/rpm/rpmpopt-*
+       %{_prefix}/lib/rpm/rpmrc
+       %{_prefix}/lib/rpm/rpmsort
+       %{_prefix}/lib/rpm/rpmdump
+       %{_prefix}/lib/rpm/openruyi
+       %{_prefix}/lib/rpm/tgpg
        %{_libdir}/rpm-plugins
        %{_libdir}/librpm.so.*
        %{_libdir}/librpmio.so.*
        %{_libdir}/librpmsign.so.*
 %doc   %{_mandir}/man[18]/*.[18]*
 %ghost /var/lib/rpm
-%dir   %attr(755,root,root) /usr/src/packages/BUILD
-%dir   %attr(755,root,root) /usr/src/packages/SPECS
-%dir   %attr(755,root,root) /usr/src/packages/SOURCES
-%dir   %attr(755,root,root) /usr/src/packages/SRPMS
-%dir   %attr(755,root,root) /usr/src/packages/RPMS
-%dir   %attr(755,root,root) /usr/src/packages/BUILDROOT
-%dir   %attr(755,root,root) /usr/src/packages/RPMS/*
+%dir   %attr(755,root,root) %{_prefix}/src/packages/BUILD
+%dir   %attr(755,root,root) %{_prefix}/src/packages/SPECS
+%dir   %attr(755,root,root) %{_prefix}/src/packages/SOURCES
+%dir   %attr(755,root,root) %{_prefix}/src/packages/SRPMS
+%dir   %attr(755,root,root) %{_prefix}/src/packages/RPMS
+%dir   %attr(755,root,root) %{_prefix}/src/packages/BUILDROOT
+%dir   %attr(755,root,root) %{_prefix}/src/packages/RPMS/*
 
-%files -n librpmbuild%{librpmsover}
-%{_libdir}/librpmbuild.so.%{librpmsover}
-%{_libdir}/librpmbuild.so.%{librpmsover}.*
-
-%files -n python3-rpm
+%files -n python-rpm
 %license COPYING
 %{_libdir}/python*/*
 
 %files build
 %defattr(-,root,root)
-/usr/bin/rpmbuild
-/usr/lib/rpm/pkgconfigdeps.sh
-/usr/lib/rpm/ocamldeps.sh
-/usr/lib/rpm/rpm_macros_provides.sh
-/usr/lib/rpm/elfdeps
-/usr/lib/rpm/rpmdeps
-/usr/lib/rpm/rpmuncompress
-/usr/bin/rpmspec
-/usr/lib/rpm/brp-*
-/usr/lib/rpm/check-*
-/usr/lib/rpm/*find*
-/usr/lib/rpm/fileattrs/
-/usr/lib/rpm/*.prov
-/usr/lib/rpm/*.req
+%{_prefix}/bin/rpmbuild
+%{_prefix}/lib/rpm/pkgconfigdeps.sh
+%{_prefix}/lib/rpm/ocamldeps.sh
+%{_prefix}/lib/rpm/rpm_macros_provides.sh
+%{_prefix}/lib/rpm/elfdeps
+%{_prefix}/lib/rpm/rpmdeps
+%{_prefix}/lib/rpm/rpmuncompress
+%{_prefix}/bin/rpmspec
+%{_prefix}/lib/rpm/brp-*
+%{_prefix}/lib/rpm/check-*
+%{_prefix}/lib/rpm/*find*
+%{_prefix}/lib/rpm/fileattrs/
+%{_prefix}/lib/rpm/*.prov
+%{_prefix}/lib/rpm/*.req
 %ifarch aarch64 ppc64le riscv64 loongarch64
-/usr/lib/rpm/config.guess
-/usr/lib/rpm/config.sub
+%{_prefix}/lib/rpm/config.guess
+%{_prefix}/lib/rpm/config.sub
+%{_libdir}/librpmbuild.so.*
 %endif
 
 %files devel
 %defattr(644,root,root,755)
-/usr/include/rpm
+%{_prefix}/include/rpm
 %{_libdir}/librpm.so
 %{_libdir}/librpmbuild.so
 %{_libdir}/librpmio.so
@@ -433,7 +402,7 @@ sed -e '/^%%__systemd_sysusers/s/^/#/' -i %{buildroot}/usr/lib/rpm/macros
 
 %files plugin-unshare
 %defattr(-,root,root)
-/usr/lib/rpm/macros.d/macros.transaction_unshare
+%{_prefix}/lib/rpm/macros.d/macros.transaction_unshare
 %doc %{_mandir}/man8/rpm-plugin-unshare*
 
 %changelog
