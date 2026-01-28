@@ -9,7 +9,7 @@ Version:        1.4.335.0
 Release:        %autorelease
 Summary:        Header files from the SPIR-V registry
 License:        MIT
-URL:            https://github.com/KhronosGroup/SPIRV-Headers/
+URL:            https://github.com/KhronosGroup/SPIRV-Headers
 #!RemoteAsset
 Source0:        https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/vulkan-sdk-%{version}.tar.gz
 BuildSystem:    cmake
