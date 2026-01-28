@@ -18,6 +18,7 @@ Release:        %autorelease
 Summary:        A modern programming language for GNOME
 License:        LGPL-2.1-or-later AND BSD-2-Clause
 URL:            https://wiki.gnome.org/Projects/Vala
+VCS:            git:https://gitlab.gnome.org/GNOME/vala.git
 #!RemoteAsset
 Source:         https://download.gnome.org/sources/%{name}/%{release_version}/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
@@ -34,14 +35,14 @@ BuildRequires:  automake
 BuildRequires:  libtool
 BuildRequires:  bison
 BuildRequires:  flex
-BuildRequires:  gobject-introspection-devel
+BuildRequires:  pkgconfig(gobject-introspection-1.0)
 BuildRequires:  libxslt
 BuildRequires:  make
 BuildRequires:  pkgconfig(gobject-2.0)
 # for test
 BuildRequires:  dbus-tools
 %if %{with graphbiz}
-BuildRequires:  graphviz-devel
+BuildRequires:  pkgconfig(libgvc)
 %endif
 
 %description
