@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -14,14 +15,18 @@ URL:            https://github.com/thkukuk/rpcsvc-proto
 Source:         https://github.com/thkukuk/rpcsvc-proto/archive/refs/tags/v%{version}.tar.gz
 BuildSystem:    autotools
 
-BuildRequires:  libtool automake autoconf make gcc
+BuildRequires:  libtool
+BuildRequires:  automake
+BuildRequires:  autoconf
+BuildRequires:  make
+BuildRequires:  gcc
 
 %description
 The rpcsvc-proto package includes several rpcsvc header files
 and the rpcgen protocol compiler from SunRPC sources.
 This is a metapackage for dependency resolution.
 
-%package -n     rpcgen
+%package     -n rpcgen
 Summary:        RPC protocol compiler
 
 %description -n rpcgen
