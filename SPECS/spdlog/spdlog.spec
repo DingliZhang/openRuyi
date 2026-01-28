@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -15,27 +16,27 @@ URL:            https://github.com/gabime/spdlog
 Source:         https://github.com/gabime/spdlog/archive/refs/tags/v%{version}.tar.gz
 BuildSystem:    cmake
 
-BuildOption(conf): -DSPDLOG_BUILD_SHARED:BOOL=ON
-BuildOption(conf): -DSPDLOG_BUILD_EXAMPLE:BOOL=OFF
-BuildOption(conf): -DSPDLOG_INSTALL:BOOL=ON
-BuildOption(conf): -DSPDLOG_FMT_EXTERNAL:BOOL=ON
-BuildOption(conf): -DSPDLOG_BUILD_BENCH:BOOL=OFF
-BuildOption(conf): -DSPDLOG_BUILD_TESTS:BOOL=OFF
+BuildOption(conf):  -DSPDLOG_BUILD_SHARED:BOOL=ON
+BuildOption(conf):  -DSPDLOG_BUILD_EXAMPLE:BOOL=OFF
+BuildOption(conf):  -DSPDLOG_INSTALL:BOOL=ON
+BuildOption(conf):  -DSPDLOG_FMT_EXTERNAL:BOOL=ON
+BuildOption(conf):  -DSPDLOG_BUILD_BENCH:BOOL=OFF
+BuildOption(conf):  -DSPDLOG_BUILD_TESTS:BOOL=OFF
 
 BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  ninja
-BuildRequires:  fmt-devel >= 10.0.0
+BuildRequires:  pkgconfig(fmt)
 
 %description
 A header-only and compiled C++ logging library, designed to be as fast as possible.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       libstdc++-devel
-Requires:       fmt-devel
+Requires:       pkgconfig(fmt)
 
 %description    devel
 This package contains C++ header files and development libraries for spdlog.
