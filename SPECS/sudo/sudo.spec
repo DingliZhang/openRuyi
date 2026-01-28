@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -11,11 +12,13 @@ Release:        %autorelease
 Summary:        Allows restricted root access for specified users
 License:        ISC
 URL:            https://www.sudo.ws
+VCS:            git:https://github.com/sudo-project/sudo.git
 #!RemoteAsset
 Source0:        https://www.sudo.ws/dist/%{name}-%{version}.tar.gz
 Source1:        sudoers.conf
 Source2:        sudo.pam
 Source3:        sudo-i.pam
+BuildSystem:    autotools
 
 # NOTE: Temporarily disable applying CVE patches below.
 # These patches (CVE-2025-32462 / CVE-2025-32463) have not yet been checked
@@ -25,32 +28,41 @@ Source3:        sudo-i.pam
 # Patch0:         0001-CVE-2025-32462.patch
 # Patch1:         0002-CVE-2025-32463.patch
 
-BuildSystem:    autotools
-BuildRequires:  pam-devel groff flex bison automake autoconf libtool
-BuildRequires:  libcap-devel libselinux-devel gettext zlib-devel
-Requires:       pam
+BuildOption(conf):  --disable-root-mailer
+BuildOption(conf):  --disable-intercept
+BuildOption(conf):  --disable-log-server
+BuildOption(conf):  --disable-log-client
+BuildOption(conf):  --with-logging=syslog
+BuildOption(conf):  --with-logfac=authpriv
+BuildOption(conf):  --with-pam
+BuildOption(conf):  --with-pam-login
+BuildOption(conf):  --with-editor=/bin/vi
+BuildOption(conf):  --with-env-editor
+BuildOption(conf):  --with-ignore-dot
+BuildOption(conf):  --with-tty-tickets
+BuildOption(conf):  --without-ldap
+BuildOption(conf):  --with-selinux
+BuildOption(conf):  --with-passprompt="[sudo] password for %p: "
+BuildOption(conf):  --without-linux-audit
+BuildOption(conf):  --with-sssd
+BuildOption(install):  install_uid=`id -u` install_gid=`id -g` sudoers_uid=`id -u` sudoers_gid=`id -g`
+
+BuildRequires:  pkgconfig(pam)
+BuildRequires:  groff
+BuildRequires:  flex
+BuildRequires:  bison
+BuildRequires:  automake
+BuildRequires:  autoconf
+BuildRequires:  libtool
+BuildRequires:  pkgconfig(libcap)
+BuildRequires:  pkgconfig(libselinux)
+BuildRequires:  gettext
+BuildRequires:  pkgconfig(zlib)
+
 Recommends:     vim-minimal
+
+Requires:       pam
 Requires(post): coreutils
-
-BuildOption(conf): --disable-root-mailer
-BuildOption(conf): --disable-intercept
-BuildOption(conf): --disable-log-server
-BuildOption(conf): --disable-log-client
-BuildOption(conf): --with-logging=syslog
-BuildOption(conf): --with-logfac=authpriv
-BuildOption(conf): --with-pam
-BuildOption(conf): --with-pam-login
-BuildOption(conf): --with-editor=/bin/vi
-BuildOption(conf): --with-env-editor
-BuildOption(conf): --with-ignore-dot
-BuildOption(conf): --with-tty-tickets
-BuildOption(conf): --without-ldap
-BuildOption(conf): --with-selinux
-BuildOption(conf): --with-passprompt="[sudo] password for %p: "
-BuildOption(conf): --without-linux-audit
-BuildOption(conf): --with-sssd
-
-BuildOption(install): install_uid=`id -u` install_gid=`id -g` sudoers_uid=`id -u` sudoers_gid=`id -g`
 
 %description
 Sudo is a program designed to allow a sysadmin to give limited root privileges
@@ -59,7 +71,7 @@ privileges as possible but still allow people to get their work done.
 
 %package        devel
 Summary:        Development files for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 The %{name}-devel package contains header files for developing sudo plugins.
