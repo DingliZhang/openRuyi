@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -11,23 +12,25 @@ Version:        1.46
 Release:        %autorelease
 Summary:        Wayland protocols that add functionality not available in the core protocol
 License:        MIT
-URL:            ttps://gitlab.freedesktop.org/wayland/wayland-protocols
+URL:            https://gitlab.freedesktop.org/wayland/wayland-protocols
 #!RemoteAsset
 Source0:        https://gitlab.freedesktop.org/wayland/wayland-protocols/-/archive/%{version}/wayland-protocols-%{version}.tar.bz2
 BuildSystem:    meson
 
+%if %{with test}
+BuildOption(conf):  -Dtests=true
+%else
+BuildOption(conf):  -Dtests=false
+%endif
+
 BuildRequires:  meson
 BuildRequires:  pkgconfig(wayland-scanner)
 BuildRequires:  pkgconfig
-
 %if %{with test}
-BuildOption(conf): -Dtests=true
 BuildRequires:  python3
 BuildRequires:  gcc
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-server)
-%else
-BuildOption(conf): -Dtests=false
 %endif
 
 %description
