@@ -131,7 +131,7 @@ BuildRequires:  pcp-devel
 BuildRequires:  docbook-style-dsssl
 BuildRequires:  doxygen
 
-Requires:       %{name}-libs = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description
 Samba is the standard Windows interoperability suite of programs for Linux and
@@ -139,7 +139,7 @@ Unix.
 
 %package        client
 Summary:        Samba client programs
-Requires:       %{name}-libs = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description    client
 This package provides some SMB/CIFS clients to complement the built-in SMB/CIFS
@@ -148,8 +148,8 @@ to SMB/CIFS printers.
 
 %package        devel
 Summary:        Developer tools for Samba libraries
-Requires:       %{name}-libs = %{version}-%{release}
-Requires:       libwbclient = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+Requires:       libwbclient%{?_isa} = %{version}-%{release}
 
 %description    devel
 This package contains the header files for the libraries needed to develop
@@ -163,10 +163,10 @@ This package contains internal libraries needed by the SMB/CIFS clients.
 
 %package        ad-dc
 Summary:        Samba AD Domain Controller
-Requires:       %{name} = %{version}-%{release}
-Requires:       %{name}-client = %{version}-%{release}
-Requires:       %{name}-libs = %{version}-%{release}
-Requires:       ldb = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-client%{?_isa} = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+Requires:       ldb%{?_isa} = %{version}-%{release}
 Requires:       python3-ldb
 Requires:       python3-%{name} = %{version}-%{release}
 
@@ -175,8 +175,8 @@ This package provides AD Domain Controller functionality
 
 %package        winbind
 Summary:        Samba winbind
-Requires:       %{name}-client = %{version}-%{release}
-Requires:       %{name}-libs = %{version}-%{release}
+Requires:       %{name}-client%{?_isa} = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description    winbind
 This package provides the winbind NSS library, and some client tools.
@@ -188,8 +188,8 @@ Windows user and group accounts on Linux.
 Summary:        Samba Python libraries
 Provides:       python3-%{name}
 %python_provide python3-%{name}
-Requires:       %{name} = %{version}-%{release}
-Requires:       %{name}-client = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-client%{?_isa} = %{version}-%{release}
 Requires:       python3-ldb
 Requires:       python3-talloc
 Requires:       python3-tdb
@@ -218,7 +218,7 @@ Summary:        Ldb Python bindings
 License:        LGPL-3.0-or-later
 Provides:       python3-ldb
 %python_provide python3-ldb
-Requires:       ldb = %{version}-%{release}
+Requires:       ldb%{?_isa} = %{version}-%{release}
 
 %description -n python-ldb
 Python bindings for the LDB library
