@@ -19,45 +19,6 @@ URL:            https://github.com/linux-rdma/rdma-core
 Source:         https://github.com/linux-rdma/rdma-core/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildSystem:    cmake
 
-BuildRequires:  binutils
-BuildRequires:  cmake
-BuildRequires:  gcc
-BuildRequires:  ninja
-# perl is needed for the proper rpm macros
-BuildRequires:  perl
-BuildRequires:  perl-macros
-BuildRequires:  perl-devel
-BuildRequires:  pkgconfig
-BuildRequires:  python3
-BuildRequires:  pkgconfig(libsystemd)
-BuildRequires:  pkgconfig(libudev)
-BuildRequires:  pkgconfig(udev)
-%if %{with pyverbs}
-BuildRequires:  libdrm-devel
-BuildRequires:  python3-Cython
-BuildRequires:  pkgconfig(python3)
-%endif
-BuildRequires:  systemd-rpm-macros
-BuildRequires:  pkgconfig(libnl-3.0)
-BuildRequires:  pkgconfig(libnl-route-3.0)
-BuildRequires:  pkgconfig(systemd)
-Requires:       kmod
-Requires:       systemd
-Requires:       udev
-
-Provides:       %{name}-libs = %{version}-%{release}
-Provides:       libibverbs = %{version}-%{release}
-Provides:       libibverbs%{?_isa} = %{version}-%{release}
-Provides:       libibnetdisc = %{version}-%{release}
-Provides:       libibmad = %{version}-%{release}
-Provides:       libibumad = %{version}-%{release}
-Provides:       librdmacm = %{version}-%{release}
-Provides:       libefa = %{version}-%{release}
-Provides:       libhns = %{version}-%{release}
-Provides:       libmana = %{version}-%{release}
-Provides:       libmlx4 = %{version}-%{release}
-Provides:       libmlx5 = %{version}-%{release}
-
 BuildOption(conf):  -DCMAKE_MODULE_LINKER_FLAGS="-Wl,--as-needed -Wl,-z,now"
 BuildOption(conf):  -DCMAKE_INSTALL_LIBEXECDIR:PATH=%{_libexecdir}
 BuildOption(conf):  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=%{_localstatedir}
@@ -80,6 +41,46 @@ BuildOption(conf):  -DNO_PYVERBS=0
 %else
 BuildOption(conf):  -DNO_PYVERBS=1
 %endif
+
+BuildRequires:  binutils
+BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  ninja
+# perl is needed for the proper rpm macros
+BuildRequires:  perl
+BuildRequires:  perl-macros
+BuildRequires:  perl-devel
+BuildRequires:  pkgconfig
+BuildRequires:  python3
+BuildRequires:  pkgconfig(libsystemd)
+BuildRequires:  pkgconfig(libudev)
+BuildRequires:  pkgconfig(udev)
+%if %{with pyverbs}
+BuildRequires:  libdrm-devel
+BuildRequires:  python3-Cython
+BuildRequires:  pkgconfig(python3)
+%endif
+BuildRequires:  systemd-rpm-macros
+BuildRequires:  pkgconfig(libnl-3.0)
+BuildRequires:  pkgconfig(libnl-route-3.0)
+BuildRequires:  pkgconfig(systemd)
+
+Provides:       %{name}-libs = %{version}-%{release}
+Provides:       libibverbs = %{version}-%{release}
+Provides:       libibverbs%{?_isa} = %{version}-%{release}
+Provides:       libibnetdisc = %{version}-%{release}
+Provides:       libibmad = %{version}-%{release}
+Provides:       libibumad = %{version}-%{release}
+Provides:       librdmacm = %{version}-%{release}
+Provides:       libefa = %{version}-%{release}
+Provides:       libhns = %{version}-%{release}
+Provides:       libmana = %{version}-%{release}
+Provides:       libmlx4 = %{version}-%{release}
+Provides:       libmlx5 = %{version}-%{release}
+
+Requires:       kmod
+Requires:       systemd
+Requires:       udev
 
 %description
 RDMA core userspace infrastructure and documentation, including initialization
