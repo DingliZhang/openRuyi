@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <jialin.oerv@isrc.iscas.ac.cn>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -14,6 +15,7 @@ Release:        %autorelease
 Summary:        The Qt Graphs module enables you to visualize data in 3D
 License:        BSD-3-Clause AND GFDL-1.3-no-invariants-only AND GPL-3.0-only
 URL:            https://doc.qt.io/qt-6/qtgraphs-index.html
+VCS:            git:https://code.qt.io/qt/qtgraphs.git
 #!RemoteAsset
 Source0:        https://download.qt.io/official_releases/qt/%{short_version}/%{real_version}/submodules/%{qt_module}-everywhere-src-%{real_version}.tar.xz
 BuildSystem:    cmake
@@ -28,8 +30,8 @@ BuildRequires:  pkgconfig(Qt6Core)
 BuildRequires:  pkgconfig(Qt6Gui)
 BuildRequires:  pkgconfig(Qt6Widgets)
 BuildRequires:  qt6-base-private-devel
-BuildRequires:  qt6-declarative-devel >= %{version}
-BuildRequires:  qt6-quick3d-devel >= %{version}
+BuildRequires:  pkgconfig(Qt6Quick) >= %{version}
+BuildRequires:  pkgconfig(Qt6Quick3D) >= %{version}
 
 %description
 The Qt Graphs module enables you to visualize data in 3D as bar,
@@ -38,17 +40,17 @@ depth maps and large quantities of rapidly changing data.
 
 %package        devel
 Summary:        Development Files for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig(Qt6Gui)
-Requires:       qt6-declarative-devel
-Requires:       qt6-quick3d-devel
+Requires:       pkgconfig(Qt6Quick)
+Requires:       pkgconfig(Qt6Quick3D)
 
 %description    devel
 Development files for %{name}.
 
 %package        examples
 Summary:        Programming examples for %{name}
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    examples
 Programming examples for %{name}.
