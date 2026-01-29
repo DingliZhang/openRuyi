@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <jialin.oerv@isrc.iscas.ac.cn>
 # SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
@@ -12,7 +12,7 @@ Summary:        Package management service
 License:        GPL-2.0-or-later AND LGPL-2.1-or-later AND FSFAP
 URL:            http://www.freedesktop.org/software/PackageKit/
 VCS:            git:https://github.com/PackageKit/PackageKit
-#!RemoteAsset
+#!RemoteAsset:  sha256:d41d7bed865f827588e89727594d12a8059ed67fff50c7f323147dc11e7d0eb1
 Source:         https://github.com/PackageKit/PackageKit/archive/refs/tags/v%{version}.tar.gz
 BuildSystem:    meson
 
@@ -106,7 +106,6 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/en_GB/
 %{_libexecdir}/packagekit-direct
 %{_bindir}/pkmon
 %{_bindir}/pkcon
-%exclude %{_libdir}/libpackagekit*.so.*
 %{_libdir}/packagekit-backend/libpk_backend_dummy.so
 %{_libdir}/packagekit-backend/libpk_backend_test_*.so
 %ghost %verify(not md5 size mtime) %attr(0644,-,-) %{_localstatedir}/lib/PackageKit/transactions.db
