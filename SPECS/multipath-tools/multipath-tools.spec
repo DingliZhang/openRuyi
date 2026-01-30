@@ -51,9 +51,8 @@ The tools are :
 * multipathd - Detects when paths fail and execs multipath to update things.
 
 %package        libs
-Summary: The multipath-tools modules and shared library
-# only libmpathcmd is LGPL-2.1-or-later AND LGPL-2.0-or-later
-License: GPL-2.0-or-later AND LGPL-2.1-or-later AND LGPL-2.0-or-later
+Summary:        The multipath-tools modules and shared library
+License:        GPL-2.0-or-later AND LGPL-2.1-or-later AND LGPL-2.0-or-later
 
 %description    libs
 The multipath-tools-libs provides the path checker
@@ -63,8 +62,8 @@ libmultipath.
 
 %package        devel
 Summary:        Development libraries and headers for %{name}
-Requires:       %{name} = %{version}-%{release}
-Requires:       %{name}-libs = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description    devel
 This package contains the files need to develop applications that use
@@ -90,7 +89,7 @@ C API library.
 %package     -n libdmmp-devel
 Summary:        device-mapper-multipath C API library headers
 Requires:       pkgconfig
-Requires:       libdmmp = %{version}-%{release}
+Requires:       libdmmp%{?_isa} = %{version}-%{release}
 
 %description -n libdmmp-devel
 This package contains the files needed to develop applications that use
