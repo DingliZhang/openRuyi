@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
 # SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
+# SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
@@ -13,6 +14,7 @@ URL:            https://github.com/Distrotech/ORBit2
 #!RemoteAsset
 Source:         https://download.gnome.org/sources/ORBit2/2.14/ORBit2-%{version}.tar.gz
 BuildSystem:    autotools
+
 Patch0:         0001-ORBit2-2.14.3-multilib.patch
 # handle ref leaks in the a11y stack more gracefully
 Patch1:         0002-ORBit2-2.14.3-ref-leaks.patch
@@ -25,15 +27,15 @@ Patch4:         0005-ORBit2-configure-c99.patch
 # Cast the type of pointer to to build successfully.
 Patch5:         0006-pointer-type.patch
 
-BuildOption(conf): --disable-gtk-doc
-BuildOption(conf): --enable-purify
-BuildOption(conf): --disable-static
-BuildOption(conf): --disable-rpath
+BuildOption(conf):  --disable-gtk-doc
+BuildOption(conf):  --enable-purify
+BuildOption(conf):  --disable-static
+BuildOption(conf):  --disable-rpath
 
 BuildRequires:  make
 BuildRequires:  pkgconfig
-BuildRequires:  pkgconfig(glib-2.0) >= 2.0
-BuildRequires:  pkgconfig(libIDL-2.0) >= 0.8.0
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(libIDL-2.0)
 BuildRequires:  libtool
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -45,9 +47,12 @@ and receive replies from other programs, regardless of their locations.
 
 %package        devel
 Summary:        Development libraries, header files and utilities for ORBit
-Requires:       %{name} = %{version}
-Requires:       indent libidl-devel  glib-devel
-Requires:       pkgconfig automake
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       indent
+Requires:       pkgconfig(libIDL-2.0)
+Requires:       pkgconfig(glib-2.0)
+Requires:       pkgconfig
+Requires:       automake
 
 %description    devel
 This package contains the header files, libraries and utilities necessary
