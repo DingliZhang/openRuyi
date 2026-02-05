@@ -6,7 +6,7 @@
 # Enabling LTO will cause the compilation to fail.
 %global _lto_cflags           %{nil}
 %global nodejs_major          24
-%global nodejs_minor          9
+%global nodejs_minor          13
 %global nodejs_patch          0
 %global nodejs_abi            %{nodejs_major}.%{nodejs_minor}
 %global nodejs_soversion      137
@@ -15,12 +15,12 @@
 %global v8_major              13
 %global v8_minor              6
 %global v8_build              233
-%global v8_patch              10
+%global v8_patch              17
 %global v8_abi                %{v8_major}.%{v8_minor}
 %global v8_version            %{v8_major}.%{v8_minor}.%{v8_build}.%{v8_patch}
 
 %global punycode_version      2.1.0
-%global npm_version           11.6.0
+%global npm_version           11.6.2
 
 %global uvwasi_version        0.0.23
 %global histogram_version     0.11.9
@@ -32,7 +32,7 @@ Summary:        JavaScript runtime
 License:        MIT AND Apache-2.0 AND ISC AND BSD AND AFL-2.1
 URL:            https://nodejs.org/
 VCS:            git:https://github.com/nodejs/node
-#!RemoteAsset:  sha256:f17bc4cb01f59098c34a288c1bb109a778867c14eeb0ebbd608d0617b1193bbf
+#!RemoteAsset:  sha256:320fe909cbb347dcf516201e4964ef177b8138df9a7f810d0d54950481b3158b
 Source0:        https://nodejs.org/dist/v%{version}/node-v%{version}.tar.xz
 Source1:        nodejs_native.attr
 BuildSystem:    autotools
@@ -42,6 +42,11 @@ BuildSystem:    autotools
 Patch0:         hwy-broken-rvv.diff
 Patch1:         v8-riscv-fix-trampoline.patch
 Patch2:         v8-riscv-fix-trampoline-release.patch
+# patch from https://github.com/nodejs/node/pull/61666
+Patch3:         v8-riscv-fix-sp.patch
+# from https://github.com/felixonmars/archriscv-packages/blob/master/nodejs-lts-krypton/{60588,60591}.diff
+Patch4:         60588.diff
+Patch5:         60591.diff
 
 BuildRequires:  chrpath
 BuildRequires:  gcc-c++
