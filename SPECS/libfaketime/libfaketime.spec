@@ -1,10 +1,11 @@
-# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: yyjeqhc <1772413353@qq.com>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
+%define _lto_cflags %{nil}
 %global _test_target test
 
 Name:           libfaketime
@@ -22,6 +23,13 @@ BuildOption(build):   LIBDIRNAME=%{_libdir}/%{name}
 BuildOption(install): DESTDIR=%{buildroot}
 BuildOption(install): PREFIX=%{_prefix}
 BuildOption(install): LIBDIRNAME=/%{_lib}
+%ifarch riscv64
+BuildOption(build):   FAKETIME_COMPILE_CFLAGS='%{build_cflags} -DFORCE_MONOTONIC_FIX -DFORCE_PTHREAD_NONVER'
+BuildOption(check):   FAKETIME_COMPILE_CFLAGS='%{build_cflags} -DFORCE_MONOTONIC_FIX -DFORCE_PTHREAD_NONVER'
+%else
+BuildOption(build):   FAKETIME_COMPILE_CFLAGS='%{build_cflags}'
+BuildOption(check):   FAKETIME_COMPILE_CFLAGS='%{build_cflags}'
+%endif
 
 %description
 libfaketime allows you to report a faked system time to programs without
