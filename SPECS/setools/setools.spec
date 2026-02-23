@@ -31,6 +31,10 @@ BuildRequires:  flex
 BuildRequires:  pkgconfig(libsepol)
 BuildRequires:  pkgconfig(libselinux)
 BuildRequires:  swig
+# For tests.
+BuildRequires:  pytest
+BuildRequires:  checkpolicy
+BuildRequires:  python3-networkx >= 2.6
 
 Requires:       %{name}-console = %{version}-%{release}
 Requires:       %{name}-console-analyses = %{version}-%{release}
@@ -83,6 +87,9 @@ Graphical tools for SELinux policy analysis (apol).
 %pyproject_buildrequires
 
 %check
+# Using %buildroot setools.
+rm -rf setools setoolsgui
+%pytest tests
 
 %files console
 %license COPYING.GPL
@@ -107,7 +114,7 @@ Graphical tools for SELinux policy analysis (apol).
 %{_mandir}/ru/man1/sedta*
 %{_mandir}/ru/man1/seinfoflow*
 
-%files -n python3-setools
+%files -n python-setools
 %license COPYING COPYING.LGPL
 %{python3_sitearch}/setools/
 %{python3_sitearch}/setools-*.dist-info/
