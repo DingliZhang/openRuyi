@@ -28,13 +28,14 @@ BuildOption(conf):  --with-perl5
 BuildOption(conf):  --without-tcl
 BuildOption(conf):  --without-java
 BuildOption(conf):  --without-guile
+BuildOption(check):  -j1
 
 BuildRequires:  coreutils
 BuildRequires:  findutils
 BuildRequires:  make
 BuildRequires:  perl
 BuildRequires:  pkgconfig(libpcre2-posix)
-BuildRequires:  python3-devel
+BuildRequires:  pkgconfig(python3)
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gawk
@@ -81,6 +82,17 @@ ccache-swig is a compiler cache. It speeds up re-compilation of C/C++/SWIG
 code by caching previous compiles and detecting when the same compile is
 being done again. ccache-swig is ccache plus support for SWIG.
 
+%package     -n python-swig
+Summary:        Python package metadata for SWIG
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+BuildArch:      noarch
+Provides:       python3-swig
+%python_provide python3-swig
+
+%description -n python-swig
+This package registers swig as installed for Python with pip for the
+purpose of using "swig" in build-system.requires of a pyproject.toml file.
+
 %prep -a
 for all in CHANGES README; do
     iconv -f ISO88591 -t UTF8 < $all > $all.new
@@ -119,9 +131,14 @@ install -pm 644 %{SOURCE1} %{SOURCE2} %{buildroot}%{_sysconfdir}/profile.d
 mkdir -p %{buildroot}%{_datadir}/%{name}/gdb
 install -pm 644 Tools/swig.gdb %{buildroot}%{_datadir}/%{name}/gdb
 
-%check
-export PY3=true
-make check 
+# Create python package metadata
+mkdir -p %{buildroot}%{python3_sitelib}/swig-%{version}.dist-info
+echo "rpm" > %{buildroot}%{python3_sitelib}/swig-%{version}.dist-info/INSTALLER
+cat > %{buildroot}%{python3_sitelib}/swig-%{version}.dist-info/METADATA <<_EOF
+Metadata-Version: 2.1
+Name: swig
+Version: %{version}
+_EOF
 
 %files
 %{_bindir}/swig
@@ -133,6 +150,9 @@ make check
 %files -n ccache-swig
 %{_bindir}/ccache-swig
 %config %{_sysconfdir}/profile.d/ccache-swig.*sh
+
+%files -n python-swig
+%{python3_sitelib}/swig-%{version}.dist-info/
 
 %changelog
 %{?autochangelog}
