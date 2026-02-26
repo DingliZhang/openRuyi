@@ -43,7 +43,7 @@ BuildRequires:  qt6-base-static >= %{version}
 BuildRequires:  qt6-base-private-devel
 BuildRequires:  pkgconfig(Qt6Quick) >= %{version}
 BuildRequires:  pkgconfig(Qt6ShaderTools) >= %{version}
-BuildRequires:  qt6-imageformats >= %{version}
+BuildRequires:  qt6-qtimageformats >= %{version}
 %if %{with system_assimp}
 BuildRequires:  pkgconfig(assimp) >= 5.0.0
 %endif

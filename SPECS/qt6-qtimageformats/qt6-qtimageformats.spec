@@ -8,7 +8,7 @@
 %define real_version 6.10.1
 %define short_version 6.10
 
-Name:           qt6-imageformats
+Name:           qt6-qtimageformats
 Version:        6.10.1
 Release:        %autorelease
 Summary:        Qt6 - QtImageFormats component
