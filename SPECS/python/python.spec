@@ -154,13 +154,13 @@ BuildRequires:  pkgconfig(liblzma)
 %if %{with rpmwheels}
 # Python 3.12 removed the deprecated imp module,
 # the first compatible version of pip is 23.1.2.
-BuildRequires: python-pip-wheel >= 23.1.2
+BuildRequires:  python-pip-wheel >= 23.1.2
 %endif
 
 %if %{without bootstrap}
-BuildRequires: python%{pybasever}
+BuildRequires:  python%{pybasever}
 # for proper automatic provides
-BuildRequires: python3-rpm-generators
+BuildRequires:  python3-rpm-generators
 %endif
 
 %description
