@@ -43,6 +43,7 @@ Requires:       xz
 Requires:       util-linux
 Requires:       systemd
 Requires:       systemd-udev
+Requires:       iproute2
 
 %description
 dracut contains tools to create bootable initramfses for the Linux
@@ -64,9 +65,6 @@ echo -e "#!/bin/bash\nDRACUT_VERSION=%{version}-%{release}" > %{buildroot}%{_pre
 
 # No dash for now
 rm -fr -- %{buildroot}%{_prefix}/lib/dracut/modules.d/10dash
-
-# Remove obsolete modules
-rm -rf -- %{buildroot}%{_prefix}/lib/dracut/modules.d/35network-legacy
 
 # Remove architecture specific modules
 rm -rf -- %{buildroot}%{_prefix}/lib/dracut/modules.d/68cms
@@ -164,6 +162,8 @@ rm -f %{buildroot}%{_mandir}/man?/*suse*
 %{_prefix}/lib/dracut/modules.d/20i18n
 %{_prefix}/lib/dracut/modules.d/30convertfs
 %{_prefix}/lib/dracut/modules.d/35connman
+# TODO: Is this obsolete?
+%{_prefix}/lib/dracut/modules.d/35network-legacy
 %{_prefix}/lib/dracut/modules.d/35network-manager
 %{_prefix}/lib/dracut/modules.d/40network
 %{_prefix}/lib/dracut/modules.d/45drm
