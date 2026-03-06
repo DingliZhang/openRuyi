@@ -96,6 +96,8 @@ export LIBSSH2_SYS_USE_PKG_CONFIG=1
 export RUST_BACKTRACE=1
 DESTDIR=%{buildroot} ./x.py install --config %{SOURCE1} --target %{rust_arch}
 rm -rf %{buildroot}/usr/share/doc/docs
+# rust-objcopy is a hard link to llvm-objcopy, so the conflict build-id.
+strip --remove-section=.note.gnu.build-id %{buildroot}%{_prefix}/lib/rustlib/%{rust_arch}/bin/rust-objcopy
 
 %files
 %license COPYRIGHT LICENSE-APACHE LICENSE-MIT
