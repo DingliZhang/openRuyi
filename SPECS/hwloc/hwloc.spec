@@ -65,16 +65,19 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 rm %{buildroot}%{_datadir}/hwloc/hwloc-dump-hwdata.service
 %endif
 
+%check -p
+# Skip OBS unsupported sched_setaffinity() test.
+sed -i 's/^{$/{return 77;/' tests/hwloc/glibc-sched.c
+
 %files
 %license COPYING
 %doc AUTHORS NEWS README VERSION
-%{_docdir}/hwloc
+%{_docdir}/hwloc/*.*
 %{_datadir}/bash-completion/completions/*
 %{_bindir}/hwloc*
 # lstopo will not provide GUI mode, since X11 or
 # wayland is not imported
 %ifarch x86_64
-%{_sbindir}/hwloc-dump-hwdata
 %{_datadir}/hwloc/hwloc-dump-hwdata.service
 %endif
 %{_bindir}/lstopo
