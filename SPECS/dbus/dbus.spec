@@ -111,10 +111,11 @@ install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysusersdir}/dbus.conf
 mv -f %{buildroot}%{_bindir}/dbus-launch %{buildroot}%{_bindir}/dbus-launch.nox11
 install -d %{buildroot}/run/dbus
 mkdir -p %{buildroot}%{_sysconfdir}/alternatives
-(cd %{buildroot}%{_bindir} && ln -sf ../../etc/alternatives/dbus-launch dbus-launch)
 
-%verifyscript
+%post
+if [ "$1" = 1 ]; then
 %{_sbindir}/update-alternatives --install %{_bindir}/dbus-launch dbus-launch %{_bindir}/dbus-launch.nox11 10
+fi
 
 %preun
 if [ "$1" = 0 ] ; then
@@ -137,9 +138,8 @@ fi
 %doc AUTHORS NEWS README
 %doc %{_docdir}/dbus
 %attr(4750,root,messagebus) %verify(not mode) %{_libexecdir}/dbus-daemon-launch-helper
-%ghost %{_sysconfdir}/alternatives/dbus-launch
+%ghost %{_bindir}/dbus-launch
 %{_bindir}/dbus-launch.nox11
-%{_bindir}/dbus-launch
 %{_libdir}/libdbus-1.so.*
 
 %files common
