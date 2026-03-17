@@ -12,7 +12,7 @@
 %undefine _cmake_shared_libs
 
 Name:           zlib-ng
-Version:        2.3.2
+Version:        2.3.3
 Release:        %autorelease
 Summary:        Zlib replacement with optimizations
 License:        Zlib
