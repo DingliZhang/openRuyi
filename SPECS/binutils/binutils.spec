@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: (C) 2025, 2026 Institute of Software, Chinese Academy of Sciences (ISCAS)
-# SPDX-FileCopyrightText: (C) 2025, 2026 openRuyi Project Contributors
+# SPDX-FileCopyrightText: (C) 2025 Institute of Software, Chinese Academy of Sciences (ISCAS)
+# SPDX-FileCopyrightText: (C) 2025 openRuyi Project Contributors
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: laokz <zhangkai@iscas.ac.cn>
 # SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
@@ -9,10 +9,6 @@
 # Do not set this in cflags to avoid test failures. Instead, use the LTO option
 # provided by binutils.
 %global _lto_cflags %{nil}
-
-# disable libalternatives for now until it's changed to not
-# introduce cmake/cunit-tests into the bootstrap cycle
-%bcond libalternatives 0
 
 %bcond bootstrap 1
 
@@ -25,8 +21,6 @@ URL:            https://www.gnu.org/software/binutils/
 VCS:            git:https://sourceware.org/git/binutils-gdb.git
 #!RemoteAsset
 Source0:        https://ftpmirror.gnu.org/gnu/binutils/binutils-%{version}.tar.bz2
-#!RemoteAsset
-Source1:        https://ftpmirror.gnu.org/gnu/binutils/binutils-%{version}.tar.bz2.sig
 BuildSystem:    autotools
 
 BuildOption(build):  -C build-dir
@@ -41,11 +35,8 @@ BuildRequires:  texinfo
 BuildRequires:  zlib-ng-compat-static
 BuildRequires:  pkgconfig(libzstd)
 
-%if %{with libalternatives}
-Requires:       alts
-%else
-PreReq:         update-alternatives
-%endif
+Requires(post):  update-alternatives
+Requires(preun):  update-alternatives
 
 %description
 C compiler utilities: ar, as, gprof, ld, nm, objcopy, objdump, ranlib,
@@ -58,7 +49,7 @@ License:        GPL-3.0-or-later
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig(zlib)
 Requires:       pkgconfig(libzstd)
-Provides:       binutils:${%_includedir}/bfd.h
+Provides:       binutils:%{_includedir}/bfd.h
 
 %description    devel
 This package includes header files and static libraries necessary to
@@ -92,28 +83,19 @@ cd build-dir
 cd build-dir
 make DESTDIR=%{buildroot} install-info install
 make DESTDIR=%{buildroot} install-bfd install-opcodes
-if [ ! -f "%{buildroot}/%_bindir/ld.bfd" ]; then
-  mv "%{buildroot}/%_bindir"/{ld,ld.bfd};
+if [ ! -f "%{buildroot}/%{_bindir}/ld.bfd" ]; then
+  mv "%{buildroot}/%{_bindir}"/{ld,ld.bfd};
 else
-  rm -f "%{buildroot}/%_bindir/ld";
+  rm -f "%{buildroot}/%{_bindir}/ld";
 fi
-%if ! 0%{with libalternatives}
-mkdir -p "%{buildroot}/%_sysconfdir/alternatives";
+mkdir -p "%{buildroot}/%{_sysconfdir}/alternatives";
 # Keep older versions of brp-symlink happy
-ln -s "%_sysconfdir/alternatives/ld" "%{buildroot}/%_bindir/ld";
-%else
-ln -s %{_bindir}/alts "%{buildroot}/%_bindir/ld";
-mkdir -p %{buildroot}%{_datadir}/libalternatives/ld;
-cat > %{buildroot}%{_datadir}/libalternatives/ld/1.conf <<EOF
-binary=%{_bindir}/ld.bfd
-EOF
-%endif
+ln -s "%{_sysconfdir}/alternatives/ld" "%{buildroot}/%{_bindir}/ld";
 
 chmod a+x %{buildroot}%{_libdir}/libbfd-*
 chmod a+x %{buildroot}%{_libdir}/libopcodes-*
 # No shared linking outside binutils
 rm %{buildroot}%{_libdir}/lib{bfd,opcodes}.so
-rm %{buildroot}%{_libdir}/lib{bfd,opcodes,ctf,ctf-nobfd}.la
 # Remove unwanted files to shut up rpm
 rm -f %{buildroot}%{_infodir}/configure* $RPM_BUILD_ROOT%{_infodir}/standards.info*
 rm -f %{buildroot}%{_mandir}/man1/dlltool.1 $RPM_BUILD_ROOT%{_mandir}/man1/windres.1 $RPM_BUILD_ROOT%{_mandir}/man1/windmc.1
@@ -131,25 +113,14 @@ cd build-dir
 make RUNTESTFLAGS='TEST_TIMEOUT=600' check
 
 %post
-%if ! %{with libalternatives}
-"%_sbindir/update-alternatives" --install \
-     "%_bindir/ld" ld "%_bindir/ld.bfd" 2
-%endif
-
-%if %{with libalternatives}
-%pre
-# removing old update-alternatives entries
-if [ "$1" -gt 0 ] && [ -f %{_sbindir}/update-alternatives ] ; then
-     "%_sbindir/update-alternatives" --remove ld "%_bindir/ld.bfd";
-fi;
-%endif
+if [ "$1" = 1 ]; then
+update-alternatives --install %{_bindir}/ld ld %{_bindir}/ld.bfd 2
+fi
 
 %preun
-%if ! %{with libalternatives}
 if [ "$1" = 0 ]; then
-     "%_sbindir/update-alternatives" --remove ld "%_bindir/ld.bfd";
+     update-alternatives --remove ld %{_bindir}/ld.bfd
 fi;
-%endif
 
 %files
 %defattr(-,root,root)
@@ -161,13 +132,7 @@ fi;
 %dir %{_libdir}/bfd-plugins
 %{_libdir}/bfd-plugins/libdep.so
 %{_bindir}/*
-%if ! 0%{with libalternatives}
-%ghost %_sysconfdir/alternatives/ld
-%else
-%dir %{_datadir}/libalternatives
-%dir %{_datadir}/libalternatives/ld
-%{_datadir}/libalternatives/ld/2.conf
-%endif
+%ghost %{_sysconfdir}/alternatives/ld
 %doc %{_infodir}/*.gz
 %{_libdir}/lib*-%{version}*.so
 %doc %{_mandir}/man1/*.1.gz
