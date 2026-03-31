@@ -31,7 +31,7 @@ This is a self-contained library containing the MyPaint brush engine.
 
 %package        devel
 Summary:        Development files for libmypaint
-Requires:       %{name}%{?isa} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %description    devel
 This package contains header files and libraries needed for development
