@@ -7,10 +7,10 @@
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
-%global majorver        25
+%global majorver        26
 %global minorver        0
 %global securityver     0
-%global buildver        36
+%global buildver        35
 %global newjavaver      %{majorver}.%{minorver}.%{securityver}
 %global _jvmdir         %_libdir/jvm
 
@@ -23,12 +23,12 @@ Summary:        OpenJDK latest Runtime Environment
 License:        GPL-2.0-only WITH Classpath-exception-2.0
 URL:            https://openjdk.org
 VCS:            git:https://github.com/openjdk/jdk25u
-#!RemoteAsset
+#!RemoteAsset:  sha256:958ce142d3aaa26e170dfbf087321219e8bfac60bc41a6a91d7c68455a765d73
 Source0:        https://github.com/openjdk/jdk%{majorver}u/archive/refs/tags/jdk-%{majorver}+%{buildver}.tar.gz
 %if %{with bootstrap}
-#!RemoteAsset
+#!RemoteAsset:  sha256:3fc35759502b620f010a9cd2b3da8454f8a49a156ceaebb00de1fd8335682d40
 Source1:        https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_riscv64_linux_hotspot_25_36.tar.gz
-#!RemoteAsset
+#!RemoteAsset:  sha256:ee04de95ab9da7287d40bd2173076ecc2a6dd662f007bedfc6eb0380c0ef90e8
 Source2:        https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_x64_linux_hotspot_25_36.tar.gz
 %endif
 
@@ -143,4 +143,4 @@ alternatives --remove java %{_jvmdir}/java-latest-openjdk/bin/java
 %{_jvmdir}/java-latest-openjdk
 
 %changelog
-%{?autochangelog}
+%autochangelog
