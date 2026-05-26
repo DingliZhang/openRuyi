@@ -97,6 +97,12 @@ bash ../configure \
     --with-vendor-url="%{_vendor_url}" \
     --with-vendor-bug-url="%{_vendor_bug_url}" \
     --enable-unlimited-crypto \
+%ifarch riscv64
+%if "%{openruyi_riscv_arch}" == "-march=rva23u64"
+    --with-extra-cflags="-march=rva23u64_zifencei -mabi=lp64d" \
+    --with-extra-cxxflags="-march=rva23u64_zifencei -mabi=lp64d" \
+%endif
+%endif
     --disable-warnings-as-errors
 make images
 popd
