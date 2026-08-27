@@ -1,0 +1,26 @@
+diff --git a/src/hotspot/cpu/riscv/assembler_riscv.hpp b/src/hotspot/cpu/riscv/assembler_riscv.hpp
+index 75c80c35ec1..470ff84fbf4 100644
+--- a/src/hotspot/cpu/riscv/assembler_riscv.hpp
++++ b/src/hotspot/cpu/riscv/assembler_riscv.hpp
+@@ -2252,6 +2252,7 @@ enum VectorMask {
+   INSN(vrsub_vx, 0b1010111, 0b100, 0b000011);
+ 
+   // Vector Slide Instructions
++  INSN(vslide1up_vx, 0b1010111, 0b110, 0b001110);
+   INSN(vslidedown_vx, 0b1010111, 0b100, 0b001111);
+ 
+ #undef INSN
+diff --git a/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp b/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp
+index 5de325e513a..747ac00cb11 100644
+--- a/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp
++++ b/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp
+@@ -2236,7 +2236,8 @@ void MacroAssembler::vector_update_crc32(Register crc, Register buf, Register le
+     }
+ 
+     vmv_v_x(vcrc, zr);
+-    vmv_s_x(vcrc, crc);
++    vmv_v_x(vtmp, zr);
++    vslide1up_vx(vcrc, vtmp, crc);
+ 
+     // multiple of 64
+     srli(blks, len, 6);

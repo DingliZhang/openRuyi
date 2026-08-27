@@ -60,6 +60,29 @@ Provides:       java-openjdk-devel = %{version}-%{release}
 Provides:       java-latest-openjdk-devel = %{version}-%{release}
 Provides:       java-latest-openjdk-headless = %{version}-%{release}
 
+%patchlist
+# Add missing Zbs bset/bclr/binv instructions for RVA23
+2000-RISC-V-add-Zbs-bset-bclr-binv-instructions.patch
+# Add missing Zfa fround.d instruction for RVA23
+2001-RISC-V-implement-Zfa-fround_d.patch
+# Eliminate redundant RVV vset instructions in C2
+2002-RISC-V-Make-RVV-vset-explicit-in-C2.patch
+2003-RISC-V-Track-RVV-vset-policy-and-fix-vsetvli-tail-mask-agnostic.patch
+2004-RISC-V-Remove-redundant-RVV-vset-nodes-in-blocks.patch
+2005-RISC-V-Remove-redundant-RVV-vset-nodes-across-blocks.patch
+2006-C2-Return-inserted-block-from-PhaseCFG-insert_goto_at.patch
+2007-RISC-V-Hoist-loop-invariant-RVV-vset-nodes.patch
+2008-RISC-V-Add-tracing-for-RVV-vset-optimization.patch
+2009-RISC-V-Record-vset-state-for-simple-vector-helper-patterns.patch
+# Fix repeated rematerialization of AddPNode in the RISC-V backend
+2010-C2-Avoid-repeated-AddP-rematerialization.patch
+# Optimize CRC32/CRC32C intrinsics
+2011-RISC-V-implement-CRC32C-intrinsic.patch
+2012-RISC-V-implement-slicing-by-8-CRC32.patch
+2013-RISC-V-fix-tail-handling-in-vector_update_crc32.patch
+# Optimize DES S-box table layout
+2014-Optimize-DESCrypt-S-box-table-layout.patch
+
 %description
 The OpenJDK latest runtime environment.
 
