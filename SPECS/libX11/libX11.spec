@@ -14,7 +14,7 @@ License:        MIT
 URL:            https://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libx11.git
 #!RemoteAsset:  sha256:69606f485c2c07c14ef64f75b7bb326d48587af33795d9ab3e607c0b5f94f11c
-Source0:        https://www.x.org/releases/individual/lib/%{name}-%{version}.tar.xz
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-silent-rules

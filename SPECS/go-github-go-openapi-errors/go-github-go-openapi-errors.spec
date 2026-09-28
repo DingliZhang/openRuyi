@@ -8,12 +8,12 @@
 %define go_import_path  github.com/go-openapi/errors
 
 Name:           go-github-go-openapi-errors
-Version:        0.22.7
+Version:        0.22.8
 Release:        %autorelease
 Summary:        Common error definitions used across the go-openapi projects
 License:        Apache-2.0
 URL:            https://github.com/go-openapi/errors
-#!RemoteAsset:  sha256:e8efab860f5627ac492e7d69f0e354ce0388fa85c35a726d129c321c177e968a
+#!RemoteAsset:  sha256:8eef6d7dda64178dd46ae5b64ddf4f686ca6b729c1a8c133146e0b946b3f84b5
 Source0:        https://github.com/go-openapi/errors/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -1,0 +1,38 @@
+From 26dced0d017b7fc94c3c5a10bfdc288fb61b6737 Mon Sep 17 00:00:00 2001
+From: Sebastiaan van Stijn <github@gone.nl>
+Date: Thu, 22 Aug 2024 12:21:35 +0200
+Subject: [PATCH] fs: fix printf: non-constant format string in call (govet)
+
+Current versions of govet check for printf functions called with a format
+string, but no arguments. This results in linting errors:
+
+    fs/report.go:107:46: printf: non-constant format string in call to gotest.tools/v3/fs.existenceProblem (govet)
+                p = append(p, existenceProblem("content", r.FailureMessage()))
+                                                          ^
+
+This patch changes existenceProblem to use format.Message, which is used
+elsewhere for similar situations.
+
+Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
+
+Backport to v2.3.0.
+https://github.com/gotestyourself/gotest.tools/commit/89b3401
+---
+ fs/report.go | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/report.go b/fs/report.go
+index adc5a5f..1822b3b 100644
+--- a/fs/report.go
++++ b/fs/report.go
+@@ -50,8 +50,8 @@ func errProblem(reason string, err error) problem {
+ 	return problem(fmt.Sprintf("%s: %s", reason, err))
+ }
+ 
+-func existenceProblem(filename, reason string, args ...interface{}) problem {
+-	return problem(filename + ": " + fmt.Sprintf(reason, args...))
++func existenceProblem(filename string, msgAndArgs ...interface{}) problem {
++	return problem(filename + ": " + format.Message(msgAndArgs...))
+ }
+ 
+ func eqResource(x, y resource) []problem {

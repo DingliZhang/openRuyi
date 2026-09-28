@@ -6,14 +6,14 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           libXres
-Version:        1.2.2
+Version:        1.2.3
 Release:        %autorelease
 Summary:        X-Resource extension client library
 License:        X11
 URL:            http://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libxres.git
-#!RemoteAsset
-Source0:        https://www.x.org/pub/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:d2de8f5401d6c86a8992791654547eb8def585dfdc0c08cc16e24ef6aeeb69dc
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildRequires:  autoconf
@@ -51,4 +51,4 @@ rm %{buildroot}%{_libdir}/*.a
 %{_mandir}/man3/*.3*
 
 %changelog
-%{?autochangelog}
+%autochangelog

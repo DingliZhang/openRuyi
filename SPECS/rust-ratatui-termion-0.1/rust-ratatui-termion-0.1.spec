@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 %global crate_name ratatui-termion
-%global full_version 0.1.1
+%global full_version 0.1.2
 %global pkgname ratatui-termion-0.1
 
 Name:           rust-ratatui-termion-0.1
-Version:        0.1.1
+Version:        0.1.2
 Release:        %autorelease
 Summary:        Rust crate "ratatui-termion"
 License:        MIT
 URL:            https://ratatui.rs
-#!RemoteAsset:  sha256:5c16cc35a9d9114e0b2bb4b22018b96ae7f5fe60e2595dc73e622b4e78624835
+#!RemoteAsset:  sha256:87c732202fa5a71a9da0991013f0853e53f87048f45198e3a1ca3ee722accc2f
 Source:         https://static.crates.io/crates/%{crate_name}/%{full_version}/download#/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    rustcrates
@@ -21,8 +21,9 @@ BuildSystem:    rustcrates
 BuildRequires:  rust-rpm-macros
 
 Requires:       crate(instability-0.3/default) >= 0.3.0
-Requires:       crate(ratatui-core-0.1/default) >= 0.1.1
+Requires:       crate(ratatui-core-0.1/default) >= 0.1.2
 Requires:       crate(termion-4/default) >= 4.0.0
+
 Provides:       crate(%{pkgname}) = %{version}
 Provides:       crate(%{pkgname}/default) = %{version}
 Provides:       crate(%{pkgname}/unstable) = %{version}
@@ -43,7 +44,7 @@ This metapackage enables feature "document-features" for the Rust ratatui-termio
 %package     -n %{name}+scrolling-regions
 Summary:        Termion backend for the Ratatui Terminal UI library - feature "scrolling-regions"
 Requires:       crate(%{pkgname}) = %{version}
-Requires:       crate(ratatui-core-0.1/scrolling-regions) >= 0.1.1
+Requires:       crate(ratatui-core-0.1/scrolling-regions) >= 0.1.2
 Provides:       crate(%{pkgname}/scrolling-regions) = %{version}
 
 %description -n %{name}+scrolling-regions

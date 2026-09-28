@@ -13,8 +13,8 @@ Summary:        X.Org X11 libXrender runtime library
 License:        MIT
 URL:            https://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libxrender.git
-#!RemoteAsset
-Source0:        https://www.x.org/releases/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:b832128da48b39c8d608224481743403ad1691bf4e554e4be9c174df171d1b97
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-static
@@ -54,4 +54,4 @@ autoreconf -fiv
 %{_docdir}/libXrender/*
 
 %changelog
-%{?autochangelog}
+%autochangelog

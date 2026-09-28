@@ -16,13 +16,13 @@
 }
 
 Name:           go-golang-x-text
-Version:        0.38.0
+Version:        0.42.0
 Release:        %autorelease
 Summary:        Go text processing support
 License:        BSD-3-Clause
 URL:            https://golang.org/x/text
 VCS:            git:https://github.com/golang/text
-#!RemoteAsset:  sha256:a2506f66cd14b919b0314d396530bfc325d14b2242b5547f827506bee65995b8
+#!RemoteAsset:  sha256:af9793f251b861afbe0619857900726014bb9baef4cbff2167fcebdac2acc690
 Source0:        https://github.com/golang/text/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

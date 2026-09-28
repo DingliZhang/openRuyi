@@ -8,12 +8,12 @@
 %define go_import_path  github.com/gophercloud/gophercloud/v2
 
 Name:           go-github-gophercloud-gophercloud-v2
-Version:        2.12.0
+Version:        2.14.0
 Release:        %autorelease
 Summary:        OpenStack SDK for Go
 License:        Apache-2.0
 URL:            https://github.com/gophercloud/gophercloud
-#!RemoteAsset:  sha256:cb9b18d8d1efb4be3955d0706db97369c94e30fa05b13669c9f0feb1d40f75c3
+#!RemoteAsset:  sha256:89ccd73c1acd2c6ce46344dc38f832993197fe1928208c3012eed712de58cdc9
 Source0:        https://github.com/gophercloud/gophercloud/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

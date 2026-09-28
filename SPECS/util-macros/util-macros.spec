@@ -14,7 +14,7 @@ License:        MIT
 URL:            https://xorg.freedesktop.org/
 VCS:            git:https://gitlab.freedesktop.org/xorg/util/macros.git
 #!RemoteAsset:  sha256:9ac269eba24f672d7d7b3574e4be5f333d13f04a7712303b1821b2a51ac82e8e
-Source:         https://www.x.org/releases/individual/util/util-macros-%{version}.tar.xz
+Source:         https://xorg.freedesktop.org/archive/individual/util/util-macros-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(build):  CFLAGS="%{optflags} -fno-strict-aliasing"

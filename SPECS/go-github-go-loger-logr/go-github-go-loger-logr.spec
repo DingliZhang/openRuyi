@@ -9,15 +9,18 @@
 %define go_import_path  github.com/go-logr/logr
 
 Name:           go-github-go-loger-logr
-Version:        1.4.3
+Version:        1.4.4
 Release:        %autorelease
 Summary:        A simple logging interface for Go
 License:        Apache-2.0
 URL:            https://github.com/go-logr/logr
-#!RemoteAsset:  sha256:195536e2f36cc061abba5e0f9153a227c39fb9f9a673eec571be1cbceb50d9e1
+#!RemoteAsset:  sha256:dd5617d2912ba1b2297a0d0f66316d00ec02e3f030630728cb48cb9c08392569
 Source0:        https://github.com/go-logr/logr/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
+
+# Preserve json.RawMessage rendering with Go 1.27 jsonv2
+Patch2000:      2000-Preserve-json.RawMessage-rendering-with-Go-1.27.patch
 
 BuildRequires:  go
 BuildRequires:  go-rpm-macros

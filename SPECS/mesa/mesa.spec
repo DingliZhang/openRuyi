@@ -11,27 +11,24 @@
 
 Name:           mesa
 Summary:        The Mesa 3D graphics library
-Version:        26.1.1
+Version:        26.2.2
 Release:        %autorelease
 License:        MIT
 URL:            https://mesa3d.org/
 VCS:            git:https://gitlab.freedesktop.org/mesa/mesa
-#!RemoteAsset:  sha256:8bd36c031cc6d0edfec04617527609454ee3a09ad53bdf983b45fc2c1e129b2e
+#!RemoteAsset:  sha256:eeb29ca7e56cfaa8e8a79538dcf834e3b18e501c31bef5145e959ea437cc4216
 Source:         https://archive.mesa3d.org/mesa-%{version}.tar.xz
 BuildSystem:    meson
 
-# Fixes etnaviv disasm unit test failure of excepting "-nan"
-Patch1:         0001-isaspec-decode-manually-print-the-sign-when-printing.patch
 # Patches to allow Zink running on libVK_IMG w/o IMG GLES driver
 # See FD.o gitlab mesa/mesa MRs: !37115
 # The IMG blob related part isn't submitted yet
-Patch2:         mesa-26.1.1-zink-kmsro-for-img-blob.patch
+Patch1:         mesa-26.2.1-zink-kmsro-for-img-blob.patch
 # Patches to fix CTS failures and advertise BXM-4-64 as conformant
-Patch3:         mesa-26.1.1-pvr-conformance.patch
+Patch2:         mesa-26.2.1-pvr-conformance.patch
 
-# nvk is blocked by Rust packaging
 BuildOption(conf):  -Dgallium-drivers=llvmpipe,softpipe,r300,r600,radeonsi,nouveau,virgl,iris,etnaviv,zink,crocus
-BuildOption(conf):  -Dvulkan-drivers=amd,intel,swrast,imagination,virtio,gfxstream,intel_hasvk
+BuildOption(conf):  -Dvulkan-drivers=amd,intel,swrast,imagination,virtio,gfxstream,intel_hasvk,nouveau
 BuildOption(conf):  -Dplatforms=x11,wayland
 
 BuildOption(conf):  -Degl=enabled
@@ -76,6 +73,9 @@ BuildRequires:  python3dist(pycparser)
 BuildRequires:  flex
 BuildRequires:  bison
 BuildRequires:  glslang
+BuildRequires:  rust
+BuildRequires:  bindgen
+BuildRequires:  cbindgen
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  pkgconfig(libdrm)
 BuildRequires:  pkgconfig(libdrm_amdgpu)
@@ -102,6 +102,13 @@ BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-egl-backend)
 BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(vulkan)
+# FIXME: use crate(xxx) when it's allowed by pre-commit hook
+BuildRequires:  rust-syn-2 >= 2.0.87
+BuildRequires:  rust-quote-1 >= 1.0.35
+BuildRequires:  rust-proc-macro2-1 >= 1.0.86
+BuildRequires:  rust-rustc-hash-2 >= 2.1.1
+BuildRequires:  rust-paste-1 >= 1.0.14
+BuildRequires:  rust-unicode-ident-1 >= 1.0.12
 BuildRequires:  lm_sensors-devel
 BuildRequires:  zstd-devel
 BuildRequires:  llvm-devel
@@ -207,6 +214,33 @@ Summary:        Vulkan layers provided by Mesa
 This package contains Vulkan layers provided as part of Mesa project, which
 are to be loaded by the Khronos Vulkan loader, and can be used even for
 non-Mesa drivers.
+
+%prep -a
+# The .wrap files shipped by Mesa hardcodes a version number (which seems to be
+# the minimal requirement). Here, in semantics versioning we trust, so oR-shipped
+# version is wrapped instead.
+update_crate_wrap() {
+    local dirname wrapfile cachedir
+    dirname="$(ls -d /usr/share/cargo/registry/"$1"*)"
+    test -d "$dirname" || exit 1
+    wrapfile="%{_vpath_srcdir}/subprojects/$1-rs.wrap"
+    test -e "$wrapfile" || exit 1
+    cachedir="%{_vpath_srcdir}/subprojects/packagecache/"
+    mkdir -p "$cachedir"
+    cp -r "$dirname" "$cachedir"
+    cat > "$wrapfile" << EOF
+[wrap-file]
+directory = $(basename "$dirname")
+patch_directory = $1-rs
+EOF
+}
+
+update_crate_wrap unicode-ident-1
+update_crate_wrap proc-macro2-1
+update_crate_wrap quote-1
+update_crate_wrap syn-2
+update_crate_wrap rustc-hash-2
+update_crate_wrap paste-1
 
 %files -n libgbm
 %{_libdir}/libgbm.so.1*

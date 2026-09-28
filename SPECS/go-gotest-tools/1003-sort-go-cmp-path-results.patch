@@ -1,0 +1,69 @@
+From 3d2ec8229448eba6a0ae9239a6463df0bee90b65 Mon Sep 17 00:00:00 2001
+From: Sebastiaan van Stijn <github@gone.nl>
+Date: Sun, 14 Mar 2021 12:10:28 +0100
+Subject: [PATCH] go.mod: github.com/google/go-cmp v0.5.5
+
+Version v0.5.x provides various improvements to  the reporter output;
+https://github.com/google/go-cmp/releases
+
+full diff: https://github.com/google/go-cmp/compare/v0.4.0...v0.5.5
+
+Looks like go-cmp filter now may result in results to be returned in
+random random order; this sorts the results before comparing, but I'm
+not sure if order is important (in which case this could actually be
+a bug)
+
+Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
+(cherry picked from commit 65c6ba672eefe084b1fb97e9b8aab9870345b644)
+Signed-off-by: Sebastiaan van Stijn <github@gone.nl>
+
+Backport only the test changes to v2.3.0; keep its module metadata.
+https://github.com/gotestyourself/gotest.tools/commit/77bb3d3
+---
+ assert/opt/opt_test.go | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/assert/opt/opt_test.go b/assert/opt/opt_test.go
+index b5bfb77..6760e99 100644
+--- a/assert/opt/opt_test.go
++++ b/assert/opt/opt_test.go
+@@ -1,6 +1,7 @@
+ package opt
+ 
+ import (
++	"sort"
+ 	"testing"
+ 	"time"
+ 
+@@ -167,6 +168,7 @@ func (p *pathRecorder) record(path gocmp.Path) bool {
+ func matchPaths(fixture interface{}, filter func(gocmp.Path) bool) []string {
+ 	rec := &pathRecorder{filter: filter}
+ 	gocmp.Equal(fixture, fixture, gocmp.FilterPath(rec.record, gocmp.Ignore()))
++	sort.Strings(rec.matches)
+ 	return rec.matches
+ }
+ 
+@@ -240,18 +242,15 @@ func TestPathField(t *testing.T) {
+ 	filter := PathField(nodeValue{}, "Value")
+ 	matches := matchPaths(fixture, filter)
+ 	expected := []string{
+-		"{opt.node}.Value.Value",
+ 		"{opt.node}.Children[0].Value.Value",
+-		"{opt.node}.Children[1].Value.Value",
+-		"{opt.node}.Children[2].Value.Value",
+-		"{opt.node}.Children[2].Ref.Value.Value",
+-
+-		// as of google/go-cmp 0.3.0 PathFilter seems to traverse some parts
+-		// of the tree twice.
+ 		"{opt.node}.Children[0].Value.Value",
+ 		"{opt.node}.Children[1].Value.Value",
+-		"{opt.node}.Children[2].Value.Value",
++		"{opt.node}.Children[1].Value.Value",
++		"{opt.node}.Children[2].Ref.Value.Value",
+ 		"{opt.node}.Children[2].Ref.Value.Value",
++		"{opt.node}.Children[2].Value.Value",
++		"{opt.node}.Children[2].Value.Value",
++		"{opt.node}.Value.Value",
+ 	}
+ 	assert.DeepEqual(t, matches, expected)
+ }

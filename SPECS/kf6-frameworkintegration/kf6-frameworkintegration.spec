@@ -7,18 +7,18 @@
 %define qt6_version 6.8.0
 
 %define rname frameworkintegration
-# Full KF6 version (e.g. 6.27.0)
+# Full KF6 version (e.g. 6.29.0)
 %{!?_kf6_version: %global _kf6_version %{version}}
 
 Name:           kf6-frameworkintegration
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        Plugins responsible for better integration of Qt applications in KDE Workspace
 License:        LGPL-2.1-or-later
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/frameworkintegration.git
-#!RemoteAsset:  sha256:55eefe8ebc67a040e64c75482276c29a69d0c5877b7b3674f4c7a40238c6d44c
-Source:         https://download.kde.org/stable/frameworks/6.27/%{rname}-%{version}.tar.xz
+#!RemoteAsset:  sha256:be01225efe9063e4c4a23dae47ebafed437f1cd06d73ab2de77dfb99e35785b8
+Source:         https://download.kde.org/stable/frameworks/6.29/%{rname}-%{version}.tar.xz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_TESTING=OFF

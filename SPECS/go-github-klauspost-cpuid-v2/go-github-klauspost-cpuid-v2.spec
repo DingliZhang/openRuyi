@@ -8,12 +8,12 @@
 %define go_import_path  github.com/klauspost/cpuid/v2
 
 Name:           go-github-klauspost-cpuid-v2
-Version:        2.3.0
+Version:        2.4.0
 Release:        %autorelease
 Summary:        CPU feature identification for Go
 License:        MIT
 URL:            https://github.com/klauspost/cpuid
-#!RemoteAsset
+#!RemoteAsset:  sha256:84646f95812586763e010f46c7cf2d9aee6774724ff75f34e0ea4a25aa51a437
 Source0:        https://github.com/klauspost/cpuid/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
@@ -43,4 +43,4 @@ of the cpuid library.
 %{go_sys_gopath}/%{go_import_path}
 
 %changelog
-%{?autochangelog}
+%autochangelog

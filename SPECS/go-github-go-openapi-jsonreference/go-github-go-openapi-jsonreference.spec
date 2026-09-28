@@ -10,12 +10,12 @@
 %define go_test_ignore_failure 1
 
 Name:           go-github-go-openapi-jsonreference
-Version:        0.21.6
+Version:        1.0.2
 Release:        %autorelease
 Summary:        json reference for golang
 License:        Apache-2.0
 URL:            https://github.com/go-openapi/jsonreference
-#!RemoteAsset:  sha256:909d747125b6f0444a7bc3ff4787625a4dced88bb6e23ac9e36db99f7d9b08e3
+#!RemoteAsset:  sha256:3a125d518b0cfd1551066d7802088bdaedf2284b091bfc31dc4c489a611adbe9
 Source0:        https://github.com/go-openapi/jsonreference/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

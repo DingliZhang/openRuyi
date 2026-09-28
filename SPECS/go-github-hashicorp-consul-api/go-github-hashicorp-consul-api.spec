@@ -13,12 +13,12 @@
 %global go_test_ignore_failure 1
 
 Name:           go-github-hashicorp-consul-api
-Version:        1.32.1
+Version:        1.34.5
 Release:        %autorelease
 Summary:        Go client library for the HashiCorp Consul HTTP API
 License:        MPL-2.0
 URL:            https://github.com/hashicorp/consul
-#!RemoteAsset:  sha256:ed118767ca37e3caf003b0a2e7e1b0b3b335590950d8f278833bf1cde6b9dc08
+#!RemoteAsset:  sha256:6a017153fe04d02bd6e0210371eea3039db38eeb7d28ed0bcb60e7987ae50b79
 Source0:        https://github.com/hashicorp/consul/archive/refs/tags/api/v%{version}.tar.gz#/%{_name}-api-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

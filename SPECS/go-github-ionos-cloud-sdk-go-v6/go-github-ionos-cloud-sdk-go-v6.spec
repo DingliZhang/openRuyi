@@ -10,12 +10,12 @@
 %global go_test_exclude_glob %{go_import_path}/examples*
 
 Name:           go-github-ionos-cloud-sdk-go-v6
-Version:        6.3.7
+Version:        6.3.11
 Release:        %autorelease
 Summary:        Go SDK for the IONOS Cloud API
 License:        Apache-2.0
 URL:            https://github.com/ionos-cloud/sdk-go
-#!RemoteAsset:  sha256:ad914ab244da87d53ac4acbe4100b22e105b29c4317346e2452fbced0760301f
+#!RemoteAsset:  sha256:e09d19be78d9c5210aeaa9e7880135978a66bd290b390a76b39961fe3e09d173
 Source0:        https://github.com/ionos-cloud/sdk-go/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

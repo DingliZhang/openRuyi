@@ -13,8 +13,8 @@ Summary:        X.Org X11 SM runtime library
 License:        MIT AND MIT-open-group
 URL:            http://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libsm.git
-#!RemoteAsset
-Source0:        https://www.x.org/pub/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:be7c0abdb15cbfd29ac62573c1c82e877f9d4047ad15321e7ea97d1e43d835be
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --with-libuuid
@@ -41,7 +41,7 @@ The X.Org X11 SM (Session Management) development package.
 %{_libdir}/libSM.so.6*
 %doc %{_docdir}/%{name}
 
-%files          devel
+%files devel
 %{_includedir}/X11/*
 %{_libdir}/libSM.so
 %{_libdir}/pkgconfig/sm.pc
@@ -49,4 +49,4 @@ The X.Org X11 SM (Session Management) development package.
 %doc README.md
 
 %changelog
-%{?autochangelog}
+%autochangelog

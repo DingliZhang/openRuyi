@@ -13,8 +13,8 @@ Summary:        X.Org X11 developmental X transport library
 License:        HPND AND HPND-sell-variant AND MIT AND MIT-open-group AND X11
 URL:            http://www.x.org
 VCS:            git:http://gitlab.freedesktop.org/xorg/lib/libxtrans.git
-#!RemoteAsset
-Source0:        https://www.x.org/releases/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:faafea166bf2451a173d9d593352940ec6404145c5d1da5c213423ce4d359e92
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildArch:      noarch
 BuildSystem:    autotools
 
@@ -40,4 +40,4 @@ X.Org X11 developmental X transport library
 %{_datadir}/pkgconfig/xtrans.pc
 
 %changelog
-%{?autochangelog}
+%autochangelog

@@ -8,12 +8,12 @@
 %define go_import_path  github.com/bwesterb/go-ristretto
 
 Name:           go-github-bwesterb-go-ristretto
-Version:        1.2.3
+Version:        1.2.4
 Release:        %autorelease
 Summary:        Pure Go implementation of the Ristretto prime-order group
 License:        MIT
 URL:            https://github.com/bwesterb/go-ristretto
-#!RemoteAsset:  sha256:e4b102e50780181e36918afe9009397b63cddfd89771ce37de2d40ece82f2683
+#!RemoteAsset:  sha256:d8fd053831382b0001ad49411953479e2781459b161c8f9eee2d4bff2dbbd396
 Source0:        https://github.com/bwesterb/go-ristretto/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

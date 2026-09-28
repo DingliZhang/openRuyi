@@ -8,12 +8,12 @@
 %define go_import_path  github.com/cpuguy83/tar2go
 
 Name:           go-github-cpuguy83-tar2go
-Version:        0.3.1
+Version:        0.4.0
 Release:        %autorelease
 Summary:        Expose a tar archive as a Go io/fs filesystem
 License:        MIT
 URL:            https://github.com/cpuguy83/tar2go
-#!RemoteAsset:  sha256:9088bf2ab0459fb981086a1c5024764b7840277f1bbec7b7faf379abe70ca793
+#!RemoteAsset:  sha256:c8fa08a0ab510f7895b9d23a4bdcdf7e39681e81a34b4f193c4c86bf5b17b949
 Source0:        https://github.com/cpuguy83/tar2go/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -13,12 +13,12 @@
 }
 
 Name:           go-github-apache-thrift
-Version:        0.23.0
+Version:        0.24.0
 Release:        %autorelease
 Summary:        Apache Thrift
 License:        Apache-2.0
 URL:            https://github.com/apache/thrift
-#!RemoteAsset:  sha256:087ba9517063c8252e9e7fb4e3891a9fd85e20af80e0309e2276eff16791d75c
+#!RemoteAsset:  sha256:d3a60676b1df3fb9850f6ce1e8a3df9a0efac036ceb4bce8ce46ee3eca735d2d
 Source0:        https://github.com/apache/thrift/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

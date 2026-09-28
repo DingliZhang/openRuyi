@@ -1,0 +1,88 @@
+diff --git a/src/hotspot/cpu/riscv/assembler_riscv.hpp b/src/hotspot/cpu/riscv/assembler_riscv.hpp
+index b657c1f108d..2c22c5db08d 100644
+--- a/src/hotspot/cpu/riscv/assembler_riscv.hpp
++++ b/src/hotspot/cpu/riscv/assembler_riscv.hpp
+@@ -2713,6 +2713,9 @@ enum Nf {
+   INSN(maxu,      0b0110011, 0b111, 0b0000101);
+   INSN(min,       0b0110011, 0b100, 0b0000101);
+   INSN(minu,      0b0110011, 0b101, 0b0000101);
++  INSN(bset,      0b0110011, 0b001, 0b0010100);
++  INSN(bclr,      0b0110011, 0b001, 0b0100100);
++  INSN(binv,      0b0110011, 0b001, 0b0110100);
+ 
+ #undef INSN
+ 
+diff --git a/src/hotspot/cpu/riscv/riscv.ad b/src/hotspot/cpu/riscv/riscv.ad
+index e022dcb4262..baa5b54c34c 100644
+--- a/src/hotspot/cpu/riscv/riscv.ad
++++ b/src/hotspot/cpu/riscv/riscv.ad
+@@ -2785,6 +2785,18 @@ operand immL0()
+   interface(CONST_INTER);
+ %}
+ 
++// 64 bit unit increment
++operand immL_1()
++%{
++  predicate(n->get_long() == 1);
++  match(ConL);
++
++  op_cost(0);
++  format %{ %}
++  interface(CONST_INTER);
++%}
++
++
+ // Pointer operands
+ // Pointer Immediate
+ operand immP()
+diff --git a/src/hotspot/cpu/riscv/riscv_b.ad b/src/hotspot/cpu/riscv/riscv_b.ad
+index a13efa96fc1..0ff088e851c 100644
+--- a/src/hotspot/cpu/riscv/riscv_b.ad
++++ b/src/hotspot/cpu/riscv/riscv_b.ad
+@@ -622,3 +622,45 @@ instruct convI2Bool_andI_reg_immIpowerOf2(iRegINoSp dst, iRegIorL2I src, immIpow
+ 
+   ins_pipe(ialu_reg_reg);
+ %}
++
++// OrL src, (1L << shift) -> bset dst, src, shift
++instruct orL_bset_reg_reg(iRegLNoSp dst, iRegL src, immL_1 one, iRegIorL2I shift) %{
++  predicate(UseZbs);
++  match(Set dst (OrL src (LShiftL one shift)));
++  ins_cost(ALU_COST);
++
++  format %{ "bset  $dst, $src, $shift\t#@orL_bset_reg_reg" %}
++  ins_encode %{
++    __ bset($dst$$Register, $src$$Register, $shift$$Register);
++  %}
++
++  ins_pipe(ialu_reg_reg);
++%}
++
++// AndL src, ~(1<<shift) -> bclr dst, src, shift
++instruct andL_bclr_reg_reg(iRegLNoSp dst, iRegL src, immL_1 one, iRegIorL2I shift, immL_M1 m1) %{
++  predicate(UseZbs);
++  match(Set dst (AndL src (XorL (LShiftL one shift) m1)));
++  ins_cost(ALU_COST);
++
++  format %{ "bclr  $dst, $src, $shift\t#@andL_bclr_reg_reg" %}
++  ins_encode %{
++    __ bclr($dst$$Register, $src$$Register, $shift$$Register);
++  %}
++
++  ins_pipe(ialu_reg_reg);
++%}
++
++// XorL src, (1<<shift) -> binv dst, src, shift
++instruct xorL_binv_reg_reg(iRegLNoSp dst, iRegL src, immL_1 one, iRegIorL2I shift) %{
++  predicate(UseZbs);
++  match(Set dst (XorL (LShiftL one shift) src));
++  ins_cost(ALU_COST);
++
++  format %{ "binv  $dst, $src, $shift\t#@xorL_binv_reg_reg" %}
++  ins_encode %{
++    __ binv($dst$$Register, $src$$Register, $shift$$Register);
++  %}
++
++  ins_pipe(ialu_reg_reg);
++%}
+\ No newline at end of file

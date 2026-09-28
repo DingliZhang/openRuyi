@@ -7,18 +7,18 @@
 %define qt6_version 6.8.0
 
 %define rname attica
-# Full KF6 version (e.g. 6.27.0)
+# Full KF6 version (e.g. 6.29.0)
 %{!?_kf6_version: %global _kf6_version %{version}}
 
 Name:           kf6-attica
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        Open Collaboration Service client library
 License:        LGPL-2.1-or-later
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/attica.git
-#!RemoteAsset:  sha256:8f3d3d61ec8a7456db8a75caa801a2e5f5e046728bd240a003e71b8813093ae4
-Source:         https://download.kde.org/stable/frameworks/6.27/%{rname}-%{version}.tar.xz
+#!RemoteAsset:  sha256:b980fc74c3657efb840322ef35956c0caec07d9efa576cd52d86488937dcc815
+Source:         https://download.kde.org/stable/frameworks/6.29/%{rname}-%{version}.tar.xz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_TESTING=OFF

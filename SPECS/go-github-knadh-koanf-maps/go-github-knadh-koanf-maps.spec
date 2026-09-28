@@ -9,12 +9,12 @@
 %define go_source_subdir maps
 
 Name:           go-github-knadh-koanf-maps
-Version:        0.1.2
+Version:        0.1.3
 Release:        %autorelease
 Summary:        Map utility module for koanf
 License:        MIT
 URL:            https://github.com/knadh/koanf
-#!RemoteAsset:  sha256:2a5c4574eaee632a94e439999655f81b3346d157232b610eb2ebc49fd07ffe5a
+#!RemoteAsset:  sha256:ad591e7f54083126ca5d5e3875c16c95f50743e50540d827fe8558e7715112a3
 Source0:        https://github.com/knadh/koanf/archive/refs/tags/maps/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

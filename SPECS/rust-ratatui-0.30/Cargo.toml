@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.88.0"
 name = "ratatui"
-version = "0.30.1"
+version = "0.30.2"
 authors = [
     "Florian Dehau <work@fdehau.com>",
     "The Ratatui Developers",
@@ -88,6 +88,7 @@ portable-atomic = ["ratatui-core/portable-atomic"]
 scrolling-regions = [
     "ratatui-core/scrolling-regions",
     "ratatui-crossterm?/scrolling-regions",
+    "ratatui-termina?/scrolling-regions",
     "ratatui-termion?/scrolling-regions",
     "ratatui-termwiz?/scrolling-regions",
 ]
@@ -95,6 +96,7 @@ serde = [
     "dep:serde",
     "ratatui-core/serde",
     "ratatui-crossterm?/serde",
+    "ratatui-termina?/serde",
     "ratatui-termion?/serde",
     "ratatui-termwiz?/serde",
     "ratatui-widgets/serde",
@@ -103,6 +105,10 @@ std = [
     "ratatui-core/std",
     "ratatui-widgets/std",
     "serde?/std",
+]
+termina = [
+    "dep:ratatui-termina",
+    "std",
 ]
 termion = [
     "dep:ratatui-termion",
@@ -115,6 +121,7 @@ termwiz = [
 underline-color = [
     "ratatui-core/underline-color",
     "ratatui-crossterm?/underline-color",
+    "ratatui-termina?/underline-color",
     "ratatui-termwiz?/underline-color",
 ]
 unstable = [
@@ -124,6 +131,7 @@ unstable = [
 ]
 unstable-backend-writer = [
     "ratatui-crossterm?/unstable-backend-writer",
+    "ratatui-termina?/unstable-backend-writer",
     "ratatui-termion?/unstable-backend-writer",
 ]
 unstable-rendered-line-info = ["ratatui-widgets/unstable-rendered-line-info"]
@@ -215,22 +223,26 @@ optional = true
 default-features = false
 
 [dependencies.ratatui-core]
-version = "0.1.1"
+version = "0.1.2"
 
 [dependencies.ratatui-crossterm]
-version = "0.1.1"
+version = "0.1.2"
 optional = true
 
 [dependencies.ratatui-macros]
-version = "0.7.1"
+version = "0.7.2"
+optional = true
+
+[dependencies.ratatui-termina]
+version = "0.1.0"
 optional = true
 
 [dependencies.ratatui-termwiz]
-version = "0.1.1"
+version = "0.1.2"
 optional = true
 
 [dependencies.ratatui-widgets]
-version = "0.3.1"
+version = "0.3.2"
 default-features = false
 
 [dependencies.serde]
@@ -238,9 +250,6 @@ version = "1"
 features = ["derive"]
 optional = true
 default-features = false
-
-[dev-dependencies.color-eyre]
-version = "0.6"
 
 [dev-dependencies.criterion]
 version = "0.8"
@@ -253,9 +262,6 @@ features = ["event-stream"]
 [dev-dependencies.fakeit]
 version = "1"
 
-[dev-dependencies.futures]
-version = "0.3"
-
 [dev-dependencies.indoc]
 version = "2"
 
@@ -263,9 +269,6 @@ version = "2"
 version = "1"
 
 [dev-dependencies.rand]
-version = "0.10"
-
-[dev-dependencies.rand_chacha]
 version = "0.10"
 
 [dev-dependencies.rstest]
@@ -279,27 +282,8 @@ version = "0.3.47"
 features = ["local-offset"]
 default-features = false
 
-[dev-dependencies.tokio]
-version = "1"
-features = [
-    "macros",
-    "rt",
-    "rt-multi-thread",
-    "time",
-]
-
-[dev-dependencies.tracing]
-version = "0.1"
-
-[dev-dependencies.tracing-appender]
-version = "0.2"
-
-[dev-dependencies.tracing-subscriber]
-version = "0.3"
-features = ["env-filter"]
-
 [target."cfg(not(windows))".dependencies.ratatui-termion]
-version = "0.1.1"
+version = "0.1.2"
 optional = true
 
 [lints.clippy]

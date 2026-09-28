@@ -9,12 +9,12 @@
 %define go_import_path  github.com/mattn/go-runewidth
 
 Name:           go-github-mattn-go-runewidth
-Version:        0.0.24
+Version:        0.0.30
 Release:        %autorelease
 Summary:        wcwidth for golang
 License:        MIT
 URL:            https://github.com/mattn/go-runewidth
-#!RemoteAsset:  sha256:c88b8da9811e94310db1d5b3f10aebb0d218af2084b548c1dc9a84a0c4daf983
+#!RemoteAsset:  sha256:2e759a73761eab936c67093e8d7d5b7375eb3839dbd96133748ba006715b438e
 Source0:        https://github.com/mattn/go-runewidth/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

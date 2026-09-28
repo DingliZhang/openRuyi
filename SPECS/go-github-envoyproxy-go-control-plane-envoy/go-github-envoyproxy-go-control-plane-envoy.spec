@@ -9,12 +9,12 @@
 %define go_source_subdir envoy
 
 Name:           go-github-envoyproxy-go-control-plane-envoy
-Version:        1.37.0
+Version:        1.39.0
 Release:        %autorelease
 Summary:        Envoy API Go module from go-control-plane
 License:        Apache-2.0
 URL:            https://github.com/envoyproxy/go-control-plane
-#!RemoteAsset:  sha256:311e84ca6659b8eb0a88bf7193579196a543305736ce8a0e12dc450a8faa1139
+#!RemoteAsset:  sha256:c6cca4d43ad9ebd38ecac8720ff7f445102384a4e0e1a79ea2ec8c4f24f2c7ef
 Source0:        https://github.com/envoyproxy/go-control-plane/archive/refs/tags/envoy/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
@@ -24,7 +24,7 @@ BuildRequires:  go(cel.dev/expr)
 BuildRequires:  go(github.com/cncf/xds/go)
 BuildRequires:  go(github.com/envoyproxy/go-control-plane)
 BuildRequires:  go(github.com/envoyproxy/protoc-gen-validate)
-BuildRequires:  go(github.com/planetscale/vtprotobuf)
+BuildRequires:  go(github.com/planetscale/vtprotobuf) >= 0.6
 BuildRequires:  go(github.com/prometheus/client_model)
 BuildRequires:  go(go.opentelemetry.io/proto)
 BuildRequires:  go(golang.org/x/net)
@@ -42,7 +42,7 @@ Requires:       go(cel.dev/expr)
 Requires:       go(github.com/cncf/xds/go)
 Requires:       go(github.com/envoyproxy/go-control-plane)
 Requires:       go(github.com/envoyproxy/protoc-gen-validate)
-Requires:       go(github.com/planetscale/vtprotobuf)
+Requires:       go(github.com/planetscale/vtprotobuf) >= 0.6
 Requires:       go(github.com/prometheus/client_model)
 Requires:       go(go.opentelemetry.io/proto)
 Requires:       go(golang.org/x/net)

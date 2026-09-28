@@ -9,12 +9,12 @@
 %define go_source_subdir providers/confmap
 
 Name:           go-github-knadh-koanf-providers-confmap
-Version:        1.0.0
+Version:        1.0.1
 Release:        %autorelease
 Summary:        Confmap provider module for koanf
 License:        MIT
 URL:            https://github.com/knadh/koanf
-#!RemoteAsset:  sha256:96f291f4f4d1eed2eb8cdf3c74e469bf1d318f2f86822e802267726c5611b1a1
+#!RemoteAsset:  sha256:87325a163fcdba7c369f349c08ecaba6b54f74ddb087b7ef6babf5e55776cffc
 Source0:        https://github.com/knadh/koanf/archive/refs/tags/providers/confmap/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

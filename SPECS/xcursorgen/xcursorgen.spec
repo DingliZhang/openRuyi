@@ -11,7 +11,7 @@ Summary:        Prepare X11 cursor sets for use with libXcursor
 License:        HPND-sell-variant
 URL:            https://gitlab.freedesktop.org/xorg/app/xcursorgen
 #!RemoteAsset:  sha256:0cc9e156ac84ca16ea902710af35e0faffa51d13797071e3b4b6cc7cbd493bbc
-Source0:        https://www.x.org/pub/individual/app/xcursorgen-%{version}.tar.xz
+Source0:        https://xorg.freedesktop.org/archive/individual/app/xcursorgen-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildRequires:  automake
@@ -35,4 +35,4 @@ autoreconf -fiv
 %{_mandir}/man1/xcursorgen.1*
 
 %changelog
-%{?autochangelog}
+%autochangelog

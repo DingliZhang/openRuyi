@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.88.0"
 name = "ratatui-core"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
     "Florian Dehau <work@fdehau.com>",
     "The Ratatui Developers",
@@ -55,6 +55,10 @@ rustdoc-args = [
     "--cfg",
     "docsrs",
 ]
+
+[package.metadata.cargo-udeps.ignore]
+normal = ["critical-section"]
+development = ["critical-section"]
 
 [features]
 anstyle = ["dep:anstyle"]
@@ -111,9 +115,6 @@ optional = true
 [dependencies.hashbrown]
 version = "0.17"
 
-[dependencies.indoc]
-version = "2"
-
 [dependencies.itertools]
 version = "0.14"
 features = ["use_alloc"]
@@ -160,6 +161,9 @@ version = ">=0.2.0"
 [dev-dependencies.critical-section]
 version = "1.2"
 features = ["std"]
+
+[dev-dependencies.indoc]
+version = "2"
 
 [dev-dependencies.pretty_assertions]
 version = "1"

@@ -18,12 +18,12 @@
 }
 
 Name:           go-github-elazarl-goproxy
-Version:        1.8.4
+Version:        1.9.1
 Release:        %autorelease
 Summary:        Customizable HTTP/HTTPS proxy library for Go
 License:        BSD-3-Clause
 URL:            https://github.com/elazarl/goproxy
-#!RemoteAsset:  sha256:2b3cfa8105528451d44bd1a34c70095f9001642cd5c9195c0fc35b01c83d5b27
+#!RemoteAsset:  sha256:ac0dc349576aa7a026a01f38034ae568748bb56502e959778292995b539e12e9
 Source0:        https://github.com/elazarl/goproxy/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

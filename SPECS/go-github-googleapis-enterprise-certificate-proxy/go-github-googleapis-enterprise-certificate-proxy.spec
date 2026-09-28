@@ -20,12 +20,12 @@
 }
 
 Name:           go-github-googleapis-enterprise-certificate-proxy
-Version:        0.3.16
+Version:        0.3.22
 Release:        %autorelease
 Summary:        Enterprise certificate proxy library for Go
 License:        Apache-2.0
 URL:            https://github.com/googleapis/enterprise-certificate-proxy
-#!RemoteAsset:  sha256:0d40c4c4f2ae8b638061e04754f333a4b6ca411e16dc6ca63ae92fa4534b1eb7
+#!RemoteAsset:  sha256:53341b8b9621aa9c2ae40e1d523102230577325541f530bbb3f32ab2e3be16e7
 Source0:        https://github.com/googleapis/enterprise-certificate-proxy/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

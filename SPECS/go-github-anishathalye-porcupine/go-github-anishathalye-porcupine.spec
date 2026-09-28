@@ -8,12 +8,12 @@
 %define go_import_path  github.com/anishathalye/porcupine
 
 Name:           go-github-anishathalye-porcupine
-Version:        1.2.0
+Version:        1.3.0
 Release:        %autorelease
 Summary:        A fast linearizability checker written in Go
 License:        MIT
 URL:            https://github.com/anishathalye/porcupine
-#!RemoteAsset:  sha256:1b53839da4afc284d574ced097eeddab60705fced3aeeeb74922d1a6b3e3ba57
+#!RemoteAsset:  sha256:afca114928295adea579bb4481786ab0cbb3bc69b03e0be50e00b240109e4e2d
 Source0:        https://github.com/anishathalye/porcupine/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -1,0 +1,36 @@
+From a33bc8f11d04ed4ea4a68f5640e984c568d2fe7f Mon Sep 17 00:00:00 2001
+From: zikaeroh <48577114+zikaeroh@users.noreply.github.com>
+Date: Thu, 7 Nov 2019 11:18:01 -0800
+Subject: [PATCH] Unexport testcase.Cleanup to fix Go 1.14
+
+Backport to v2.3.0.
+https://github.com/gotestyourself/gotest.tools/commit/6bc35c2
+---
+ x/subtest/context.go | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/x/subtest/context.go b/x/subtest/context.go
+index 878bdeb..bcf13ee 100644
+--- a/x/subtest/context.go
++++ b/x/subtest/context.go
+@@ -27,9 +27,9 @@ func (tc *testcase) Ctx() context.Context {
+ 	return tc.ctx
+ }
+ 
+-// Cleanup runs all cleanup functions. Functions are run in the opposite order
++// cleanup runs all cleanup functions. Functions are run in the opposite order
+ // in which they were added. Cleanup is called automatically before Run exits.
+-func (tc *testcase) Cleanup() {
++func (tc *testcase) cleanup() {
+ 	for _, f := range tc.cleanupFuncs {
+ 		// Defer all cleanup functions so they all run even if one calls
+ 		// t.FailNow() or panics. Deferring them also runs them in reverse order.
+@@ -59,7 +59,7 @@ type parallel interface {
+ func Run(t *testing.T, name string, subtest func(t TestContext)) bool {
+ 	return t.Run(name, func(t *testing.T) {
+ 		tc := &testcase{TB: t}
+-		defer tc.Cleanup()
++		defer tc.cleanup()
+ 		subtest(tc)
+ 	})
+ }

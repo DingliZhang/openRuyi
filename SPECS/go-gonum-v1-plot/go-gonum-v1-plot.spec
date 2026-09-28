@@ -30,6 +30,9 @@ BuildSystem:    golangmodules
 
 # https://github.com/gonum/plot/commit/d56745857d70e2e68bbcb858ff76fa6000cd8442
 Patch0:         0001-use-cmpimg_equalapprox-for-jpg.patch
+# Avoid byte-exact PNG comparisons broken by Go 1.27 flate changes.
+# Remove once upstream is fixed.
+Patch2000:      2000-tests-avoid-depending-on-exact-PNG-compression-outpu.patch
 
 BuildOption(check):  -short -skip TestDrawGlyphBoxes
 

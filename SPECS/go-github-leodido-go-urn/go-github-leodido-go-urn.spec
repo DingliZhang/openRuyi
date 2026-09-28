@@ -8,12 +8,12 @@
 %define go_import_path  github.com/leodido/go-urn
 
 Name:           go-github-leodido-go-urn
-Version:        1.4.0
+Version:        1.5.0
 Release:        %autorelease
 Summary:        Parser for uniform resource names as seen on RFC 8141, RFC 2141, and RFC 7643
 License:        MIT
 URL:            https://github.com/leodido/go-urn
-#!RemoteAsset
+#!RemoteAsset:  sha256:35af35bdf0d4bb2439c5fb06891b9943da7a20e370d386039f920446e9876587
 Source0:        https://github.com/leodido/go-urn/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
@@ -39,5 +39,4 @@ and on RFC 8141 (https://datatracker.ietf.org/doc/html/rfc8141).
 %{go_sys_gopath}/%{go_import_path}
 
 %changelog
-%{?autochangelog}
-
+%autochangelog

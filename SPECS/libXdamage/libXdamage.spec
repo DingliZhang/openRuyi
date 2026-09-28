@@ -11,7 +11,7 @@ Summary:        X Damage extension library
 License:        MIT
 URL:            https://gitlab.freedesktop.org/xorg/lib/libXdamage
 #!RemoteAsset:  sha256:127067f521d3ee467b97bcb145aeba1078e2454d448e8748eb984d5b397bde24
-Source0:        https://www.x.org/pub/individual/lib/libXdamage-%{version}.tar.xz
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/libXdamage-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-static

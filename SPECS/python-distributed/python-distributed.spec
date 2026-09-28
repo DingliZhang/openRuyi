@@ -28,12 +28,8 @@ BuildOption(check):  -e 'distributed.protocol.cupy'
 BuildOption(check):  -e 'distributed.protocol.keras'
 # No module named 'netCDF4'
 BuildOption(check):  -e 'distributed.protocol.netcdf4'
-# No module named 'numba.cuda'
-BuildOption(check):  -e 'distributed.protocol.numba'
 # No module named 'rmm'
 BuildOption(check):  -e 'distributed.protocol.rmm'
-# No module named 'sparse'
-BuildOption(check):  -e 'distributed.protocol.sparse'
 # No module named 'distributed.utils_test'
 BuildOption(check):  -e 'distributed.utils_test'
 
@@ -49,6 +45,7 @@ BuildRequires:  python3dist(locket)
 BuildRequires:  python3dist(memray)
 BuildRequires:  python3dist(msgpack)
 BuildRequires:  python3dist(numpy)
+BuildRequires:  python3dist(numba)
 BuildRequires:  python3dist(packaging)
 BuildRequires:  python3dist(pip)
 BuildRequires:  python3dist(prometheus-client)
@@ -58,6 +55,7 @@ BuildRequires:  python3dist(pyyaml)
 BuildRequires:  python3dist(scipy)
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(setuptools-scm)
+BuildRequires:  python3dist(sparse)
 BuildRequires:  python3dist(sortedcontainers)
 BuildRequires:  python3dist(tblib)
 BuildRequires:  python3dist(toolz)

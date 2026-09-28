@@ -8,12 +8,12 @@
 %define go_import_path  github.com/go-git/go-billy/v5
 
 Name:           go-github-go-git-go-billy-v5
-Version:        5.9.0
+Version:        5.9.1
 Release:        %autorelease
 Summary:        Filesystem abstraction library for Go
 License:        Apache-2.0
 URL:            https://github.com/go-git/go-billy
-#!RemoteAsset:  sha256:461cf078556b9cf73efb96e99a94c474b82f726a5c160b6d700c43b561828b09
+#!RemoteAsset:  sha256:be22e89fd5e050782201778267080c9b92b89e04e2cef5299d41aee84359a6a6
 Source0:        https://github.com/go-git/go-billy/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -7,13 +7,13 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           kf6-extra-cmake-modules
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        CMake modules
 License:        BSD-3-Clause
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/extra-cmake-modules
-#!RemoteAsset:  sha256:0c748a066f87e07408482cf5f9a5115047c18c92ae7c7f22e59ded3b3ac6c0ad
+#!RemoteAsset:  sha256:9f4f5769d671d6a53c8c559380cfac39020cfdccbd7716e936e9b11b7221ae6d
 Source0:        https://invent.kde.org/frameworks/extra-cmake-modules/-/archive/v%{version}/extra-cmake-modules-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    cmake

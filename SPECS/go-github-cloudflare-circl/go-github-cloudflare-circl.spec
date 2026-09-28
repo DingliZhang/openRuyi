@@ -8,12 +8,12 @@
 %define go_import_path  github.com/cloudflare/circl
 
 Name:           go-github-cloudflare-circl
-Version:        1.6.3
+Version:        1.6.5
 Release:        %autorelease
 Summary:        CIRCL: Cloudflare Interoperable Reusable Cryptographic Library
 License:        BSD-3-Clause
 URL:            https://github.com/cloudflare/circl
-#!RemoteAsset:  sha256:1bf5a8618060d189780981675ef41fadf80da00069e80fa85c79554ed339d955
+#!RemoteAsset:  sha256:8f5d8dcfc7ac4ff1187f88480d46e65eec8740746837ca0ff2b7be5038fd250d
 Source0:        https://github.com/cloudflare/circl/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

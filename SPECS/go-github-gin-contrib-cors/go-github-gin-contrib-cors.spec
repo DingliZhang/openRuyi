@@ -8,12 +8,12 @@
 %define go_import_path  github.com/gin-contrib/cors
 
 Name:           go-github-gin-contrib-cors
-Version:        1.7.7
+Version:        1.7.8
 Release:        %autorelease
 Summary:        Official CORS gin's middleware
 License:        MIT
 URL:            https://github.com/gin-contrib/cors
-#!RemoteAsset:  sha256:1653b5e24021fbe5ac2dff9d5b729f6aac48ade9d762f1ba3688ba0661f5695a
+#!RemoteAsset:  sha256:bb6ad276ed3abb12c3ae113c8dd8e17b45e462f6e5a435a26d652a54bb8c0356
 Source0:        https://github.com/gin-contrib/cors/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -6,11 +6,9 @@
 
 %define _name           msgp
 %define go_import_path  github.com/tinylib/msgp
-# TODO: Test need too much dependencies, add it later - Julian
-%define go_test_exclude %{shrink:
-    github.com/tinylib/msgp/msgp
-    github.com/tinylib/msgp/tinygotest
-}
+# TinyGo integration tests compile for embedded targets using a separate
+# compiler and target runtimes that are not packaged in openRuyi.
+%define go_test_exclude  %{go_import_path}/tinygotest
 
 Name:           go-github-tinylib-msgp
 Version:        1.6.4
@@ -29,16 +27,35 @@ BuildRequires:  go
 BuildRequires:  go-rpm-macros
 
 BuildRequires:  go(github.com/philhofer/fwd)
+BuildRequires:  go(golang.org/x/mod)
+BuildRequires:  go(golang.org/x/sync)
 BuildRequires:  go(golang.org/x/tools)
 
 Provides:       go(github.com/tinylib/msgp) = %{version}
 
+Requires:       go(github.com/philhofer/fwd)
+Requires:       go(golang.org/x/tools)
+
 %description
-This is a code generation tool and serialization library for MessagePack. You can read more about MessagePack in the wiki, or at msgpack.org.
+Msgp is a code generation tool and serialization library for MessagePack.
+
+%check -p
+# Upstream's prepare target builds msgp before generating its unit and
+# integration fixtures. Put the generator on PATH for go:generate directives.
+%go_common
+%go_prep
+go build -o %{_builddir}/msgp-test-bin/msgp .
+export PATH=%{_builddir}/msgp-test-bin:${PATH}
+go generate ./msgp ./_generated
+
+%check -a
+# Go's ./... pattern omits underscore-prefixed directories; test the generated
+# integration suite explicitly after the default package checks.
+go test -v ./_generated
 
 %files
-%license LICENSE*
 %doc README*
+%license LICENSE*
 %{go_sys_gopath}/%{go_import_path}
 
 %changelog

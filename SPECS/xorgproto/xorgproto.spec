@@ -7,14 +7,14 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           xorgproto
-Version:        2024.1
+Version:        2025.1
 Release:        %autorelease
 Summary:        X.Org X11 Protocol headers
 License:        BSD-2-Clause AND HPND AND HPND-sell-variant AND ICU AND MIT AND MIT-open-group AND SGI-B-2.0 AND SMLNJ AND X11 AND X11-distribute-modifications-variant
 URL:            https://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/proto/xorgproto.git
-#!RemoteAsset:  sha256:372225fd40815b8423547f5d890c5debc72e88b91088fbfb13158c20495ccb59
-Source0:        https://www.x.org/pub/individual/proto/xorgproto-%{version}.tar.xz
+#!RemoteAsset:  sha256:56898c716c0578df8a2d828c9c3e5c528277705c0484381a81960fe1a67668e8
+Source0:        https://xorg.freedesktop.org/archive/individual/proto/xorgproto-%{version}.tar.xz
 BuildArch:      noarch
 BuildSystem:    meson
 

@@ -11,14 +11,14 @@
 %{!?_kf6_version: %global _kf6_version %{version}}
 
 Name:           kf6-kio
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        Network transparent access to files and data
 License:        LGPL-2.1-or-later
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/kio
-#!RemoteAsset:  sha256:fc201b02c277a35ce81414b1de7e6f851e46b0b5d43beb784936a4a6dc6167d0
-Source:         https://download.kde.org/stable/frameworks/6.27/%{rname}-%{version}.tar.xz
+#!RemoteAsset:  sha256:9f06313cd7d6cdde8db43067126d650fc5cc904b6f0b89159274a03e4805a91a
+Source:         https://download.kde.org/stable/frameworks/6.29/%{rname}-%{version}.tar.xz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_TESTING=OFF

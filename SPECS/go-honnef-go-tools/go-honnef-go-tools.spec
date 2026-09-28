@@ -6,18 +6,26 @@
 
 %define _name           tools
 %define go_import_path  honnef.co/go/tools
-%define upstream_version  0.7.0-0.dev
 
 Name:           go-honnef-go-tools
-Version:        0.7.0~0.dev
+Version:        0.8.1
 Release:        %autorelease
 Summary:        Staticcheck tools for Go
 License:        MIT
 URL:            https://github.com/dominikh/go-tools
-#!RemoteAsset:  sha256:0a3fa9aa78b18c225edf5984caffd782a78dc49667372c9985c21fd3901e088a
-Source0:        https://github.com/dominikh/go-tools/archive/refs/tags/v%{upstream_version}.tar.gz#/%{_name}-%{upstream_version}.tar.gz
+#!RemoteAsset:  sha256:7f16b3c7450f7ab62791dfb2e6d40d57d3b74dd01eef30f24a71822db8d45848
+Source0:        https://github.com/dominikh/go-tools/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
+
+# Adapt copied x/tools code to x/tools >= 0.49, which removed private
+# typeutil symbols previously accessed through go:linkname.
+# Related x/tools commit: 6cbeeacfcd0b3bed4bb186e13df86bb3fbc720c0
+# Remove after upstream is fixed.
+Patch2000:      2000-typeutil-symbols-avoid-x-tools-private-linkname-symb.patch
+# Tests create temporary Go modules and must not inherit GO111MODULE=off.
+# Remove after upstream is fixed.
+Patch2001:      2001-tests-enable-module-mode-for-temporary-modules.patch
 
 # Go 1.26 vet reports fmt.Sprintf %q with an int64 argument in
 # staticcheck/sa1030; keep tests enabled but disable vet. - HNO3Miracle

@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 %global crate_name ratatui-core
-%global full_version 0.1.1
+%global full_version 0.1.2
 %global pkgname ratatui-core-0.1
 
 Name:           rust-ratatui-core-0.1
-Version:        0.1.1
+Version:        0.1.2
 Release:        %autorelease
 Summary:        Rust crate "ratatui-core"
 License:        MIT
 URL:            https://ratatui.rs
-#!RemoteAsset:  sha256:42d3603f354bba8c595fa47860e60142d7372b7210c27044c6a7d0e1a4336b44
+#!RemoteAsset:  sha256:cbb175c433c8e28a809d1f5773a2ae96e68c0ce40db865cbab1020bf33ae479c
 Source:         https://static.crates.io/crates/%{crate_name}/%{full_version}/download#/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    rustcrates
@@ -23,7 +23,6 @@ BuildRequires:  rust-rpm-macros
 Requires:       crate(bitflags-2/default) >= 2.12.0
 Requires:       crate(compact-str-0.9) >= 0.9.0
 Requires:       crate(hashbrown-0.17/default) >= 0.17.0
-Requires:       crate(indoc-2/default) >= 2.0.0
 Requires:       crate(itertools-0.14/use-alloc) >= 0.14.0
 Requires:       crate(kasuari-0.4) >= 0.4.0
 Requires:       crate(lru-0.18/default) >= 0.18.0
@@ -32,6 +31,7 @@ Requires:       crate(thiserror-2) >= 2.0.0
 Requires:       crate(unicode-segmentation-1/default) >= 1.0.0
 Requires:       crate(unicode-truncate-2) >= 2.0.0
 Requires:       crate(unicode-width-0.2/default) >= 0.2.0
+
 Provides:       crate(%{pkgname}) = %{version}
 Provides:       crate(%{pkgname}/default) = %{version}
 Provides:       crate(%{pkgname}/scrolling-regions) = %{version}

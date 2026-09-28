@@ -1,0 +1,118 @@
+From ef191b0a29ef9e6fb87af06290e89572941326ed Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E8=AF=97=E7=83=A910353580?=
+ <zhang.shihui1@zte.com.cn>
+Date: Thu, 2 Jul 2026 15:19:40 +0800
+Subject: [PATCH] C2: Return inserted block from PhaseCFG::insert_goto_at
+
+---
+ src/hotspot/share/opto/block.cpp | 44 +++++++++++++++++++++++++++-----
+ src/hotspot/share/opto/block.hpp |  2 +-
+ 2 files changed, 38 insertions(+), 8 deletions(-)
+
+diff --git a/src/hotspot/share/opto/block.cpp b/src/hotspot/share/opto/block.cpp
+index 1da63ce8180..2a69e8a38a2 100644
+--- a/src/hotspot/share/opto/block.cpp
++++ b/src/hotspot/share/opto/block.cpp
+@@ -510,24 +510,48 @@ uint PhaseCFG::build_cfg() {
+ 
+ // Inserts a goto & corresponding basic block between
+ // block[block_no] and its succ_no'th successor block
+-void PhaseCFG::insert_goto_at(uint block_no, uint succ_no) {
++Block* PhaseCFG::insert_goto_at(uint block_no, uint succ_no) {
+   // get block with block_no
+   assert(block_no < number_of_blocks(), "illegal block number");
+   Block* in  = get_block(block_no);
+   // get successor block succ_no
+   assert(succ_no < in->_num_succs, "illegal successor number");
+   Block* out = in->_succs[succ_no];
++  // Get the control corresponding to the succ_no'th successor of the in block.
++  // Most successor slots are projections, but a fall-through edge can be
++  // represented directly by the block-ending branch node before fixup_flow().
++  Node* slot_ctrl = in->get_node(in->number_of_nodes() - in->_num_succs + succ_no);
++  Node* edge_ctrl = slot_ctrl;
++  assert(edge_ctrl->is_Proj() || edge_ctrl == in->end(),
++         "successor control must be a projection or the block end");
++  bool found_edge_ctrl = false;
++  for (uint i = 1; i < out->num_preds(); i++) {
++    if (out->pred(i) == edge_ctrl) {
++      found_edge_ctrl = true;
++      break;
++    }
++  }
++  if (!found_edge_ctrl) {
++    for (uint i = 1; i < out->num_preds(); i++) {
++      Node* pred = out->pred(i);
++      if (get_block_for_node(pred) == in) {
++        edge_ctrl = pred;
++        found_edge_ctrl = true;
++        break;
++      }
++    }
++  }
++  assert(found_edge_ctrl, "successor predecessor must match the split edge");
+   // Compute frequency of the new block. Do this before inserting
+   // new block in case succ_prob() needs to infer the probability from
+   // surrounding blocks.
+-  float freq = in->_freq * in->succ_prob(succ_no);
+-  // get ProjNode corresponding to the succ_no'th successor of the in block
+-  ProjNode* proj = in->get_node(in->number_of_nodes() - in->_num_succs + succ_no)->as_Proj();
++  float freq = slot_ctrl->is_Proj() ? in->_freq * in->succ_prob(succ_no) : in->_freq;
+   // create region for basic block
+   RegionNode* region = new RegionNode(2);
+-  region->init_req(1, proj);
++  region->init_req(1, edge_ctrl);
+   // setup corresponding basic block
+   Block* block = new (_block_arena) Block(_block_arena, region);
++  block->_loop = in->_loop;
+   map_node_to_block(region, block);
+   C->regalloc()->set_bad(region->_idx);
+   // add a goto node
+@@ -540,9 +564,14 @@ void PhaseCFG::insert_goto_at(uint block_no, uint succ_no) {
+   // hook up successor block
+   block->_succs.map(block->_num_succs++, out);
+   // remap successor's predecessors if necessary
++  DEBUG_ONLY(bool remapped = false;)
+   for (uint i = 1; i < out->num_preds(); i++) {
+-    if (out->pred(i) == proj) out->head()->set_req(i, gto);
++    if (out->pred(i) == edge_ctrl) {
++      out->head()->set_req(i, gto);
++      DEBUG_ONLY(remapped = true;)
++    }
+   }
++  assert(remapped, "successor predecessor must match the split edge");
+   // remap predecessor's successor to new block
+   in->_succs.map(succ_no, block);
+   // Set the frequency of the new block
+@@ -555,7 +584,7 @@ void PhaseCFG::insert_goto_at(uint block_no, uint succ_no) {
+   if (out->_idom != in) {
+     // The successor block was not immediately dominated by the predecessor
+     // block, so there is no dominator subtree to update.
+-    return;
++    return block;
+   }
+   // Update immediate dominator of the successor block.
+   out->_idom = block;
+@@ -591,6 +620,7 @@ void PhaseCFG::insert_goto_at(uint block_no, uint succ_no) {
+       }
+     }
+   }
++  return block;
+ }
+ 
+ // Does this block end in a multiway branch that cannot have the default case
+diff --git a/src/hotspot/share/opto/block.hpp b/src/hotspot/share/opto/block.hpp
+index 645cb98a835..b9dedf4bb0d 100644
+--- a/src/hotspot/share/opto/block.hpp
++++ b/src/hotspot/share/opto/block.hpp
+@@ -510,7 +510,7 @@ class PhaseCFG : public Phase {
+   bool move_to_next(Block* bx, uint b_index);
+   void move_to_end(Block* bx, uint b_index);
+ 
+-  void insert_goto_at(uint block_no, uint succ_no);
++  Block* insert_goto_at(uint block_no, uint succ_no);
+ 
+   // Check for NeverBranch at block end.  This needs to become a GOTO to the
+   // true target.  NeverBranch are treated as a conditional branch that always
+-- 
+2.27.0
+

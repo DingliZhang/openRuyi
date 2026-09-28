@@ -10,12 +10,12 @@
 %define go_test_ignore_failure 1
 
 Name:           go-github-lesismal-llib
-Version:        1.2.2
+Version:        1.2.4
 Release:        %autorelease
 Summary:        llib - nbio's dependency lib.
 License:        BSD-3-Clause
 URL:            https://github.com/lesismal/llib
-#!RemoteAsset
+#!RemoteAsset:  sha256:edb6d54abcfcefe8952bd37b045b79881c18413d007839b04bbe118255dbbdbe
 Source0:        https://github.com/lesismal/llib/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
@@ -44,4 +44,4 @@ Blocking/NonBlocking TLS interface(rewritten from a copy of golang
 %{go_sys_gopath}/%{go_import_path}
 
 %changelog
-%{?autochangelog}
+%autochangelog

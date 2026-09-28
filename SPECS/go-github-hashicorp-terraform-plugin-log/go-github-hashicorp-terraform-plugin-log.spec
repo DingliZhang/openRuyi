@@ -8,12 +8,12 @@
 %define go_import_path  github.com/hashicorp/terraform-plugin-log
 
 Name:           go-github-hashicorp-terraform-plugin-log
-Version:        0.10.0
+Version:        0.11.0
 Release:        %autorelease
 Summary:        Module for logging from Terraform plugins.
 License:        MPL-2.0
 URL:            https://github.com/hashicorp/terraform-plugin-log
-#!RemoteAsset
+#!RemoteAsset:  sha256:f47f22940962597eba406125b544ab22070c43cbccb1203af9b4e6608cdaf030
 Source0:        https://github.com/hashicorp/terraform-plugin-log/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
@@ -45,4 +45,4 @@ conventions and reframing things for Terraform plugin developers.
 %{go_sys_gopath}/%{go_import_path}
 
 %changelog
-%{?autochangelog}
+%autochangelog

@@ -10,8 +10,8 @@ Release:        %autorelease
 Summary:        XKB keymap compiler
 License:        MIT-open-group AND HPND-DEC
 URL:            https://gitlab.freedesktop.org/xorg/app/xkbcomp
-#!RemoteAsset
-Source0:        https://www.x.org/pub/individual/app/xkbcomp-%{version}.tar.xz
+#!RemoteAsset:  sha256:2ac31f26600776db6d9cd79b3fcd272263faebac7eb85fb2f33c7141b8486060
+Source0:        https://xorg.freedesktop.org/archive/individual/app/xkbcomp-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-silent-rules
@@ -41,4 +41,4 @@ This package contains the pkg-config file for xkbcomp.
 %{_libdir}/pkgconfig/xkbcomp.pc
 
 %changelog
-%{?autochangelog}
+%autochangelog

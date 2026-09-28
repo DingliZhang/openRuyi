@@ -14,7 +14,7 @@ License:        MIT-open-group
 URL:            http://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libxau
 #!RemoteAsset:  sha256:74d0e4dfa3d39ad8939e99bda37f5967aba528211076828464d2777d477fc0fb
-Source0:        https://www.x.org/pub/individual/lib/%{name}-%{version}.tar.xz
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-static

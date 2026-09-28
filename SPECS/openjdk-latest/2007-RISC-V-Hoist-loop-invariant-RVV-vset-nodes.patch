@@ -1,0 +1,482 @@
+From 45b234a8975b61b3ef7f4f27e19ba72a290beccc Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E5=BC=A0=E8=AF=97=E7=83=A910353580?=
+ <zhang.shihui1@zte.com.cn>
+Date: Thu, 2 Jul 2026 15:23:02 +0800
+Subject: [PATCH] RISC-V: Hoist loop-invariant RVV vset nodes
+
+# Conflicts:
+#	src/hotspot/share/opto/output.cpp
+---
+ src/hotspot/cpu/riscv/globals_riscv.hpp       |   2 +
+ src/hotspot/cpu/riscv/riscv_vset_machnode.cpp |  63 +++++++
+ src/hotspot/cpu/riscv/riscv_vset_machnode.hpp |   6 +
+ src/hotspot/share/opto/block.cpp              | 163 ++++++++++++++++++
+ src/hotspot/share/opto/block.hpp              |   4 +
+ src/hotspot/share/opto/compile.cpp            |   3 +
+ src/hotspot/share/opto/output.cpp             |  78 ++-------
+ 7 files changed, 257 insertions(+), 62 deletions(-)
+
+diff --git a/src/hotspot/cpu/riscv/globals_riscv.hpp b/src/hotspot/cpu/riscv/globals_riscv.hpp
+index bc312bfc52c..30e95362d64 100644
+--- a/src/hotspot/cpu/riscv/globals_riscv.hpp
++++ b/src/hotspot/cpu/riscv/globals_riscv.hpp
+@@ -99,6 +99,8 @@ define_pd_global(intx, InlineSmallCode,          1000);
+   product(bool, UseRVA23U64, false, EXPERIMENTAL, "Use RVA23U64 profile")        \
+   product(bool, UseRVC, false, DIAGNOSTIC, "Use RVC instructions")               \
+   product(bool, UseRVV, false, DIAGNOSTIC, "Use RVV instructions")               \
++  product(bool, UseRiscVVSetLICM, false, DIAGNOSTIC,                             \
++          "Hoist loop-invariant RVV vset instructions")                          \
+   product(bool, UseZba, false, DIAGNOSTIC, "Use Zba instructions")               \
+   product(bool, UseZbb, false, DIAGNOSTIC, "Use Zbb instructions")               \
+   product(bool, UseZbkb, false, EXPERIMENTAL, "Use Zbkb instructions")           \
+diff --git a/src/hotspot/cpu/riscv/riscv_vset_machnode.cpp b/src/hotspot/cpu/riscv/riscv_vset_machnode.cpp
+index 8f54cfc8184..38cfa33c80d 100644
+--- a/src/hotspot/cpu/riscv/riscv_vset_machnode.cpp
++++ b/src/hotspot/cpu/riscv/riscv_vset_machnode.cpp
+@@ -110,6 +110,69 @@ bool riscv_vset_fixed(BasicType bt, uint vector_length, RiscVVSetRequirement* re
+   return true;
+ }
+ 
++bool riscv_vset_state_same(const RiscVVSetState& a, const RiscVVSetState& b) {
++  return a._valid == b._valid &&
++         (!a._valid ||
++          (a._sew == b._sew &&
++           a._vector_length == b._vector_length &&
++           a._vlmul == b._vlmul &&
++           a._vma == b._vma &&
++           a._vta == b._vta));
++}
++
++bool riscv_vset_state_equal_valid(const RiscVVSetState& a, const RiscVVSetState& b) {
++  return a._valid && b._valid &&
++         a._sew == b._sew &&
++         a._vector_length == b._vector_length &&
++         a._vlmul == b._vlmul &&
++         a._vma == b._vma &&
++         a._vta == b._vta;
++}
++
++RiscVVSetState riscv_vset_invalid_state() {
++  return { T_BYTE, Assembler::e8, 0, Assembler::m1, Assembler::ma, Assembler::ta, false };
++}
++
++bool riscv_mach_node_vset_requirement(const MachNode* mach, RiscVVSetState* state) {
++  if (mach->is_MachCall() || mach->is_MachSafePoint()) {
++    return false;
++  }
++  if (mach->is_MachRiscVVSet()) {
++    return false;
++  }
++
++  RiscVVSetRequirement req = { T_BYTE, 0, Assembler::m1, Assembler::ma, Assembler::ta, false };
++  if (mach->has_riscv_vset_requirement()) {
++    if (!mach->riscv_vset_requirement(&req)) {
++      return false;
++    }
++    *state = { req._bt, Assembler::elemtype_to_sew(req._bt), req._vector_length, req._vlmul,
++               req._vma, req._vta, true };
++    return true;
++  }
++  return false;
++}
++
++bool riscv_mach_node_kills_vset(const MachNode* mach) {
++  if (mach->is_MachCall() || mach->is_MachSafePoint()) {
++    return true;
++  }
++  if (mach->is_MachRiscVVSet()) {
++    return false;
++  }
++  if (mach->is_MachSpillCopy()) {
++    const Type* type = mach->bottom_type();
++    if (type != nullptr && (type->isa_vect() != nullptr || type->isa_vectmask() != nullptr)) {
++      return true;
++    }
++  }
++  RiscVVSetRequirement req = { T_BYTE, 0, Assembler::m1, Assembler::ma, Assembler::ta, false };
++  if (mach->has_riscv_vset_requirement()) {
++    return !mach->riscv_vset_requirement(&req);
++  }
++  return riscv_vset_from_node(mach, &req);
++}
++
+ RiscVVSetState MachRiscVVSetNode::state() const {
+   return { _bt, Assembler::elemtype_to_sew(_bt), _vector_length, _vlmul, _vma, _vta, true };
+ }
+diff --git a/src/hotspot/cpu/riscv/riscv_vset_machnode.hpp b/src/hotspot/cpu/riscv/riscv_vset_machnode.hpp
+index 68275038730..d7c10ba70e2 100644
+--- a/src/hotspot/cpu/riscv/riscv_vset_machnode.hpp
++++ b/src/hotspot/cpu/riscv/riscv_vset_machnode.hpp
+@@ -38,6 +38,12 @@ struct RiscVVSetState {
+   bool _valid;
+ };
+ 
++bool riscv_vset_state_same(const RiscVVSetState& a, const RiscVVSetState& b);
++bool riscv_vset_state_equal_valid(const RiscVVSetState& a, const RiscVVSetState& b);
++RiscVVSetState riscv_vset_invalid_state();
++bool riscv_mach_node_vset_requirement(const MachNode* mach, RiscVVSetState* state);
++bool riscv_mach_node_kills_vset(const MachNode* mach);
++
+ class MachRiscVVSetNode : public MachIdealNode {
+   BasicType _bt;
+   uint _vector_length;
+diff --git a/src/hotspot/share/opto/block.cpp b/src/hotspot/share/opto/block.cpp
+index 2a69e8a38a2..9f6d0d48e80 100644
+--- a/src/hotspot/share/opto/block.cpp
++++ b/src/hotspot/share/opto/block.cpp
+@@ -36,6 +36,9 @@
+ #include "opto/rootnode.hpp"
+ #include "utilities/copy.hpp"
+ #include "utilities/powerOfTwo.hpp"
++#ifdef RISCV
++#include "riscv_vset_machnode.hpp"
++#endif
+ 
+ void Block_Array::grow(uint i) {
+   assert(i >= Max(), "Should have been checked before, use maybe_grow?");
+@@ -623,6 +626,166 @@ Block* PhaseCFG::insert_goto_at(uint block_no, uint succ_no) {
+   return block;
+ }
+ 
++#ifdef RISCV
++static bool riscv_block_is_in_loop_nest(CFGLoop* loop, Block* block) {
++  return loop != nullptr && block != nullptr && block->_loop != nullptr && loop->in_loop_nest(block);
++}
++
++static bool riscv_is_loop_header(Block* block) {
++  return block != nullptr && block->head()->is_Loop() &&
++         block->_loop != nullptr && block->_loop->head() == block;
++}
++
++static bool riscv_analyze_loop_vset_requirements(PhaseCFG* cfg, CFGLoop* loop, RiscVVSetState* state) {
++  bool found = false;
++  RiscVVSetState only = riscv_vset_invalid_state();
++
++  for (uint i = 0; i < cfg->number_of_blocks(); i++) {
++    Block* block = cfg->get_block(i);
++    if (!riscv_block_is_in_loop_nest(loop, block)) {
++      continue;
++    }
++    // Keep the first version conservative: do not hoist across nested loops.
++    if (block->_loop != loop) {
++      return false;
++    }
++    for (uint j = 0; j < block->number_of_nodes(); j++) {
++      Node* n = block->get_node(j);
++      if (!n->is_Mach()) {
++        continue;
++      }
++      MachNode* mach = n->as_Mach();
++      RiscVVSetState required = riscv_vset_invalid_state();
++      if (riscv_mach_node_vset_requirement(mach, &required)) {
++        if (!found) {
++          only = required;
++          found = true;
++        } else if (!riscv_vset_state_equal_valid(only, required)) {
++          return false;
++        }
++      } else if (riscv_mach_node_kills_vset(mach)) {
++        return false;
++      }
++    }
++  }
++
++  if (!found) {
++    return false;
++  }
++  *state = only;
++  return true;
++}
++
++static bool riscv_find_block_no(PhaseCFG* cfg, Block* block, uint* block_no) {
++  for (uint i = 0; i < cfg->number_of_blocks(); i++) {
++    if (cfg->get_block(i) == block) {
++      *block_no = i;
++      return true;
++    }
++  }
++  return false;
++}
++
++static bool riscv_find_loop_entry_edges(PhaseCFG* cfg, CFGLoop* loop,
++                                        GrowableArray<Block*>* entries,
++                                        GrowableArray<uint>* succs) {
++  Block* head = loop->head();
++  uint entry_count = 0;
++  uint backedge_count = 0;
++
++  for (uint p = 1; p < head->num_preds(); p++) {
++    Block* pred_block = cfg->get_block_for_node(head->pred(p));
++    if (pred_block == nullptr) {
++      return false;
++    }
++    if (riscv_block_is_in_loop_nest(loop, pred_block)) {
++      backedge_count++;
++    } else {
++      uint succ_no = 0;
++      bool found_succ = false;
++      for (uint s = 0; s < pred_block->_num_succs; s++) {
++        if (pred_block->_succs[s] == head) {
++          succ_no = s;
++          found_succ = true;
++          break;
++        }
++      }
++      if (!found_succ) {
++        return false;
++      }
++
++      Node* entry_ctrl = head->pred(p);
++      if (!pred_block->contains(entry_ctrl)) {
++        return false;
++      }
++      Node* entry_succ = pred_block->get_node(pred_block->number_of_nodes() -
++                                              pred_block->_num_succs + succ_no);
++      if (!entry_succ->is_Proj() && entry_succ != pred_block->end() &&
++          !entry_ctrl->is_Proj() && entry_ctrl != pred_block->end()) {
++        return false;
++      }
++
++      entries->append(pred_block);
++      succs->append(succ_no);
++      entry_count++;
++    }
++  }
++
++  return entry_count != 0 && backedge_count != 0;
++}
++
++static MachRiscVVSetNode* riscv_insert_vset_in_edge_block(PhaseCFG* cfg, Block* block, const RiscVVSetState& state) {
++  MachRiscVVSetNode* vset = new MachRiscVVSetNode(state._bt, state._vector_length, state._vlmul,
++                                                  state._vma, state._vta);
++  uint insert_pos = block->number_of_nodes() - block->_num_succs;
++  assert(insert_pos > 0, "must insert after block head");
++  block->insert_node(vset, insert_pos);
++  cfg->map_node_to_block(vset, block);
++  Compile::current()->regalloc()->set_bad(vset->_idx);
++  return vset;
++}
++
++void PhaseCFG::hoist_riscv_vset_before_fixup() {
++  if (!UseRiscVVSetLICM) {
++    return;
++  }
++
++  for (uint i = 0; i < number_of_blocks(); i++) {
++    Block* head = get_block(i);
++    if (!riscv_is_loop_header(head)) {
++      continue;
++    }
++
++    RiscVVSetState state = riscv_vset_invalid_state();
++    if (!riscv_analyze_loop_vset_requirements(this, head->_loop, &state)) {
++      continue;
++    }
++
++    GrowableArray<Block*> entries;
++    GrowableArray<uint> succs;
++    if (!riscv_find_loop_entry_edges(this, head->_loop, &entries, &succs)) {
++      continue;
++    }
++
++    for (int e = 0; e < entries.length(); e++) {
++      Block* entry = entries.at(e);
++      uint succ_no = succs.at(e);
++      uint pred_block_no = 0;
++      if (!riscv_find_block_no(this, entry, &pred_block_no)) {
++        continue;
++      }
++      Block* edge_block = insert_goto_at(pred_block_no, succ_no);
++      riscv_insert_vset_in_edge_block(this, edge_block, state);
++
++      // Skip the newly inserted block in this scan.
++      if (pred_block_no <= i) {
++        i++;
++      }
++    }
++  }
++}
++#endif
++
+ // Does this block end in a multiway branch that cannot have the default case
+ // flipped for another case?
+ static bool no_flip_branch(Block *b) {
+diff --git a/src/hotspot/share/opto/block.hpp b/src/hotspot/share/opto/block.hpp
+index b9dedf4bb0d..6917bacc137 100644
+--- a/src/hotspot/share/opto/block.hpp
++++ b/src/hotspot/share/opto/block.hpp
+@@ -639,6 +639,10 @@ class PhaseCFG : public Phase {
+   // Check all nodes and postalloc_expand them if necessary.
+   void postalloc_expand(PhaseRegAlloc* _ra);
+ 
++#ifdef RISCV
++  void hoist_riscv_vset_before_fixup();
++#endif
++
+ #ifndef PRODUCT
+   bool trace_opto_pipelining() const { return _trace_opto_pipelining; }
+ 
+diff --git a/src/hotspot/share/opto/compile.cpp b/src/hotspot/share/opto/compile.cpp
+index 93d8e4c425d..2e9cbf792e7 100644
+--- a/src/hotspot/share/opto/compile.cpp
++++ b/src/hotspot/share/opto/compile.cpp
+@@ -3133,6 +3133,9 @@ void Compile::Code_Gen() {
+     } else {
+       cfg.set_loop_alignment();
+     }
++#ifdef RISCV
++    cfg.hoist_riscv_vset_before_fixup();
++#endif
+     cfg.fixup_flow();
+     cfg.remove_unreachable_blocks();
+     cfg.verify_dominator_tree();
+diff --git a/src/hotspot/share/opto/output.cpp b/src/hotspot/share/opto/output.cpp
+index 5f25ac8c972..53a76851649 100644
+--- a/src/hotspot/share/opto/output.cpp
++++ b/src/hotspot/share/opto/output.cpp
+@@ -62,74 +62,28 @@
+ #endif
+ 
+ #ifdef RISCV
+-static RiscVVSetState invalid_vset_state() {
+-  return { T_BYTE, Assembler::e8, 0, Assembler::m1, Assembler::ma, Assembler::ta, false };
+-}
+-
+-static bool mach_node_vset_requirement(const MachNode* mach,
+-                                       RiscVVSetState* state) {
+-  if (mach->is_MachCall() || mach->is_MachSafePoint()) {
+-    return false;
+-  }
+-  if (mach->is_MachRiscVVSet()) {
+-    return false;
+-  }
+-#ifdef RISCV
+-  RiscVVSetRequirement req = { T_BYTE, 0, Assembler::m1, Assembler::ma, Assembler::ta, false };
+-  if (mach->has_riscv_vset_requirement()) {
+-    if (!mach->riscv_vset_requirement(&req)) {
+-      return false;
+-    }
+-    *state = { req._bt, Assembler::elemtype_to_sew(req._bt), req._vector_length, req._vlmul,
+-               req._vma, req._vta, true };
+-    return true;
+-  }
+-#endif
+-  return false;
+-}
+-
+-static bool mach_node_kills_vset(const MachNode* mach) {
+-  if (mach->is_MachCall() || mach->is_MachSafePoint()) {
+-    return true;
+-  }
+-  if (mach->is_MachRiscVVSet()) {
+-    return false;
+-  }
+-  if (mach->is_MachSpillCopy()) {
+-    const Type* type = mach->bottom_type();
+-    if (type != nullptr && (type->isa_vect() != nullptr || type->isa_vectmask() != nullptr)) {
+-      return true;
+-    }
+-  }
+-  RiscVVSetRequirement req = { T_BYTE, 0, Assembler::m1, false };
+-  if (mach->has_riscv_vset_requirement()) {
+-    return !mach->riscv_vset_requirement(&req);
+-  }
+-  return riscv_vset_from_node(mach, &req);
+-}
+-
+ static RiscVVSetState meet_vset_preds(Compile* C,
+                                       Block* block,
+                                       RiscVVSetState* out_states) {
+-  RiscVVSetState result = invalid_vset_state();
++  RiscVVSetState result = riscv_vset_invalid_state();
+   bool has_state = false;
+   for (uint p = 1; p < block->num_preds(); p++) {
+     Block* pred_block = C->cfg()->get_block_for_node(block->pred(p));
+     if (pred_block == nullptr) {
+-      return invalid_vset_state();
++      return riscv_vset_invalid_state();
+     }
+     const RiscVVSetState& pred_state = out_states[pred_block->_pre_order];
+     if (!pred_state._valid) {
+-      return invalid_vset_state();
++      return riscv_vset_invalid_state();
+     }
+     if (!has_state) {
+       result = pred_state;
+       has_state = true;
+     } else if (!riscv_vset_state_equal_valid(result, pred_state)) {
+-      return invalid_vset_state();
++      return riscv_vset_invalid_state();
+     }
+   }
+-  return has_state ? result : invalid_vset_state();
++  return has_state ? result : riscv_vset_invalid_state();
+ }
+ 
+ static RiscVVSetState transfer_vset_state(Block* block,
+@@ -143,8 +97,8 @@ static RiscVVSetState transfer_vset_state(Block* block,
+     if (mach->is_MachRiscVVSet()) {
+       MachRiscVVSetNode* vset = mach->as_MachRiscVVSet();
+       state = vset->state();
+-    } else if (mach_node_kills_vset(mach)) {
+-      state = invalid_vset_state();
++    } else if (riscv_mach_node_kills_vset(mach)) {
++      state = riscv_vset_invalid_state();
+     }
+   }
+   return state;
+@@ -155,8 +109,8 @@ static void compute_vset_states(Compile* C,
+                                 RiscVVSetState* out_states) {
+   uint nblocks = C->cfg()->number_of_blocks();
+   for (uint i = 0; i < nblocks; i++) {
+-    in_states[i] = invalid_vset_state();
+-    out_states[i] = invalid_vset_state();
++    in_states[i] = riscv_vset_invalid_state();
++    out_states[i] = riscv_vset_invalid_state();
+   }
+ 
+   bool changed = true;
+@@ -186,8 +140,8 @@ static void insert_explicit_vset_nodes(Compile* C) {
+       if (!n->is_Mach()) {
+         continue;
+       }
+-      RiscVVSetState required = invalid_vset_state();
+-      if (!mach_node_vset_requirement(n->as_Mach(), &required)) {
++      RiscVVSetState required = riscv_vset_invalid_state();
++      if (!riscv_mach_node_vset_requirement(n->as_Mach(), &required)) {
+         continue;
+       }
+       MachRiscVVSetNode* vset = new MachRiscVVSetNode(required._bt, required._vector_length, required._vlmul,
+@@ -202,7 +156,7 @@ static void insert_explicit_vset_nodes(Compile* C) {
+ static void remove_redundant_vset_nodes_in_blocks(Compile* C) {
+   for (uint i = 0; i < C->cfg()->number_of_blocks(); i++) {
+     Block* block = C->cfg()->get_block(i);
+-    RiscVVSetState state = invalid_vset_state();
++    RiscVVSetState state = riscv_vset_invalid_state();
+     for (uint j = 0; j < block->number_of_nodes(); j++) {
+       Node* n = block->get_node(j);
+       if (!n->is_Mach()) {
+@@ -219,8 +173,8 @@ static void remove_redundant_vset_nodes_in_blocks(Compile* C) {
+         } else {
+           state = vset_state;
+         }
+-      } else if (mach_node_kills_vset(mach)) {
+-        state = invalid_vset_state();
++      } else if (riscv_mach_node_kills_vset(mach)) {
++        state = riscv_vset_invalid_state();
+       }
+     }
+   }
+@@ -253,8 +207,8 @@ static void remove_redundant_vset_nodes(Compile* C) {
+         } else {
+           state = vset_state;
+         }
+-      } else if (mach_node_kills_vset(mach)) {
+-        state = invalid_vset_state();
++      } else if (riscv_mach_node_kills_vset(mach)) {
++        state = riscv_vset_invalid_state();
+       }
+     }
+   }
+-- 
+2.27.0

@@ -1,0 +1,98 @@
+diff --git a/src/hotspot/cpu/riscv/assembler_riscv.hpp b/src/hotspot/cpu/riscv/assembler_riscv.hpp
+index 2c22c5db08d..75c80c35ec1 100644
+--- a/src/hotspot/cpu/riscv/assembler_riscv.hpp
++++ b/src/hotspot/cpu/riscv/assembler_riscv.hpp
+@@ -1802,6 +1802,11 @@ class Assembler : public AbstractAssembler {
+     fp_base<D_64_dp, 0b00101>(Rd, Rs1, Rs2, 0b011);
+   }
+ 
++  void fround_d(FloatRegister Rd, FloatRegister Rs1, RoundingMode rm = rtz) {
++    assert_cond(UseZfa);
++    fp_base<D_64_dp, 0b01000>(Rd, Rs1, 0b00100, rm);
++  }
++
+ // ==========================
+ // RISC-V Vector Extension
+ // ==========================
+diff --git a/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.cpp b/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.cpp
+index 8d383f07c9a..56d534c7f68 100644
+--- a/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.cpp
++++ b/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.cpp
+@@ -2292,6 +2292,32 @@ void C2_MacroAssembler::round_double_mode(FloatRegister dst, FloatRegister src,
+   bind(done);
+ }
+ 
++// Use zfa instruction to round double value.
++void C2_MacroAssembler::round_double_mode_zfa(FloatRegister dst, FloatRegister src, int round_mode) {
++  assert_different_registers(dst, src);
++
++  // Set rounding mode for conversions
++  // Here we use similar modes to double->long and long->double conversions
++  // Different mode for long->double conversion matter only if long value was not representable as double,
++  // we got long value as a result of double->long conversion so, it is definitely representable
++  RoundingMode rm;
++  switch (round_mode) {
++    case RoundDoubleModeNode::rmode_ceil:
++    rm = RoundingMode::rup;
++    break;
++    case RoundDoubleModeNode::rmode_floor:
++    rm = RoundingMode::rdn;
++    break;
++    case RoundDoubleModeNode::rmode_rint:
++    rm = RoundingMode::rne;
++    break;
++    default:
++    ShouldNotReachHere();
++  }
++  // fround.d
++  fround_d(dst, src, rm);
++}
++
+ // According to Java SE specification, for floating-point signum operations, if
+ // on input we have NaN or +/-0.0 value we should return it,
+ // otherwise return +/- 1.0 using sign of input.
+diff --git a/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.hpp b/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.hpp
+index 468d53b1a54..19e9f23f27d 100644
+--- a/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.hpp
++++ b/src/hotspot/cpu/riscv/c2_MacroAssembler_riscv.hpp
+@@ -195,6 +195,8 @@
+   void round_double_mode(FloatRegister dst, FloatRegister src, int round_mode,
+                          Register tmp1, Register tmp2, Register tmp3);
+ 
++  void round_double_mode_zfa(FloatRegister dst, FloatRegister src, int round_mode);
++
+   void signum_fp(FloatRegister dst, FloatRegister one, bool is_double);
+ 
+   void float16_to_float(FloatRegister dst, Register src, Register tmp);
+diff --git a/src/hotspot/cpu/riscv/riscv.ad b/src/hotspot/cpu/riscv/riscv.ad
+index baa5b54c34c..84e0f02fae3 100644
+--- a/src/hotspot/cpu/riscv/riscv.ad
++++ b/src/hotspot/cpu/riscv/riscv.ad
+@@ -7874,6 +7874,7 @@ instruct sqrtD_reg(fRegD dst, fRegD src) %{
+ 
+ // Round Instruction
+ instruct roundD_reg(fRegD dst, fRegD src, immI rmode, iRegLNoSp tmp1, iRegLNoSp tmp2, iRegLNoSp tmp3) %{
++  predicate(!UseZfa);
+   match(Set dst (RoundDoubleMode src rmode));
+   ins_cost(2 * XFER_COST + BRANCH_COST);
+   effect(TEMP_DEF dst, TEMP tmp1, TEMP tmp2, TEMP tmp3);
+@@ -7886,6 +7887,19 @@ instruct roundD_reg(fRegD dst, fRegD src, immI rmode, iRegLNoSp tmp1, iRegLNoSp
+   ins_pipe(pipe_class_default);
+ %}
+ 
++instruct roundD_reg_zfa(fRegD dst, fRegD src, immI rmode) %{
++  predicate(UseZfa);
++  match(Set dst (RoundDoubleMode src rmode));
++  ins_cost(XFER_COST);
++  effect(TEMP_DEF dst);
++
++  format %{ "RoundDoubleMode $src, $rmode" %}
++  ins_encode %{
++    __ round_double_mode_zfa(as_FloatRegister($dst$$reg), as_FloatRegister($src$$reg), $rmode$$constant);
++  %}
++  ins_pipe(pipe_class_default);
++%}
++
+ // Copysign and signum intrinsics
+ 
+ instruct copySignD_reg(fRegD dst, fRegD src1, fRegD src2, immD zero) %{

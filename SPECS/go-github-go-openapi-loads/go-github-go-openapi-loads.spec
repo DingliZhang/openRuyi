@@ -8,12 +8,12 @@
 %define go_import_path  github.com/go-openapi/loads
 
 Name:           go-github-go-openapi-loads
-Version:        0.23.3
+Version:        0.25.3
 Release:        %autorelease
 Summary:        OpenAPI 2.0 specification document loader
 License:        Apache-2.0
 URL:            https://github.com/go-openapi/loads
-#!RemoteAsset:  sha256:c7c8aa0f60e043bf0fcfc20cb4b04d0233ee3bb40d12f53b00d03591316aab01
+#!RemoteAsset:  sha256:9b7f7e099d6b3e343c96cd02a2ab52dce5588921889bb2d285caf08f24b5f645
 Source0:        https://github.com/go-openapi/loads/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

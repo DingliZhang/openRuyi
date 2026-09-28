@@ -4,201 +4,67 @@
 # SPDX-FileContributor: Jingwiw <wangjingwei@iscas.ac.cn>
 # SPDX-FileContributor: Zheng Junjie <zhengjunjie@iscas.ac.cn>
 # SPDX-FileContributor: misaka00251 <liuxin@iscas.ac.cn>
+# SPDX-FileContributor: Hangfan Li <lihangfan@iscas.ac.cn>
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
+%ifarch riscv64
+%bcond dtbs  1
+%else
+%bcond dtbs  0
+%endif
 %bcond rust  1
 
-%global modpath %{_prefix}/lib/modules/%{kver}
+%global variant_name lts
 
-%ifarch riscv64
-#!BuildConstraint: hardware:jobs 32
-%endif
+# Managed under kernel-team-tools
+%global patchset_release 1
+%global config_version 0
 
-# Whether dtbs needed for arch
-%ifarch riscv64
-%global need_dtbs 1
-%else
-%global need_dtbs 0
-%endif
-
-%global kver %{version}-%{release}
-%global kernel_make_flags LD=ld.bfd KBUILD_BUILD_VERSION=%{release}
-
+Name:           linux-lts
+Version:        6.18.52
+Release:        %{patchset_release}.%{config_version}_%autorelease
+Summary:        The Linux lts Kernel
+License:        GPL-2.0-only
+URL:            https://www.kernel.org/
+#!RemoteAsset:  sha256:2b69564f7d4fea0c859b1959ba33709ee6e9139bd100e30a853b57159a8221b8
+Source0:        https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-%{version}.tar.xz
+#!RemoteAsset:  sha256:52fe456d1cdcb766f68dd92e6b0bbd26f80254c7895a9096e42ea8894da63ea7
+Source1:        https://github.com/openRuyi-Project/kernel-team-tools/releases/download/v%{version}-%{patchset_release}.%{config_version}/%{name}-v%{version}-%{patchset_release}.tar.gz
 %if "%{?openruyi_riscv_arch}" == "-march=rva20u64"
     %global arch_suffix -rva20
 %else
     %global arch_suffix %{nil}
 %endif
+BuildSystem:    linux
 
-Name:           linux-lts
-Version:        6.18.39
-Release:        %autorelease
-Summary:        The Linux lts Kernel
-License:        GPL-2.0-only
-URL:            https://www.kernel.org/
-#!RemoteAsset:  sha256:a7a7e3d2ae9d95e74197223a8d4eb5f6be7aac21b6e6de27e9685d001c1f8cb0
-Source0:        https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-%{version}.tar.xz
-Source1:        series
-Source2:        config.x86_64
-Source3:        config.riscv64
-Source4:        config.riscv64-rva20
+# Extracted within %%prep
+BuildOption(conf):  %{_sourcedir}/defconfig
 
-BuildRequires:  gcc
-BuildRequires:  bison
-BuildRequires:  binutils
-BuildRequires:  glibc-devel
-BuildRequires:  make
-BuildRequires:  perl
-BuildRequires:  flex
-BuildRequires:  bc
-BuildRequires:  cpio
-BuildRequires:  dwarves
-BuildRequires:  gettext
-BuildRequires:  python3
-BuildRequires:  rsync
-BuildRequires:  tar
-BuildRequires:  xz
-BuildRequires:  zstd
-BuildRequires:  libdebuginfod-dummy-devel
-BuildRequires:  pkgconfig(ncurses)
-BuildRequires:  pkgconfig(libcap)
-BuildRequires:  pkgconfig(libssh)
-BuildRequires:  pkgconfig(libdw)
-BuildRequires:  pkgconfig(libelf)
-BuildRequires:  pkgconfig(libzstd)
-BuildRequires:  pkgconfig(python3)
-BuildRequires:  pkgconfig(slang)
-BuildRequires:  pkgconfig(zlib)
-BuildRequires:  pkgconfig(openssl)
-BuildRequires:  kmod
-BuildRequires:  rpm-config-openruyi
-
-%if %{with rust}
-BuildRequires:  bindgen
-BuildRequires:  cargo
-BuildRequires:  rust
-%endif
-
-Requires:       %{name}-core%{?_isa} = %{version}-%{release}
-Requires:       %{name}-modules%{?_isa} = %{version}-%{release}
-%if %{need_dtbs}
-Requires:       %{name}-dtbs%{?_isa} = %{version}-%{release}
-%endif
-Requires(post):   kmod
-Requires(post):   kernel-install
-Requires(postun): kernel-install
-
-%patchlist
-%include %{SOURCE1}
+BuildRequires:  openruyi-linux-build
+%linux_package_dependencies
 
 %description
-This is a meta-package that installs the core kernel image and modules.
-For a minimal boot environment, install the 'linux-core' package instead.
+This is the meta package that handles standard %{name} kernel installation.
 
-%package        core
-Summary:        The core Linux kernel image and initrd
-
-%description    core
-Contains the bootable kernel image (vmlinuz) and a generic, pre-built initrd,
-providing the minimal set of files needed to boot the system.
-
-%package        modules
-Summary:        Kernel modules for the Linux kernel
-Requires:       %{name}-core = %{version}-%{release}
-
-%description    modules
-Contains all the kernel modules (.ko files) and associated metadata for
-the hardware drivers and kernel features.
-
-%package        devel
-Summary:        Development files for building external kernel modules
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       dwarves
-
-%description    devel
-This package provides the kernel headers and Makefiles necessary to build
-external kernel modules against the installed kernel. The development files are
-located at %{_usrsrc}/kernels/%{kver}, with symlinks provided under
-%{_prefix}/lib/modules/%{kver}/ for compatibility.
-
-%if %{need_dtbs}
-%package        dtbs
-Summary:        Devicetree blob files from Linux sources
-
-%description    dtbs
-This package provides the DTB files built from Linux sources that may be used
-for booting.
-%endif
+%linux_package_implementation
 
 %prep
-%autosetup -p1 -n linux-%{version}
-cp -v %{_sourcedir}/config.%{_arch}%{arch_suffix} .config
-echo "-%{release}" > localversion
+%setup -n linux-%{version}
+patchset_dir=.openruyi-patchset
+mkdir "${patchset_dir}"
+tar -xf "%{SOURCE1}" -C "${patchset_dir}"
+while IFS= read -r patch_name; do
+    echo "Applying patch: ${patch_name}"
+    patch -p1 < "${patchset_dir}/${patch_name}" || exit 1
+done < "${patchset_dir}/series"
 
-%conf
-%make_build %{kernel_make_flags} olddefconfig
-
-%build
-
-%make_build %{kernel_make_flags}
-
-%if %{need_dtbs}
-%make_build %{kernel_make_flags} dtbs
+%if "%{?openruyi_riscv_arch}" == "-march=rva20u64"
+    %define arch_suffix -rva20
+%else
+    %define arch_suffix -generic
 %endif
-
-%install
-%define ksrcpath %{buildroot}%{_usrsrc}/kernels/%{kver}
-install -d %{buildroot}%{modpath} %{ksrcpath}
-
-%make_build %{kernel_make_flags} INSTALL_MOD_PATH=%{buildroot}%{_prefix} INSTALL_MOD_STRIP=1 DEPMOD=true modules_install
-
-%if %{need_dtbs}
-%make_build %{kernel_make_flags} INSTALL_DTBS_PATH=%{buildroot}%{modpath}/dtb dtbs_install
-%endif
-
-%make_build run-command %{kernel_make_flags} KBUILD_RUN_COMMAND="$(pwd)/scripts/package/install-extmod-build %{ksrcpath}"
-
-pushd %{buildroot}%{modpath}
-rm -f build source
-ln -sf %{_usrsrc}/kernels/%{kver} build
-ln -sf %{_usrsrc}/kernels/%{kver} source
-popd
-
-install -Dm644 $(make %{kernel_make_flags} -s image_name) %{buildroot}%{modpath}/vmlinuz
-
-echo "Module signing would happen here for version %{kver}."
-
-%post
-%{_bindir}/kernel-install add %{kver} %{modpath}/vmlinuz
-
-%postun
-if [ $1 -eq 0 ] ; then
-    %{_bindir}/kernel-install remove %{kver}
-fi
-
-%files
-%license COPYING
-%doc README
-
-%files core
-%{modpath}/vmlinuz
-
-%files modules
-%{modpath}/*
-%exclude %{modpath}/vmlinuz
-%exclude %{modpath}/build
-%exclude %{modpath}/source
-
-%files devel
-%{_usrsrc}/kernels/%{kver}/
-%{modpath}/build
-%{modpath}/source
-
-%if %{need_dtbs}
-%files dtbs
-%{modpath}/dtb
-%endif
+cp -v "${patchset_dir}/config.%{_arch}%{arch_suffix}" %{_sourcedir}/defconfig
 
 %changelog
 %autochangelog

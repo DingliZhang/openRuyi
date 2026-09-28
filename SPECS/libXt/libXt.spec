@@ -13,8 +13,8 @@ Summary:        X.Org X11 libXt runtime library
 License:        MIT
 URL:            https://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libxt.git
-#!RemoteAsset
-Source0:        https://www.x.org/releases/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:e0a774b33324f4d4c05b199ea45050f87206586d81655f8bef4dba434d931288
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-static
@@ -67,4 +67,4 @@ mkdir -p -m 0755 %{buildroot}%{_datadir}/X11/app-defaults
 %doc %{_datadir}/doc/*
 
 %changelog
-%{?autochangelog}
+%autochangelog

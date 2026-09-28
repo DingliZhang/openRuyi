@@ -8,12 +8,12 @@
 %define go_import_path  github.com/jarcoal/httpmock
 
 Name:           go-github-jarcoal-httpmock
-Version:        1.4.1
+Version:        1.4.2
 Release:        %autorelease
 Summary:        HTTP mocking for Golang
 License:        MIT
 URL:            https://github.com/jarcoal/httpmock
-#!RemoteAsset:  sha256:e3a047ce5ce64a49b32e5686404ce919b17eb52c4f79f3fe2faddf3701b3fec5
+#!RemoteAsset:  sha256:bfa6ff9cf40d3998de533280fd647294a2a1d825ee860796f827b7c35d2d1496
 Source0:        https://github.com/jarcoal/httpmock/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

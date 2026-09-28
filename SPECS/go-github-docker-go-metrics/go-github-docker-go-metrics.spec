@@ -8,12 +8,12 @@
 %define go_import_path  github.com/docker/go-metrics
 
 Name:           go-github-docker-go-metrics
-Version:        0.0.1
+Version:        0.1.0
 Release:        %autorelease
 Summary:        Package for metrics collection in Docker projects
 License:        Apache-2.0
 URL:            https://github.com/docker/go-metrics
-#!RemoteAsset:  sha256:a8a31fd2f59880f4d771c7de45b7dbcee309468ed94740d960e0c76488f9a60b
+#!RemoteAsset:  sha256:2185b2383e84bec9a892cf5c1f4fb74ffbf8ccaa85c63045883e94da9b4ee30a
 Source0:        https://github.com/docker/go-metrics/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

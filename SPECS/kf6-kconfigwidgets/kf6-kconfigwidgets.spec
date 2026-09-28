@@ -7,18 +7,18 @@
 %define qt6_version 6.8.0
 
 %define rname kconfigwidgets
-# Full KF6 version (e.g. 6.27.0)
+# Full KF6 version (e.g. 6.29.0)
 %{!?_kf6_version: %global _kf6_version %{version}}
 
 Name:           kf6-kconfigwidgets
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        Widgets for configuration dialogs
 License:        LGPL-2.1-or-later
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/kconfigwidgets
-#!RemoteAsset:  sha256:404ed0606dfb13cc44c36deaf5f880eeec75018ae878125dabf83f32efeb0a7f
-Source:         https://download.kde.org/stable/frameworks/6.27/%{rname}-%{version}.tar.xz
+#!RemoteAsset:  sha256:449d7b4df04209669b8ad00c74fbf7e0d14cb103fbfa12a642995057cc56b35d
+Source:         https://download.kde.org/stable/frameworks/6.29/%{rname}-%{version}.tar.xz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_TESTING=OFF

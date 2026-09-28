@@ -9,13 +9,13 @@
 %define go_import_path  golang.org/x/term
 
 Name:           go-golang-x-term
-Version:        0.44.0
+Version:        0.46.0
 Release:        %autorelease
 Summary:        Go terminal and console support
 License:        BSD-3-Clause
 URL:            https://golang.org/x/term
 VCS:            git:https://github.com/golang/term
-#!RemoteAsset:  sha256:b5238a70779c6aad2b9309565a2d5744823e7efba857e8c6086b37b5d918983a
+#!RemoteAsset:  sha256:c0f402290dd7e0cfc58584f36f6ea1764458d1ecd644e8e232b9f5dbe619d364
 Source0:        https://github.com/golang/term/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -1,0 +1,60 @@
+From 68a2cef2761b7008fd46922c3a65b58844053835 Mon Sep 17 00:00:00 2001
+From: misaka00251 <liuxin@iscas.ac.cn>
+Date: Fri, 11 Sep 2026 16:59:29 +0800
+Subject: [PATCH 1/2] typeutil symbols avoid x/tools private linkname symbols
+
+---
+ .../typesinternal/classify_call.go            | 31 ++++++++++++++-----
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/internal/xtools-internal/typesinternal/classify_call.go b/internal/xtools-internal/typesinternal/classify_call.go
+index 7ebe976..a470107 100644
+--- a/internal/xtools-internal/typesinternal/classify_call.go
++++ b/internal/xtools-internal/typesinternal/classify_call.go
+@@ -8,7 +8,6 @@ import (
+ 	"fmt"
+ 	"go/ast"
+ 	"go/types"
+-	_ "unsafe" // for go:linkname hack
+ )
+ 
+ // CallKind describes the function position of an [*ast.CallExpr].
+@@ -127,11 +126,29 @@ func ClassifyCall(info *types.Info, call *ast.CallExpr) CallKind {
+ // Note: if e is an instantiated function or method, UsedIdent returns
+ // the corresponding generic function or method on the generic type.
+ func UsedIdent(info *types.Info, e ast.Expr) *ast.Ident {
+-	return usedIdent(info, e)
+-}
++	if info.Types == nil || info.Uses == nil {
++		panic("one of info.Types or info.Uses is nil; both must be populated")
++	}
++
++	switch d := ast.Unparen(e).(type) {
++	case *ast.IndexExpr:
++		if info.Types[d.Index].IsType() {
++			e = d.X
++		}
++	case *ast.IndexListExpr:
++		e = d.X
++	}
+ 
+-//go:linkname usedIdent golang.org/x/tools/go/types/typeutil.usedIdent
+-func usedIdent(info *types.Info, e ast.Expr) *ast.Ident
++	switch e := ast.Unparen(e).(type) {
++	case *ast.Ident:
++		return e
++	case *ast.SelectorExpr:
++		return e.Sel
++	}
++	return nil
++}
+ 
+-//go:linkname interfaceMethod golang.org/x/tools/go/types/typeutil.interfaceMethod
+-func interfaceMethod(f *types.Func) bool
++func interfaceMethod(f *types.Func) bool {
++	recv := f.Signature().Recv()
++	return recv != nil && types.IsInterface(recv.Type())
++}
+-- 
+2.55.0
+

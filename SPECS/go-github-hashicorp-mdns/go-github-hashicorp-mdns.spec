@@ -12,12 +12,12 @@
 %define go_test_ignore_failure 1
 
 Name:           go-github-hashicorp-mdns
-Version:        1.0.4
+Version:        1.0.7
 Release:        %autorelease
 Summary:        Simple mDNS client/server library in Go
 License:        MIT
 URL:            https://github.com/hashicorp/mdns
-#!RemoteAsset:  sha256:e30f485b22f98971a65243f4f31545ca6b9756686e4df998c947c4801badea8c
+#!RemoteAsset:  sha256:e511deeb21156c917cc23384ef043f5e3d22aa9064f01ed751ce0a4c3a25e274
 Source0:        https://github.com/hashicorp/mdns/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -10,12 +10,12 @@
 %define go_test_ignore_failure 1
 
 Name:           go-github-docker-go-connections
-Version:        0.7.0
+Version:        0.8.1
 Release:        %autorelease
 Summary:        Utility package to work with network connections
 License:        Apache-2.0
 URL:            https://github.com/docker/go-connections
-#!RemoteAsset:  sha256:fb6051f15a8e1cfe925853c9f13892214857b26d0ee481ff656fc59112e347c6
+#!RemoteAsset:  sha256:cde3faa37cb0dd29f60de84cbc4fb73fb73c51d19c50177bc23b1627c6fb0940
 Source0:        https://github.com/docker/go-connections/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

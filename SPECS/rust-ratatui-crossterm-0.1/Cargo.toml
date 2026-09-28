@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.88.0"
 name = "ratatui-crossterm"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
     "Florian Dehau <work@fdehau.com>",
     "The Ratatui Developers",
@@ -52,6 +52,9 @@ rustdoc-args = [
     "--cfg",
     "docsrs",
 ]
+
+[package.metadata.cargo-udeps.ignore]
+normal = ["crossterm_0_28"]
 
 [features]
 crossterm_0_28 = ["dep:crossterm_0_28"]
@@ -94,7 +97,7 @@ optional = true
 version = "0.3"
 
 [dependencies.ratatui-core]
-version = "0.1.1"
+version = "0.1.2"
 
 [dev-dependencies.rstest]
 version = "0.26"

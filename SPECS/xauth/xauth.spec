@@ -12,7 +12,7 @@ License:        MIT-open-group
 URL:            https://gitlab.freedesktop.org/xorg/app/xauth
 VCS:            git:https://gitlab.freedesktop.org/xorg/app/xauth.git
 #!RemoteAsset:  sha256:a4000e2f441facebf569026bedecc23ba262cc6927be52070abe0002625cfbe0
-Source0:        https://www.x.org/pub/individual/app/%{name}-%{version}.tar.xz
+Source0:        https://xorg.freedesktop.org/archive/individual/app/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildRequires:  autoconf

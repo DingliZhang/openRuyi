@@ -13,12 +13,12 @@
 %global go_test_ignore_failure 1
 
 Name:           go-github-hashicorp-consul-sdk
-Version:        0.18.1
+Version:        0.18.2
 Release:        %autorelease
 Summary:        Shared SDK helpers for HashiCorp Consul
 License:        MPL-2.0
 URL:            https://github.com/hashicorp/consul
-#!RemoteAsset:  sha256:a3827a453ca0e255482cb31076c6c293e9a286a08ab893d651c4966bdca1b67f
+#!RemoteAsset:  sha256:1fb323ab37e7a8ffb66deb04c440b336f4aaaa42f67f8d8eab4c69ca14e35abb
 Source0:        https://github.com/hashicorp/consul/archive/refs/tags/sdk/v%{version}.tar.gz#/%{_name}-sdk-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

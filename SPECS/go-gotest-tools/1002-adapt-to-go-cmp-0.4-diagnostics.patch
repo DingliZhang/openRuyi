@@ -1,0 +1,30 @@
+From caac80d44c2f888260b8a655f889463d6a9da468 Mon Sep 17 00:00:00 2001
+From: Anthony Fok <foka@debian.org>
+Date: Wed, 19 Feb 2020 23:57:41 -0700
+Subject: [PATCH] Upgrade to go-cmp v0.4.0
+
+and adjust assert/cmp/compare_test.go accordingly.
+
+In go-cmp v0.4.0, for user convenience, full name of the type
+is printed in the panic message when accessing an unexported field,
+see google/go-cmp#171
+
+Backport only the test changes to v2.3.0; keep its module metadata.
+https://github.com/gotestyourself/gotest.tools/commit/e7180e8
+---
+ assert/cmp/compare_test.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/assert/cmp/compare_test.go b/assert/cmp/compare_test.go
+index 7878b0b..0bbcdce 100644
+--- a/assert/cmp/compare_test.go
++++ b/assert/cmp/compare_test.go
+@@ -40,7 +40,7 @@ type Stub struct {
+ 
+ func TestDeepEqualWithUnexported(t *testing.T) {
+ 	result := DeepEqual(Stub{}, Stub{unx: 1})()
+-	assertFailureHasPrefix(t, result, `cannot handle unexported field: {cmp.Stub}.unx`)
++	assertFailureHasPrefix(t, result, `cannot handle unexported field at {cmp.Stub}.unx:`)
+ }
+ 
+ func TestRegexp(t *testing.T) {

@@ -30,12 +30,12 @@
 }
 
 Name:           go-google-grpc
-Version:        1.81.1
+Version:        1.83.2
 Release:        %autorelease
 Summary:        The Go language implementation of gRPC. HTTP/2 based RPC
 License:        Apache-2.0
 URL:            https://github.com/grpc/grpc-go
-#!RemoteAsset:  sha256:cf93868b1243053559399325cdcd369948c4cefaefae35ac66b9630070c7a0a6
+#!RemoteAsset:  sha256:e37f94d2b50e040523caebc9ab703d931f6d3bf037eae156274240066ffd6e89
 Source0:        https://github.com/grpc/grpc-go/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules
@@ -52,12 +52,19 @@ BuildRequires:  go(github.com/google/go-cmp)
 BuildRequires:  go(github.com/google/uuid)
 BuildRequires:  go(golang.org/x/net)
 BuildRequires:  go(golang.org/x/oauth2)
+BuildRequires:  go(golang.org/x/oauth2/google)
 BuildRequires:  go(golang.org/x/sync)
 BuildRequires:  go(golang.org/x/sys)
 BuildRequires:  go(google.golang.org/genproto)
 BuildRequires:  go(google.golang.org/protobuf)
 
 Provides:       go(google.golang.org/grpc) = %{version}
+Provides:       go(google.golang.org/grpc/codes) = %{version}
+Provides:       go(google.golang.org/grpc/credentials) = %{version}
+Provides:       go(google.golang.org/grpc/metadata) = %{version}
+Provides:       go(google.golang.org/grpc/peer) = %{version}
+Provides:       go(google.golang.org/grpc/stats) = %{version}
+Provides:       go(google.golang.org/grpc/status) = %{version}
 
 Requires:       go(github.com/cespare/xxhash/v2)
 Requires:       go(github.com/cncf/xds/go)
@@ -67,6 +74,7 @@ Requires:       go(github.com/google/go-cmp)
 Requires:       go(github.com/google/uuid)
 Requires:       go(golang.org/x/net)
 Requires:       go(golang.org/x/oauth2)
+Requires:       go(golang.org/x/oauth2/google)
 Requires:       go(golang.org/x/sync)
 Requires:       go(golang.org/x/sys)
 Requires:       go(google.golang.org/genproto)

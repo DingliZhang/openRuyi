@@ -1,0 +1,357 @@
+diff --git a/src/hotspot/cpu/riscv/c1_LIRGenerator_riscv.cpp b/src/hotspot/cpu/riscv/c1_LIRGenerator_riscv.cpp
+index 5e0deb84a14..4d5e879053b 100644
+--- a/src/hotspot/cpu/riscv/c1_LIRGenerator_riscv.cpp
++++ b/src/hotspot/cpu/riscv/c1_LIRGenerator_riscv.cpp
+@@ -856,7 +856,80 @@ void LIRGenerator::do_update_CRC32(Intrinsic* x) {
+ }
+ 
+ void LIRGenerator::do_update_CRC32C(Intrinsic* x) {
+-  ShouldNotReachHere();
++  assert(UseCRC32CIntrinsics, "why are we here?");
++  // Make all state_for calls early since they can emit code
++  LIR_Opr result = rlock_result(x);
++  switch (x->id()) {
++    case vmIntrinsics::_updateBytesCRC32C:
++    case vmIntrinsics::_updateDirectByteBufferCRC32C: {
++      bool is_updateBytes = (x->id() == vmIntrinsics::_updateBytesCRC32C);
++      int offset = is_updateBytes ? arrayOopDesc::base_offset_in_bytes(T_BYTE) : 0;
++
++      LIRItem crc(x->argument_at(0), this);
++      LIRItem buf(x->argument_at(1), this);
++      LIRItem off(x->argument_at(2), this);
++      LIRItem end(x->argument_at(3), this);
++
++      buf.load_item();
++      off.load_nonconstant();
++      end.load_nonconstant();
++
++      // len = end - off
++      LIR_Opr len  = end.result();
++      LIR_Opr tmpA = new_register(T_INT);
++      LIR_Opr tmpB = new_register(T_INT);
++      __ move(end.result(), tmpA);
++      __ move(off.result(), tmpB);
++      __ sub(tmpA, tmpB, tmpA);
++      len = tmpA;
++
++      LIR_Opr index = off.result();
++      if(off.result()->is_constant()) {
++        index = LIR_OprFact::illegalOpr;
++        offset += off.result()->as_jint();
++      }
++      LIR_Opr base_op = buf.result();
++
++      if (index->is_valid()) {
++        LIR_Opr tmp = new_register(T_LONG);
++        __ convert(Bytecodes::_i2l, index, tmp);
++        index = tmp;
++      }
++
++      if (offset) {
++        LIR_Opr tmp = new_pointer_register();
++        __ add(base_op, LIR_OprFact::intConst(offset), tmp);
++        base_op = tmp;
++        offset = 0;
++      }
++
++      LIR_Address* a = new LIR_Address(base_op,
++                                       index,
++                                       offset,
++                                       T_BYTE);
++      BasicTypeList signature(3);
++      signature.append(T_INT);
++      signature.append(T_ADDRESS);
++      signature.append(T_INT);
++      CallingConvention* cc = frame_map()->c_calling_convention(&signature);
++      const LIR_Opr result_reg = result_register_for(x->type());
++
++      LIR_Opr addr = new_register(T_ADDRESS);
++      __ leal(LIR_OprFact::address(a), addr);
++
++      crc.load_item_force(cc->at(0));
++      __ move(addr, cc->at(1));
++      __ move(len, cc->at(2));
++
++      __ call_runtime_leaf(StubRoutines::updateBytesCRC32C(), getThreadTemp(), result_reg, cc->args());
++      __ move(result_reg, result);
++
++      break;
++    }
++    default: {
++      ShouldNotReachHere();
++    }
++  }
+ }
+ 
+ void LIRGenerator::do_FmaIntrinsic(Intrinsic* x) {
+diff --git a/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp b/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp
+index 7a339d83d25..d53a93a196d 100644
+--- a/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp
++++ b/src/hotspot/cpu/riscv/macroAssembler_riscv.cpp
+@@ -2574,12 +2574,9 @@ void MacroAssembler::kernel_crc32_vclmul_fold(Register crc, Register buf, Regist
+                         Register tmp1, Register tmp2, Register tmp3, Register tmp4, Register tmp5) {
+   const int64_t single_table_size = 256;
+   const int64_t table_num = 8;   // 4 for scalar, 4 for plain vector
+-  const ExternalAddress table_addr = StubRoutines::crc_table_addr();
+   Register vclmul_table = tmp3;
+ 
+-  la(vclmul_table, table_addr);
+-  add(vclmul_table, vclmul_table, table_num * single_table_size * sizeof(juint), tmp1);
+-  la(table0, table_addr);
++  add(vclmul_table, table0, table_num * single_table_size * sizeof(juint), tmp1);
+ 
+   if (MaxVectorSize == 16) {
+     kernel_crc32_vclmul_fold_vectorsize_16(crc, buf, len, vclmul_table, tmp1, tmp2);
+@@ -2622,8 +2619,6 @@ void MacroAssembler::kernel_crc32(Register crc, Register buf, Register len,
+ 
+   andn(crc, tmp5, crc);
+ 
+-  const ExternalAddress table_addr = StubRoutines::crc_table_addr();
+-  la(table0, table_addr);
+   add(table1, table0, 1 * single_table_size * sizeof(juint), tmp1);
+   add(table2, table0, 2 * single_table_size * sizeof(juint), tmp1);
+   add(table3, table2, 1 * single_table_size * sizeof(juint), tmp1);
+diff --git a/src/hotspot/cpu/riscv/stubGenerator_riscv.cpp b/src/hotspot/cpu/riscv/stubGenerator_riscv.cpp
+index 06cf67e2486..a0ad3ddf342 100644
+--- a/src/hotspot/cpu/riscv/stubGenerator_riscv.cpp
++++ b/src/hotspot/cpu/riscv/stubGenerator_riscv.cpp
+@@ -7128,6 +7128,9 @@ static const int64_t right_3_bits = right_n_bits(3);
+     BLOCK_COMMENT("Entry:");
+     __ enter(); // required for proper stackwalking of RuntimeStub frame
+ 
++    const ExternalAddress table_addr = StubRoutines::crc_table_addr();
++    __ la(c_rarg3, table_addr);
++
+     __ kernel_crc32(crc, buf, len,
+                     c_rarg3, c_rarg4, c_rarg5, c_rarg6, // tmp's for tables
+                     c_rarg7, t2, t3, t4, t5, t6);       // misc tmps
+@@ -7138,6 +7141,39 @@ static const int64_t right_3_bits = right_n_bits(3);
+     return start;
+   }
+ 
++  address generate_updateBytesCRC32C() {
++    assert(UseCRC32CIntrinsics, "what are we doing here?");
++
++    __ align(CodeEntryAlignment);
++    StubId stub_id = StubId::stubgen_updateBytesCRC32C_id;
++    StubCodeMark mark(this, stub_id);
++
++    address start = __ pc();
++
++    const Register crc = c_rarg0;
++    const Register buf = c_rarg1;
++    const Register len = c_rarg2;
++
++    BLOCK_COMMENT("Entry:");
++    __ enter();
++
++    const ExternalAddress table_addr = StubRoutines::crc32c_table_addr();
++    __ la(c_rarg3, table_addr);
++
++    // Initial CRC inversion
++    __ notr(crc, crc);  // crc = ~crc
++    __ kernel_crc32(crc, buf, len,
++                    c_rarg3, c_rarg4, c_rarg5, c_rarg6,  // table0-3
++                    c_rarg7, t2, t3, t4, t5, t6);        // tmp1-6
++    // Final CRC inversion
++    __ notr(crc, crc);  // crc = ~crc
++
++    __ leave();
++    __ ret();
++
++    return start;
++  }
++
+   // exception handler for upcall stubs
+   address generate_upcall_stub_exception_handler() {
+     StubId stub_id = StubId::stubgen_upcall_stub_exception_handler_id;
+@@ -7209,6 +7245,10 @@ static const int64_t right_3_bits = right_n_bits(3);
+       StubRoutines::_updateBytesCRC32 = generate_updateBytesCRC32();
+     }
+ 
++    if (UseCRC32CIntrinsics) {
++      StubRoutines::_updateBytesCRC32C = generate_updateBytesCRC32C();
++    }
++
+     if (vmIntrinsics::is_intrinsic_available(vmIntrinsics::_float16ToFloat) &&
+         vmIntrinsics::is_intrinsic_available(vmIntrinsics::_floatToFloat16)) {
+       StubRoutines::_hf2f = generate_float16ToFloat();
+diff --git a/src/hotspot/cpu/riscv/stubRoutines_riscv.cpp b/src/hotspot/cpu/riscv/stubRoutines_riscv.cpp
+index b7f69eff9fa..6905ab1e939 100644
+--- a/src/hotspot/cpu/riscv/stubRoutines_riscv.cpp
++++ b/src/hotspot/cpu/riscv/stubRoutines_riscv.cpp
+@@ -36,6 +36,9 @@
+ 
+ // define fields for arch-specific entries
+ 
++// CRC32C polynomial constant (reflected form of Castagnoli polynomial 0x1EDC6F41)
++#define CRC32C_POLY 0x82F63B78
++
+ #define DEFINE_ARCH_ENTRY(arch, blob_name, stub_name, field_name, getter_name) \
+   address StubRoutines:: arch :: STUB_FIELD_NAME(field_name)  = nullptr;
+ 
+@@ -53,12 +56,126 @@ STUBGEN_ARCH_ENTRIES_DO(DEFINE_ARCH_ENTRY, DEFINE_ARCH_ENTRY_INIT, DEFINE_ARCH_E
+ 
+ bool StubRoutines::riscv::_completed = false;
+ 
++// CRC32C table pointer (initialized on first use)
++juint* StubRoutines::riscv::_crc32c_table = nullptr;
++
+ /**
+  *  crc_table[] from jdk/src/java.base/share/native/libzip/zlib/crc32.h
+  */
+ 
+ address StubRoutines::crc_table_addr()    { return (address)StubRoutines::riscv::_crc_table; }
+-address StubRoutines::crc32c_table_addr() { ShouldNotCallThis(); return nullptr; }
++address StubRoutines::crc32c_table_addr() {
++  if (StubRoutines::riscv::_crc32c_table == nullptr) {
++    StubRoutines::riscv::generate_CRC32C_table();
++  }
++  return (address)StubRoutines::riscv::_crc32c_table;
++}
++
++/**
++ * Generate CRC32C lookup table.
++ *
++ * Layout (same contract as CRC32/vector path):
++ *   - tables 0..3: scalar update tables
++ *   - tables 4..7: braid tables for RVV vector_update_crc32()
++ *   - tail: carry-less multiplication constants
++ */
++void StubRoutines::riscv::generate_CRC32C_table() {
++  constexpr int table_size = 256;
++  constexpr int scalar_tables = 4;
++  constexpr int braid_tables = 4;
++  constexpr int N = 16;
++  constexpr int W = 4;
++
++  ATTRIBUTE_ALIGNED(4096) static juint crc32c_table[(scalar_tables + braid_tables) * table_size + 20];
++
++  auto multmodp_crc32c = [](uint32_t a, uint32_t b) -> uint32_t {
++    if (a == 0) {
++      return 0;
++    }
++
++    uint32_t m = 1u << 31;
++    uint32_t p = 0;
++    while (true) {
++      if ((a & m) != 0) {
++        p ^= b;
++        if ((a & (m - 1)) == 0) {
++          break;
++        }
++      }
++      m >>= 1;
++      b = ((b & 1) != 0) ? ((b >> 1) ^ CRC32C_POLY) : (b >> 1);
++    }
++    return p;
++  };
++
++  auto x2nmodp_direct_crc32c = [](int exponent) -> uint32_t {
++    uint32_t p = 1u << 31;
++    for (int i = 0; i < exponent; i++) {
++      p = ((p & 1) != 0) ? ((p >> 1) ^ CRC32C_POLY) : (p >> 1);
++    }
++    return p;
++  };
++
++  // Table 0: Base CRC32C lookup table.
++  for (int i = 0; i < table_size; i++) {
++    uint32_t crc = static_cast<uint32_t>(i);
++    for (int j = 0; j < 8; j++) {
++      crc = ((crc & 1) != 0) ? ((crc >> 1) ^ CRC32C_POLY) : (crc >> 1);
++    }
++    crc32c_table[i] = crc;
++  }
++
++  // Tables 1..3: scalar extension tables.
++  for (int table_idx = 1; table_idx < scalar_tables; table_idx++) {
++    const int prev_base = (table_idx - 1) * table_size;
++    const int curr_base = table_idx * table_size;
++    for (int i = 0; i < table_size; i++) {
++      uint32_t crc = crc32c_table[prev_base + i];
++      crc32c_table[curr_base + i] = crc32c_table[crc & 0xFF] ^ (crc >> 8);
++    }
++  }
++
++  // Tables 4..7: braid tables for vector_update_crc32() with (N=16, W=4).
++  for (int k = 0; k < braid_tables; k++) {
++    const int exponent = (N * W + 3 - k) << 3;
++    const uint32_t p = x2nmodp_direct_crc32c(exponent);
++    const int base = (scalar_tables + k) * table_size;
++    crc32c_table[base] = 0;
++    for (int i = 1; i < table_size; i++) {
++      crc32c_table[base + i] =
++          multmodp_crc32c(static_cast<uint32_t>(i) << 24, p);
++    }
++  }
++
++  // Add CRC32C carry-less multiplication constants for Zvbc folding/reduction.
++  // Keep this sequence in sync with kernel_crc32_vclmul_fold_* table consumption.
++  int vclmul_offset = (scalar_tables + braid_tables) * table_size;
++
++  crc32c_table[vclmul_offset++] = 0x6992cea2UL;
++  crc32c_table[vclmul_offset++] = 0x00000000UL;
++  crc32c_table[vclmul_offset++] = 0x0d3b6092UL;
++  crc32c_table[vclmul_offset++] = 0x00000000UL;
++  crc32c_table[vclmul_offset++] = 0x740eef02UL;
++  crc32c_table[vclmul_offset++] = 0x00000000UL;
++  crc32c_table[vclmul_offset++] = 0x9e4addf8UL;
++  crc32c_table[vclmul_offset++] = 0x00000000UL;
++  crc32c_table[vclmul_offset++] = 0x1c291d04UL;
++  crc32c_table[vclmul_offset++] = 0x00000000UL;
++  crc32c_table[vclmul_offset++] = 0xd82c63daUL;
++  crc32c_table[vclmul_offset++] = 0x00000001UL;
++  crc32c_table[vclmul_offset++] = 0x384aa63aUL;
++  crc32c_table[vclmul_offset++] = 0x00000001UL;
++  crc32c_table[vclmul_offset++] = 0xba4fc28eUL;
++  crc32c_table[vclmul_offset++] = 0x00000000UL;
++  crc32c_table[vclmul_offset++] = 0xf20c0dfeUL;
++  crc32c_table[vclmul_offset++] = 0x00000000UL;
++  crc32c_table[vclmul_offset++] = 0x4cd00bd6UL;
++  crc32c_table[vclmul_offset++] = 0x00000001UL;
++
++  _crc32c_table = crc32c_table;
++}
++
++#undef CRC32C_POLY
+ 
+ ATTRIBUTE_ALIGNED(4096) juint StubRoutines::riscv::_crc_table[] =
+ {
+diff --git a/src/hotspot/cpu/riscv/stubRoutines_riscv.hpp b/src/hotspot/cpu/riscv/stubRoutines_riscv.hpp
+index b230c2657de..c9510b60368 100644
+--- a/src/hotspot/cpu/riscv/stubRoutines_riscv.hpp
++++ b/src/hotspot/cpu/riscv/stubRoutines_riscv.hpp
+@@ -99,6 +99,11 @@ class riscv {
+ 
+ private:
+   static juint    _crc_table[];
++  static juint*   _crc32c_table;
++
++public:
++  // CRC32C table generation
++  static void generate_CRC32C_table();
+ };
+ 
+ #endif // CPU_RISCV_STUBROUTINES_RISCV_HPP
+diff --git a/src/hotspot/cpu/riscv/vm_version_riscv.cpp b/src/hotspot/cpu/riscv/vm_version_riscv.cpp
+index 3a6415d52bd..da4035a5141 100644
+--- a/src/hotspot/cpu/riscv/vm_version_riscv.cpp
++++ b/src/hotspot/cpu/riscv/vm_version_riscv.cpp
+@@ -214,8 +214,14 @@ void VM_Version::common_initialize() {
+     FLAG_SET_DEFAULT(UseCRC32Intrinsics, false);
+   }
+ 
+-  if (UseCRC32CIntrinsics) {
+-    warning("CRC32C intrinsics are not available on this CPU.");
++  if (!AvoidUnalignedAccesses && (UseZba || UseRVV)) {
++    if (FLAG_IS_DEFAULT(UseCRC32CIntrinsics)) {
++      FLAG_SET_DEFAULT(UseCRC32CIntrinsics, true);
++    }
++  } else {
++    if (!FLAG_IS_DEFAULT(UseCRC32CIntrinsics)) {
++      warning("CRC32C intrinsic are not available on this CPU.");
++    }
+     FLAG_SET_DEFAULT(UseCRC32CIntrinsics, false);
+   }
+ }

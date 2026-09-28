@@ -9,14 +9,14 @@
 %bcond asciidoc 0
 
 Name:           libXi
-Version:        1.8.2
+Version:        1.8.3
 Release:        %autorelease
 Summary:        X.Org X11 libXi runtime library
 License:        MIT
 URL:            https://www.x.org/
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libxi.git
-#!RemoteAsset
-Source0:        https://www.x.org/releases/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:7ad60056f01af4f786cfe93b3a7707447711626fc8da2637bec71a90409babe5
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-static
@@ -63,4 +63,4 @@ X.Org X11 libXi development package
 %{_mandir}/man3/*
 
 %changelog
-%{?autochangelog}
+%autochangelog

@@ -87,7 +87,7 @@ jobs:
     needs: build
     runs-on: [ubuntu-latest]
     container:
-      image: git.openruyi.cn/openruyi/creek-x86-64:latest
+      image: ghcr.io/openruyi-project/creek-x86_64:latest
     steps:
     - name: Download All Artifacts
       uses: actions/download-artifact@v8

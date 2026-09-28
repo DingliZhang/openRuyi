@@ -7,18 +7,18 @@
 %define qt6_version 6.8.0
 
 %define rname kitemviews
-# Full KF6 version (e.g. 6.27.0)
+# Full KF6 version (e.g. 6.29.0)
 %{!?_kf6_version: %global _kf6_version %{version}}
 
 Name:           kf6-kitemviews
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        Set of item views extending the Qt model-view framework
 License:        LGPL-2.0-or-later
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/kitemviews
-#!RemoteAsset:  sha256:7a286f147144714aa9e8f567dd5a0638a8fb81df97a34a0112f725b72aa36979
-Source:         https://download.kde.org/stable/frameworks/6.27/%{rname}-%{version}.tar.xz
+#!RemoteAsset:  sha256:9e6355cf1264756d3b38254181e46e3103e531f0f1613ae1c158d4f9e541576e
+Source:         https://download.kde.org/stable/frameworks/6.29/%{rname}-%{version}.tar.xz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_TESTING=OFF

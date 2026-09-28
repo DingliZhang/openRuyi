@@ -13,12 +13,12 @@
 %define go_test_exclude_glob %{go_import_path}*
 
 Name:           go-github-getkin-kin-openapi
-Version:        0.140.0
+Version:        0.149.0
 Release:        %autorelease
 Summary:        OpenAPI and Swagger implementation for Go
 License:        MIT
 URL:            https://github.com/getkin/kin-openapi
-#!RemoteAsset:  sha256:2bfcf8e28d5e25275abfe09b60a4b03e19f06e76a785c28a315684a04e141d8a
+#!RemoteAsset:  sha256:881d3a6f478b07bdd00939f5378908eab0223b1e9cfe2a8d75381d6681c3796b
 Source0:        https://github.com/getkin/kin-openapi/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

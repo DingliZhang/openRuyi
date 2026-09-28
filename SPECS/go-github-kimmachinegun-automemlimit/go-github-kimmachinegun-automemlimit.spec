@@ -20,12 +20,12 @@
 }
 
 Name:           go-github-kimmachinegun-automemlimit
-Version:        0.7.5
+Version:        1.0.0
 Release:        %autorelease
 Summary:        Automatically set GOMEMLIMIT from Linux cgroups memory limits
 License:        MIT
 URL:            https://github.com/KimMachineGun/automemlimit
-#!RemoteAsset:  sha256:82651b63472730d6a79e3e89d7232aa53f974e6b25455bb7d44dc2966fbe6206
+#!RemoteAsset:  sha256:e6e06bc4a963bbceaa292665ea90c690984132bb20551e65c1b5d93977258252
 Source0:        https://github.com/KimMachineGun/automemlimit/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

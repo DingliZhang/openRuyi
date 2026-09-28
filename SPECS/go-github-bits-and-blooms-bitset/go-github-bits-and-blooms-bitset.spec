@@ -9,12 +9,12 @@
 %define go_import_path  github.com/bits-and-blooms/bitset
 
 Name:           go-github-bits-and-blooms-bitset
-Version:        1.24.5
+Version:        1.25.0
 Release:        %autorelease
 Summary:        Bitset implementation for Go
 License:        BSD-3-Clause
 URL:            https://github.com/bits-and-blooms/bitset
-#!RemoteAsset:  sha256:85dee826b8b80479edbabc156efbfd15e9a22b49ae90e3741392f461a552ae63
+#!RemoteAsset:  sha256:48d577e1f2b4316cdb0be42af0b25854cd070832307199aa90beb97a057d64c2
 Source0:        https://github.com/bits-and-blooms/bitset/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

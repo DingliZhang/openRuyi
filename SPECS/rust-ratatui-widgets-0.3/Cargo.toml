@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.88.0"
 name = "ratatui-widgets"
-version = "0.3.1"
+version = "0.3.2"
 authors = [
     "Florian Dehau <work@fdehau.com>",
     "The Ratatui Developers",
@@ -140,6 +140,10 @@ path = "examples/table.rs"
 name = "tabs"
 path = "examples/tabs.rs"
 
+[[test]]
+name = "auto_traits"
+path = "tests/auto_traits.rs"
+
 [dependencies.bitflags]
 version = "2.12"
 
@@ -165,7 +169,7 @@ default-features = false
 version = "0.3"
 
 [dependencies.ratatui-core]
-version = "0.1.1"
+version = "0.1.2"
 
 [dependencies.serde]
 version = "1"

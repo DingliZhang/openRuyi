@@ -8,18 +8,18 @@
 
 %define rname kwidgetsaddons
 
-# Full KF6 version (e.g. 6.27.0)
+# Full KF6 version (e.g. 6.29.0)
 %{!?_kf6_version: %global _kf6_version %{version}}
 
 Name:           kf6-kwidgetsaddons
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        Large set of desktop widgets
 License:        LGPL-2.1-or-later
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/kwidgetsaddons
-#!RemoteAsset:  sha256:4cba86999331960b3fddac8ed02cccb31fc49406422360217135f6bf3fbca8d9
-Source:         https://download.kde.org/stable/frameworks/6.27/%{rname}-%{version}.tar.xz
+#!RemoteAsset:  sha256:76285d03cdc06f0647afbbc89f31ab5aa766cbc3c6eb177e3f8a0441444e3068
+Source:         https://download.kde.org/stable/frameworks/6.29/%{rname}-%{version}.tar.xz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_TESTING=OFF

@@ -1,0 +1,46 @@
+From 99520e461c84378014a3247330776357d35acc06 Mon Sep 17 00:00:00 2001
+From: misaka00251 <liuxin@iscas.ac.cn>
+Date: Fri, 11 Sep 2026 16:59:49 +0800
+Subject: [PATCH 2/2] tests: enable module mode for temporary modules
+
+---
+ internal/xtools-internal/gocommand/invoke_test.go              | 1 +
+ .../xtools-internal/typesinternal/typeindex/typeindex_test.go  | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/internal/xtools-internal/gocommand/invoke_test.go b/internal/xtools-internal/gocommand/invoke_test.go
+index 11200b9..1d9ee76 100644
+--- a/internal/xtools-internal/gocommand/invoke_test.go
++++ b/internal/xtools-internal/gocommand/invoke_test.go
+@@ -78,6 +78,7 @@ func TestRmdirAfterGoList_Direct(t *testing.T) {
+ 		t.Run(delay.String(), func(t *testing.T) {
+ 			testRmdirAfterGoList(t, func(ctx context.Context, dir string) {
+ 				cmd := exec.Command("go", "list", "-json", "example.com/p")
++				cmd.Env = append(os.Environ(), "GO111MODULE=on")
+ 				cmd.Dir = dir
+ 				cmd.Stdout = new(strings.Builder)
+ 				cmd.Stderr = new(strings.Builder)
+diff --git a/internal/xtools-internal/typesinternal/typeindex/typeindex_test.go b/internal/xtools-internal/typesinternal/typeindex/typeindex_test.go
+index 782dd17..ca3a21f 100644
+--- a/internal/xtools-internal/typesinternal/typeindex/typeindex_test.go
++++ b/internal/xtools-internal/typesinternal/typeindex/typeindex_test.go
+@@ -9,6 +9,7 @@ import (
+ 	"go/parser"
+ 	"go/token"
+ 	"go/types"
++	"os"
+ 	"slices"
+ 	"testing"
+ 
+@@ -330,7 +331,7 @@ func _() {
+ 	dir := testfiles.CopyToTmp(t, fs)
+ 
+ 	fset := token.NewFileSet()
+-	cfg := packages.Config{Mode: packages.LoadAllSyntax, Fset: fset, Dir: dir}
++	cfg := packages.Config{Mode: packages.LoadAllSyntax, Fset: fset, Dir: dir, Env: append(os.Environ(), "GO111MODULE=on")}
+ 	pkgs, err := packages.Load(&cfg, "foo")
+ 	if err != nil {
+ 		t.Fatal(err)
+-- 
+2.55.0
+

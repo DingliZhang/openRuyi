@@ -17,12 +17,12 @@
 }
 
 Name:           go-github-go-openapi-testify-v2
-Version:        2.4.2
+Version:        2.8.0
 Release:        %autorelease
 Summary:        Self-contained testify fork used by the go-openapi projects
 License:        Apache-2.0
 URL:            https://github.com/go-openapi/testify
-#!RemoteAsset:  sha256:f4070345d40c238af4b0fb372d0156a8d2e73ca233900074d1593495020092b3
+#!RemoteAsset:  sha256:cb57c33e3444250950f835cfac91b54a9e80e1e3c74f79a1a89dbefabb929743
 Source0:        https://github.com/go-openapi/testify/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

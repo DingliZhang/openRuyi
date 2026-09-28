@@ -8,12 +8,12 @@
 %define go_import_path  github.com/lucasb-eyer/go-colorful
 
 Name:           go-github-lucasb-eyer-go-colorful
-Version:        1.4.0
+Version:        1.4.1
 Release:        %autorelease
 Summary:        A library for playing with colors in go (golang).
 License:        MIT
 URL:            https://github.com/lucasb-eyer/go-colorful
-#!RemoteAsset:  sha256:9aeb66aafdfe5d1f808aca4a1355363977aee0df3556f99046e0d7cce6c79165
+#!RemoteAsset:  sha256:d9011a68a263eac8792b0cf1844188dd7a4468900d4413d87eeb80d2e679b7ff
 Source0:        https://github.com/lucasb-eyer/go-colorful/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

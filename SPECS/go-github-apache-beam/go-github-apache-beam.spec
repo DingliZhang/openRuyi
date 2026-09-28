@@ -10,12 +10,12 @@
 %define go_test_ignore_failure 1
 
 Name:           go-github-apache-beam
-Version:        2.74.0
+Version:        2.76.0
 Release:        %autorelease
 Summary:        Apache Beam is a unified programming model for Batch and Streaming data processing.
 License:        Apache-2.0
 URL:            https://github.com/apache/beam
-#!RemoteAsset:  sha256:5d81163d596de2bbcbbe5ebb293b475f5b5cadf8b00e59fdf3421800dd707c5f
+#!RemoteAsset:  sha256:a146feb5e587e48f47ccd50d33a53a7140fe5bea09ac226e7b72a9f9c3652847
 Source0:        https://github.com/apache/beam/archive/refs/tags/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

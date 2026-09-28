@@ -5,19 +5,16 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           libxkbfile
-Version:        1.1.3
+Version:        1.2.0
 Release:        %autorelease
 Summary:        X.Org X11 libxkbfile runtime library
 License:        MIT-open-group AND HPND AND SMLNJ
 URL:            https://gitlab.freedesktop.org/xorg/lib/libxkbfile/
-#!RemoteAsset
-Source0:        https://www.x.org/pub/individual/lib/libxkbfile-%{version}.tar.xz
-BuildSystem:    autotools
+#!RemoteAsset:  sha256:7f71884e5faf56fb0e823f3848599cf9b5a9afce51c90982baeb64f635233ebf
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/libxkbfile-%{version}.tar.xz
+BuildSystem:    meson
 
-BuildOption(conf):  --disable-static
-BuildOption(conf):  CFLAGS="%{optflags} -fno-strict-aliasing"
-
-BuildRequires:  make
+BuildRequires:  meson
 BuildRequires:  gcc
 BuildRequires:  pkgconfig(xproto)
 BuildRequires:  pkgconfig(x11)
@@ -34,7 +31,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Development files for libxkbfile.
 
 %files
-%doc COPYING ChangeLog
+%doc COPYING README.md
 %{_libdir}/libxkbfile.so.1*
 
 %files devel
@@ -44,4 +41,4 @@ Development files for libxkbfile.
 %{_libdir}/pkgconfig/xkbfile.pc
 
 %changelog
-%{?autochangelog}
+%autochangelog

@@ -13,8 +13,8 @@ Summary:        X.Org X11 libXtst runtime library
 License:        MIT
 URL:            https://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libxtst.git
-#!RemoteAsset
-Source0:        https://www.x.org/releases/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:b50d4c25b97009a744706c1039c598f4d8e64910c9fde381994e1cae235d9242
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-static
@@ -52,4 +52,4 @@ X.Org X11 libXtst development package
 %{_mandir}/man3/XTest*.3*
 
 %changelog
-%{?autochangelog}
+%autochangelog

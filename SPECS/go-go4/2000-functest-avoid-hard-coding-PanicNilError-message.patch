@@ -1,0 +1,37 @@
+From 72d565b72a93393ae983f5af2c8e1aac10aaf971 Mon Sep 17 00:00:00 2001
+From: misaka00251 <liuxin@iscas.ac.cn>
+Date: Fri, 11 Sep 2026 11:29:05 +0800
+Subject: [PATCH] functest: avoid hard-coding PanicNilError message
+
+---
+ testing/functest/functest_test.go | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/testing/functest/functest_test.go b/testing/functest/functest_test.go
+index 11290b7..cf695a7 100644
+--- a/testing/functest/functest_test.go
++++ b/testing/functest/functest_test.go
+@@ -3,6 +3,7 @@ package functest
+ import (
+ 	"bytes"
+ 	"fmt"
++	"runtime"
+ 	"testing"
+ )
+ 
+@@ -110,9 +111,9 @@ func TestPanic(t *testing.T) {
+ 		}),
+ 		f.Case("panic with nil").In(true, nil),
+ 	)
+-	want := `LOG: Got res: {Result:[] Panic:boom Panicked:true}
+-ERR: panic with nil: condPanic(true, <nil>): panicked with panic called with nil argument
+-`
++	want := fmt.Sprintf(`LOG: Got res: {Result:[] Panic:boom Panicked:true}
++ERR: panic with nil: condPanic(true, <nil>): panicked with %v
++`, new(runtime.PanicNilError))
+ 	if got := trec.String(); got != want {
+ 		t.Errorf("Output mismatch.\nGot:\n%v\nWant:\n%v\n", got, want)
+ 	}
+-- 
+2.55.0
+

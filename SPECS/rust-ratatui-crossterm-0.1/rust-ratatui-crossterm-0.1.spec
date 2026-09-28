@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 %global crate_name ratatui-crossterm
-%global full_version 0.1.1
+%global full_version 0.1.2
 %global pkgname ratatui-crossterm-0.1
 
 Name:           rust-ratatui-crossterm-0.1
-Version:        0.1.1
+Version:        0.1.2
 Release:        %autorelease
 Summary:        Rust crate "ratatui-crossterm"
 License:        MIT
 URL:            https://ratatui.rs
-#!RemoteAsset:  sha256:2b2867bedcbd6a690ca4f8672a687b730ec07660c79844517b084311b529980c
+#!RemoteAsset:  sha256:567584a3b0e6a8203c23de40b4861497266725eb5363dbfd18a1edd603cca9f0
 Source:         https://static.crates.io/crates/%{crate_name}/%{full_version}/download#/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    rustcrates
@@ -22,7 +22,8 @@ BuildRequires:  rust-rpm-macros
 
 Requires:       crate(cfg-if-1/default) >= 1.0.1
 Requires:       crate(instability-0.3/default) >= 0.3.0
-Requires:       crate(ratatui-core-0.1/default) >= 0.1.1
+Requires:       crate(ratatui-core-0.1/default) >= 0.1.2
+
 Provides:       crate(%{pkgname}) = %{version}
 Provides:       crate(%{pkgname}/unstable) = %{version}
 Provides:       crate(%{pkgname}/unstable-backend-writer) = %{version}
@@ -70,7 +71,7 @@ This metapackage enables feature "document-features" for the Rust ratatui-crosst
 %package     -n %{name}+scrolling-regions
 Summary:        Crossterm backend for the Ratatui Terminal UI library - feature "scrolling-regions"
 Requires:       crate(%{pkgname}) = %{version}
-Requires:       crate(ratatui-core-0.1/scrolling-regions) >= 0.1.1
+Requires:       crate(ratatui-core-0.1/scrolling-regions) >= 0.1.2
 Provides:       crate(%{pkgname}/scrolling-regions) = %{version}
 
 %description -n %{name}+scrolling-regions
@@ -89,7 +90,7 @@ This metapackage enables feature "serde" for the Rust ratatui-crossterm crate, b
 %package     -n %{name}+underline-color
 Summary:        Crossterm backend for the Ratatui Terminal UI library - feature "underline-color"
 Requires:       crate(%{pkgname}) = %{version}
-Requires:       crate(ratatui-core-0.1/underline-color) >= 0.1.1
+Requires:       crate(ratatui-core-0.1/underline-color) >= 0.1.2
 Provides:       crate(%{pkgname}/underline-color) = %{version}
 
 %description -n %{name}+underline-color

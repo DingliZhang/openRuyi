@@ -13,7 +13,7 @@ License:        MIT
 URL:            http://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/xserver
 #!RemoteAsset:  sha256:27115a1a8819078409bf6fecfeb7724e8137bd36426de7005a5b3aae0a2138ff
-Source0:        https://www.x.org/pub/individual/xserver/xwayland-%{version}.tar.xz
+Source0:        https://xorg.freedesktop.org/archive/individual/xserver/xwayland-%{version}.tar.xz
 BuildSystem:    meson
 
 BuildOption(conf):  -Dbuilder_string="%{vendor_name} %{name} %{version}-%{release}"
@@ -68,6 +68,7 @@ BuildRequires:  pkgconfig(xcb-renderutil)
 Requires:       xkeyboard-config
 Requires:       xkbcomp
 Recommends:     mesa-gl
+Recommends:     mesa-dril
 
 %description
 Xwayland is an X server for running X clients under Wayland.

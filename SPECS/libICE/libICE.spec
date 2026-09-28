@@ -13,8 +13,8 @@ Summary:        X.Org X11 ICE runtime library
 License:        MIT-open-group
 URL:            http://www.x.org
 VCS:            git:https://gitlab.freedesktop.org/xorg/lib/libice.git
-#!RemoteAsset
-Source0:        https://www.x.org/pub/individual/lib/%{name}-%{version}.tar.xz
+#!RemoteAsset:  sha256:974e4ed414225eb3c716985df9709f4da8d22a67a2890066bc6dfc89ad298625
+Source0:        https://xorg.freedesktop.org/archive/individual/lib/%{name}-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-static
@@ -50,4 +50,4 @@ The X.Org X11 ICE (Inter-Client Exchange) development package.
 %{_docdir}/%{name}/*.xml
 
 %changelog
-%{?autochangelog}
+%autochangelog

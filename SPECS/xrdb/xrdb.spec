@@ -5,13 +5,13 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 Name:           xrdb
-Version:        1.2.2
+Version:        1.2.3
 Release:        %autorelease
 Summary:        X server resource database utility
 License:        MIT
 URL:            https://gitlab.freedesktop.org/xorg/app/xrdb
-#!RemoteAsset:  sha256:31f5fcab231b38f255b00b066cf7ea3b496df712c9eb2d0d50c670b63e5033f4
-Source0:        https://www.x.org/pub/individual/app/xrdb-%{version}.tar.xz
+#!RemoteAsset:  sha256:c88f560243278c896ce4fc92ae5a45a2b505a316ffa427fe55b02e5d5914c4e4
+Source0:        https://xorg.freedesktop.org/archive/individual/app/xrdb-%{version}.tar.xz
 BuildSystem:    autotools
 
 BuildOption(conf):  --disable-silent-rules
@@ -39,4 +39,4 @@ autoreconf -fiv
 %{_mandir}/man1/xrdb.1*
 
 %changelog
-%{?autochangelog}
+%autochangelog

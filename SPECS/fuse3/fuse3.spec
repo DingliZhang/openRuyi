@@ -5,20 +5,15 @@
 #
 # SPDX-License-Identifier: MulanPSL-2.0
 
-%global xyz_version 3.17.4
-%global xy_version %(sed 's/\\(.*\\)\\..*/\\1/'<<<%{xyz_version})
-
 Name:           fuse3
-Version:        %{xyz_version}
+Version:        3.18.2
 Release:        %autorelease
 Summary:        File System in Userspace (FUSE) v3 utilities
 License:        GPL-1.0-or-later
 URL:            http://fuse.sf.net
 VCS:            git:https://github.com/libfuse/libfuse
-#!RemoteAsset
+#!RemoteAsset:  sha256:f01de85717e20adf5f98aff324acd85dd73d61a5ca3834d573dcf0bd6e54a298
 Source0:        https://github.com/libfuse/libfuse/releases/download/fuse-%{version}/fuse-%{version}.tar.gz
-#!RemoteAsset
-Source1:        https://github.com/libfuse/libfuse/releases/download/fuse-%{version}/fuse-%{version}.tar.gz.sig
 # Our little stupid config file
 Source2:        fuse.conf
 BuildSystem:    meson
@@ -81,6 +76,9 @@ install -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}
 # Delete pointless udev rules
 rm -f %{buildroot}%{_udevrulesdir}/99-fuse3.rules
 
+# Provide unversioned fusermount
+ln -sf fusermount3 %{buildroot}%{_bindir}/fusermount
+
 # Seems no check
 %check
 
@@ -89,6 +87,7 @@ rm -f %{buildroot}%{_udevrulesdir}/99-fuse3.rules
 %license LICENSE GPL2.txt
 %{_sbindir}/mount.fuse3
 %attr(4755,root,root) %{_bindir}/fusermount3
+%{_bindir}/fusermount
 %{_mandir}/man1/*
 %{_mandir}/man8/*
 %{_libdir}/libfuse3.so.*
@@ -102,4 +101,4 @@ rm -f %{buildroot}%{_udevrulesdir}/99-fuse3.rules
 %config(noreplace) %{_sysconfdir}/fuse.conf
 
 %changelog
-%{?autochangelog}
+%autochangelog

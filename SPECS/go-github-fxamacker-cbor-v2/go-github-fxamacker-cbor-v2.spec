@@ -9,12 +9,12 @@
 %define go_import_path  github.com/fxamacker/cbor/v2
 
 Name:           go-github-fxamacker-cbor-v2
-Version:        2.9.2
+Version:        2.9.3
 Release:        %autorelease
 Summary:        CBOR codec for Go
 License:        MIT
 URL:            https://github.com/fxamacker/cbor
-#!RemoteAsset:  sha256:90f3c51efe3b890da613f90e5a0aa5a41e600b576dbe8043fb55af9c89d688c0
+#!RemoteAsset:  sha256:378a0e6448c21e83285db1a37f33c20c87816a3931781e72a1ca82bde7b50da5
 Source0:        https://github.com/fxamacker/cbor/archive/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

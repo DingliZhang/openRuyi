@@ -4,16 +4,16 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 
 %global crate_name ratatui-widgets
-%global full_version 0.3.1
+%global full_version 0.3.2
 %global pkgname ratatui-widgets-0.3
 
 Name:           rust-ratatui-widgets-0.3
-Version:        0.3.1
+Version:        0.3.2
 Release:        %autorelease
 Summary:        Rust crate "ratatui-widgets"
 License:        MIT
 URL:            https://ratatui.rs
-#!RemoteAsset:  sha256:7ef4f17dd7ac3abf5adc2b920a03c61eee4bfe6a88fa5191936895525371d79c
+#!RemoteAsset:  sha256:66e3d19bcc9130ca376277d93b60767ff121ace3be06f5f95f81dd68956407d1
 Source:         https://static.crates.io/crates/%{crate_name}/%{full_version}/download#/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    rustcrates
@@ -26,10 +26,11 @@ Requires:       crate(indoc-2/default) >= 2.0.0
 Requires:       crate(instability-0.3/default) >= 0.3.0
 Requires:       crate(itertools-0.14/use-alloc) >= 0.14.0
 Requires:       crate(line-clipping-0.3/default) >= 0.3.0
-Requires:       crate(ratatui-core-0.1/default) >= 0.1.1
+Requires:       crate(ratatui-core-0.1/default) >= 0.1.2
 Requires:       crate(strum-0.28/derive) >= 0.28.0
 Requires:       crate(unicode-segmentation-1/default) >= 1.0.0
 Requires:       crate(unicode-width-0.2/default) >= 0.2.0
+
 Provides:       crate(%{pkgname}) = %{version}
 Provides:       crate(%{pkgname}/unstable) = %{version}
 Provides:       crate(%{pkgname}/unstable-rendered-line-info) = %{version}
@@ -62,7 +63,7 @@ This metapackage enables feature "document-features" for the Rust ratatui-widget
 %package     -n %{name}+serde
 Summary:        Collection of Ratatui widgets for building terminal user interfaces using Ratatui - feature "serde"
 Requires:       crate(%{pkgname}) = %{version}
-Requires:       crate(ratatui-core-0.1/serde) >= 0.1.1
+Requires:       crate(ratatui-core-0.1/serde) >= 0.1.2
 Requires:       crate(serde-1/derive) >= 1.0.0
 Provides:       crate(%{pkgname}/serde) = %{version}
 

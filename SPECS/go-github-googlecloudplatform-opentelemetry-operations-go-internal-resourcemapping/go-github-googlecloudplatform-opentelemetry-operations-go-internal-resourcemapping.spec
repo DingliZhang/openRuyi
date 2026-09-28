@@ -10,12 +10,12 @@
 %define go_source_subdir internal/resourcemapping
 
 Name:           go-github-googlecloudplatform-opentelemetry-operations-go-internal-resourcemapping
-Version:        0.57.0
+Version:        0.62.0
 Release:        %autorelease
 Summary:        Resource mapping helpers for OpenTelemetry Google Cloud exporters
 License:        Apache-2.0
 URL:            https://github.com/GoogleCloudPlatform/opentelemetry-operations-go
-#!RemoteAsset:  sha256:55bc2d1af36cf1434e0177649899e7a7f13658573bbf42d0dfbbd122c60c7bbd
+#!RemoteAsset:  sha256:46d9dc8e26c23fa648744e895a445f60f6b402d0e8c9f146a96bb4a9a14d3222
 Source0:        https://github.com/GoogleCloudPlatform/opentelemetry-operations-go/archive/refs/tags/internal/resourcemapping/v%{version}.tar.gz#/%{_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildSystem:    golangmodules

@@ -7,18 +7,18 @@
 %define qt6_version 6.8.0
 
 %define rname kcompletion
-# Full KF6 version (e.g. 6.27.0)
+# Full KF6 version (e.g. 6.29.0)
 %{!?_kf6_version: %global _kf6_version %{version}}
 
 Name:           kf6-kcompletion
-Version:        6.27.0
+Version:        6.29.0
 Release:        %autorelease
 Summary:        Widgets with advanced completion support
 License:        LGPL-2.1-or-later
 URL:            https://www.kde.org
 VCS:            git:https://invent.kde.org/frameworks/kcompletion
-#!RemoteAsset:  sha256:006864dcba5d5fc87b4ca5dcc1239538657a5d052057bae5d3bc3e71eaba0551
-Source:         https://download.kde.org/stable/frameworks/6.27/%{rname}-%{version}.tar.xz
+#!RemoteAsset:  sha256:b039608f79f445a6ccc383ce57bd240699e334613814374006c8a01dc6bc1250
+Source:         https://download.kde.org/stable/frameworks/6.29/%{rname}-%{version}.tar.xz
 BuildSystem:    cmake
 
 BuildOption(conf):  -DBUILD_TESTING=OFF
