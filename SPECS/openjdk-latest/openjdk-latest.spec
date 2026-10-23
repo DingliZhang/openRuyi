@@ -24,7 +24,7 @@ Summary:        OpenJDK latest Runtime Environment
 License:        GPL-2.0-only WITH Classpath-exception-2.0
 URL:            https://openjdk.org
 VCS:            git:https://github.com/openjdk/jdk27u
-#!RemoteAsset:  sha256:abdbc5b389483d94aba6c3dbd5b5fb41773934079c5222f83c245a8d6f318d80
+#!RemoteAsset:  sha256:2f39e68293e3fd3aad04fb0c5aebc0ee8737e82b348f520bd95ebae00f2142e9
 Source0:        https://github.com/openjdk/jdk%{majorver}u/archive/refs/tags/jdk-%{newjavaver}+%{buildver}.tar.gz
 %if %{with bootstrap}
 #!RemoteAsset:  sha256:270d74d7732adbaa7af4e153154126c144e6000bb736fd0985421f75075555aa
