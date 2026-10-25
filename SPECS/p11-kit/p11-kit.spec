@@ -17,7 +17,9 @@ VCS:            git:https://github.com/p11-glue/p11-kit
 Source:         https://github.com/p11-glue/p11-kit/releases/download/%{version}/p11-kit-%{version}.tar.xz
 BuildSystem:    meson
 
-BuildOption(conf):  -Dtrust_paths=%{_sysconfdir}/pki/trust:%{_datadir}/pki/trust
+# Read the documented ca-certificates sources, retaining the legacy stores.
+# Administrator stores take precedence over distribution-provided stores.
+BuildOption(conf):  -Dtrust_paths=%{_sysconfdir}/pki/ca-trust/source:%{_sysconfdir}/pki/trust:%{_datadir}/pki/ca-trust-source:%{_datadir}/pki/trust
 BuildOption(conf):  -Dbash_completion=disabled
 BuildOption(conf):  -Dgtk_doc=false
 BuildOption(conf):  -Dman=false
@@ -29,6 +31,9 @@ BuildRequires:  pkgconfig(libffi) >= 3.0.0
 BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pkgconfig(libtasn1)
+
+# Consumers of the documented CA directories need the matching trust paths.
+Provides:       p11-kit(ca-trust-source)
 
 %description
 p11-kit provides a way to load and enumerate PKCS#11 modules, as well
@@ -48,6 +53,11 @@ develop applications that use p11-kit.
 install -d -m 755 %{buildroot}%{_sysconfdir}/pkcs11/modules
 rm -rf %{buildroot}%{_datadir}/locale
 rm -f %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example
+
+%posttrans
+if [ -x %{_bindir}/update-ca-trust ]; then
+    %{_bindir}/update-ca-trust || :
+fi
 
 %files
 %license COPYING
