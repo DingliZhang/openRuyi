@@ -26,7 +26,7 @@ BuildRequires:  coreutils
 BuildRequires:  bash
 BuildRequires:  findutils
 
-Requires:       p11-kit
+Requires:       p11-kit(ca-trust-source)
 Requires(post): p11-kit
 Requires(post): bash
 Requires(post): findutils
@@ -78,6 +78,8 @@ touch %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/pem/email-ca-bundle.pem
 chmod 444 %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/pem/email-ca-bundle.pem
 touch %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/pem/objsign-ca-bundle.pem
 chmod 444 %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/pem/objsign-ca-bundle.pem
+touch %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/java/cacerts
+chmod 444 %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/java/cacerts
 touch %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/edk2/cacerts.bin
 chmod 444 %{buildroot}%{_sysconfdir}/pki/ca-trust/extracted/edk2/cacerts.bin
 
@@ -148,7 +150,8 @@ fi
 %ghost %{_sysconfdir}/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 %ghost %{_sysconfdir}/pki/ca-trust/extracted/pem/email-ca-bundle.pem
 %ghost %{_sysconfdir}/pki/ca-trust/extracted/pem/objsign-ca-bundle.pem
+%ghost %{_sysconfdir}/pki/ca-trust/extracted/java/cacerts
 %ghost %{_sysconfdir}/pki/ca-trust/extracted/edk2/cacerts.bin
 
 %changelog
-%{?autochangelog}
+%autochangelog
