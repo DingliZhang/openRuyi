@@ -134,6 +134,7 @@ Requires(post): update-alternatives
 Requires(postun): update-alternatives
 Requires(posttrans): update-alternatives
 Provides:       java-headless = %{version}-%{release}
+Provides:       java-openjdk-headless = %{version}-%{release}
 Provides:       jre-headless = %{version}-%{release}
 
 %description headless
@@ -147,6 +148,7 @@ Requires(post): update-alternatives
 Requires(postun): update-alternatives
 Requires(posttrans): update-alternatives
 Provides:       java-devel = %{version}-%{release}
+Provides:       java-openjdk-devel = %{version}-%{release}
 Provides:       java-sdk = %{version}-%{release}
 
 %description devel
