@@ -17,6 +17,11 @@
 %global rpm_state_dir   %{_localstatedir}/lib/rpm-state/java-openjdk
 %global alternatives_priority %{majorver}
 
+# Package the JDK's external symbols directly, as in Fedora's release builds.
+%global debug_package %{nil}
+%global __brp_strip %{nil}
+%global debug_source_dir %{_usrsrc}/debug/%{name}-%{version}-%{release}.%{_arch}
+
 # Force the facilities to be recreated after RPM removes a ghost link that
 # an older, still-installed monolithic package did not declare as its own.
 %define refresh_alternatives() %{expand:
@@ -86,6 +91,7 @@ Source2:        https://github.com/adoptium/temurin21-binaries/releases/download
 Patch0:         1000-CA-Enhancements.patch
 
 BuildRequires:  findutils
+BuildRequires:  elfutils
 BuildRequires:  gzip
 BuildRequires:  fonts-dejavu
 BuildRequires:  autoconf
@@ -164,6 +170,24 @@ Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
 %description demo
 Demonstration programs and examples for the OpenJDK development kit.
 
+%package headless-debuginfo
+Summary:        Native debug symbols for OpenJDK %{majorver}
+AutoReq:        0
+AutoProv:       1
+Requires:       %{name}-headless%{?_isa} = %{version}-%{release}
+Provides:       %{name}-debuginfo = %{version}-%{release}
+Obsoletes:      %{name}-debuginfo < %{version}-%{release}
+
+%description headless-debuginfo
+Native debug symbols for the OpenJDK runtime libraries and development tools.
+
+%package debugsource
+Summary:        Native debug sources for OpenJDK %{majorver}
+AutoReqProv:    0
+
+%description debugsource
+Native sources and generated headers for debugging OpenJDK.
+
 %prep
 %autosetup -p1 -n jdk21u-jdk-%{newjavaver}-%{buildver}
 
@@ -192,7 +216,7 @@ bash ../configure \
     --with-version-opt= \
     --with-boot-jdk=$BOOTJDKPATH \
     --with-debug-level=release \
-    --with-native-debug-symbols=internal \
+    --with-native-debug-symbols=external \
     --with-vendor-version-string=openRuyi \
     --with-vendor-name="%{_vendor_name}" \
     --with-vendor-url="%{_vendor_url}" \
@@ -209,6 +233,32 @@ cp -a build-release/images/jdk %{buildroot}%{jvm_home}
 if [ ! -d %{buildroot}%{jvm_home}/jmods ]; then
     cp -a build-release/images/jmods %{buildroot}%{jvm_home}/jmods
 fi
+
+# External symbols keep DWARF out of JMODs. Newer JDKs put the symbols in a
+# separate image; older JDKs already include them next to the native libraries.
+if [ -d build-release/images/symbols ]; then
+    cp -a build-release/images/symbols/. %{buildroot}%{jvm_home}/
+fi
+test -s %{buildroot}%{jvm_home}/lib/server/libjvm.debuginfo
+find %{buildroot}%{jvm_home} -type f -name '*.debuginfo' | while IFS= read -r debuginfo; do
+    destination=%{buildroot}%{_prefix}/lib/debug${debuginfo#%{buildroot}}
+    mkdir -p "${destination%/*}"
+    mv "$debuginfo" "$destination"
+done
+find %{buildroot}%{jvm_home} -type f -name '*.so' -exec chmod 0755 {} +
+
+# Keep native sources and generated headers separate from the runtime.
+mkdir -p %{buildroot}%{debug_source_dir}
+for directory in src make build-release; do
+    destination=%{buildroot}%{debug_source_dir}/${directory#build-release}
+    mkdir -p "$destination"
+    (
+        cd "$directory"
+        find . -regextype posix-extended -type f \
+            -regex '.*\.(c|cc|cpp|cxx|h|hh|hpp|hxx|inl|s|S|inc|ad)' \
+            -exec cp -a --parents -t "$destination" {} +
+    )
+done
 
 # Compress versioned manuals before creating the alternatives ghost entries.
 if [ -d %{buildroot}%{jvm_home}/man ]; then
@@ -295,6 +345,28 @@ build-release/images/jdk/bin/jlink --module-path build-release/images/jmods \
     --add-modules java.base --output build-release/packaging-test-runtime
 build-release/packaging-test-runtime/bin/java -version
 
+# Check the installed runtime, its external symbols and the native JMOD library.
+test -x %{buildroot}%{jvm_home}/lib/server/libjvm.so
+eu-readelf -S %{buildroot}%{jvm_home}/lib/server/libjvm.so > build-release/runtime-sections.txt
+if grep -Eq '\.(debug|zdebug)_info' build-release/runtime-sections.txt; then
+    echo "Unexpected DWARF in the runtime libjvm.so" >&2
+    exit 1
+fi
+grep -q '\.symtab' build-release/runtime-sections.txt
+libjvm_debug=%{buildroot}%{_prefix}/lib/debug%{jvm_home}/lib/server/libjvm.debuginfo
+test -s "$libjvm_debug"
+eu-readelf -S "$libjvm_debug" > build-release/debuginfo-sections.txt
+grep -Eq '\.(debug|zdebug)_info' build-release/debuginfo-sections.txt
+test -s %{buildroot}%{debug_source_dir}/src/hotspot/share/prims/jni.cpp
+rm -rf build-release/packaging-test-jmod
+build-release/images/jdk/bin/jmod extract --dir build-release/packaging-test-jmod \
+    build-release/images/jmods/java.base.jmod
+eu-readelf -S build-release/packaging-test-jmod/lib/server/libjvm.so > build-release/jmod-sections.txt
+if grep -Eq '\.(debug|zdebug)_info' build-release/jmod-sections.txt; then
+    echo "Unexpected DWARF in java.base.jmod libjvm.so" >&2
+    exit 1
+fi
+
 %pretrans headless
 # Snapshot the group before any old monolithic postun can change its mode.
 # All JDK variants share this state and pretrans runs before payload changes.
@@ -373,6 +445,13 @@ fi
 %files src -f src.files
 
 %files demo -f demo.files
+
+%files headless-debuginfo
+%{_prefix}/lib/debug%{jvm_home}
+
+%files debugsource
+%license LICENSE
+%{debug_source_dir}
 
 %changelog
 %autochangelog
