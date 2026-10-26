@@ -17,6 +17,9 @@
 %global rpm_state_dir   %{_localstatedir}/lib/rpm-state/java-openjdk
 %global alternatives_priority %{majorver}
 
+# Retain local symbols for HotSpot serviceability while RPM separates DWARF.
+%global _find_debuginfo_opts -g
+
 # Force the facilities to be recreated after RPM removes a ghost link that
 # an older, still-installed monolithic package did not declare as its own.
 %define refresh_alternatives() %{expand:
@@ -82,6 +85,7 @@ Source2:        https://github.com/adoptium/temurin25-binaries/releases/download
 %endif
 
 BuildRequires:  findutils
+BuildRequires:  elfutils
 BuildRequires:  gzip
 BuildRequires:  fonts-dejavu
 BuildRequires:  autoconf
@@ -211,7 +215,7 @@ bash ../configure \
     --with-version-opt= \
     --with-boot-jdk=$BOOTJDKPATH \
     --with-debug-level=release \
-    --with-native-debug-symbols=internal \
+    --with-native-debug-symbols=external \
     --with-vendor-version-string=openRuyi \
     --with-vendor-name="%{_vendor_name}" \
     --with-vendor-url="%{_vendor_url}" \
@@ -233,6 +237,26 @@ cp -a build-release/images/jdk %{buildroot}%{jvm_home}
 if [ ! -d %{buildroot}%{jvm_home}/jmods ]; then
     cp -a build-release/images/jmods %{buildroot}%{jvm_home}/jmods
 fi
+
+# External symbols keep DWARF out of JMODs. Reassemble the installed ELF files
+# so RPM can generate debuginfo, debugsource and build-id links normally.
+# Newer JDKs put external symbols only in the separate symbols image.
+if [ -d build-release/images/symbols ]; then
+    cp -a build-release/images/symbols/. %{buildroot}%{jvm_home}/
+fi
+test -s %{buildroot}%{jvm_home}/lib/server/libjvm.debuginfo
+find %{buildroot}%{jvm_home} -type f -name '*.debuginfo' | while IFS= read -r debuginfo; do
+    binary=${debuginfo%.debuginfo}
+    if [ ! -f "$binary" ]; then
+        binary=$binary.so
+    fi
+    eu-unstrip -o "$binary.unstripped" "$binary" "$debuginfo"
+    mv "$binary.unstripped" "$binary"
+    chmod 0755 "$binary"
+    rm "$debuginfo"
+done
+# find-debuginfo only examines executable ELF files, including shared libraries.
+find %{buildroot}%{jvm_home} -type f -name '*.so' -exec chmod 0755 {} +
 
 # Compress versioned manuals before creating the alternatives ghost entries.
 if [ -d %{buildroot}%{jvm_home}/man ]; then
@@ -318,6 +342,28 @@ rm -rf build-release/packaging-test-runtime
 build-release/images/jdk/bin/jlink --module-path build-release/images/jmods \
     --add-modules java.base --output build-release/packaging-test-runtime
 build-release/packaging-test-runtime/bin/java -version
+
+# Check the RPM payload after find-debuginfo, and the native library in JMODs.
+test -x %{buildroot}%{jvm_home}/lib/server/libjvm.so
+eu-readelf -S %{buildroot}%{jvm_home}/lib/server/libjvm.so > build-release/runtime-sections.txt
+if grep -Eq '\.(debug|zdebug)_info' build-release/runtime-sections.txt; then
+    echo "Unexpected DWARF in the runtime libjvm.so" >&2
+    exit 1
+fi
+if [ -d %{buildroot}%{_prefix}/lib/debug ]; then
+    libjvm_debug=$(find %{buildroot}%{_prefix}/lib/debug -type f -name 'libjvm.so*.debug' -print -quit)
+    test -n "$libjvm_debug"
+    eu-readelf -S "$libjvm_debug" > build-release/debuginfo-sections.txt
+    grep -Eq '\.(debug|zdebug)_info' build-release/debuginfo-sections.txt
+fi
+rm -rf build-release/packaging-test-jmod
+build-release/images/jdk/bin/jmod extract --dir build-release/packaging-test-jmod \
+    build-release/images/jmods/java.base.jmod
+eu-readelf -S build-release/packaging-test-jmod/lib/server/libjvm.so > build-release/jmod-sections.txt
+if grep -Eq '\.(debug|zdebug)_info' build-release/jmod-sections.txt; then
+    echo "Unexpected DWARF in java.base.jmod libjvm.so" >&2
+    exit 1
+fi
 
 %pretrans headless
 # Snapshot the group before any old monolithic postun can change its mode.
