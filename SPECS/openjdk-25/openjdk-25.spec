@@ -20,6 +20,11 @@
 # Retain local symbols for HotSpot serviceability while RPM separates DWARF.
 %global _find_debuginfo_opts -g
 
+# Keep private JNI libraries out of the system-wide dependency namespace.
+%global __provides_exclude_from ^%{_jvmdir}/
+# Filter only JDK library names; retain dependencies on system libraries.
+%global __requires_exclude ^lib(attach|awt|awt_headless|awt_xawt|dt_socket|extnet|fontmanager|instrument|j2gss|j2pcsc|j2pkcs11|jaas|java|javajpeg|jawt|jdwp|jimage|jli|jsig|jsound|jsvml|jvm|lcms|management|management_agent|management_ext|mlib_image|net|nio|prefs|rmi|saproc|sctp|simdsort|splashscreen|sunec|syslookup|verify|zip)[.]so([(].*[)])?$
+
 # Force the facilities to be recreated after RPM removes a ghost link that
 # an older, still-installed monolithic package did not declare as its own.
 %define refresh_alternatives() %{expand:
