@@ -18,6 +18,9 @@
 %global rpm_state_dir   %{_localstatedir}/lib/rpm-state/java-openjdk
 %global alternatives_priority %{majorver}
 
+# Avoid the resource-intensive HotSpot LTO link; retain other distro flags.
+%global _lto_cflags %{nil}
+
 # Retain local symbols for HotSpot serviceability while RPM separates DWARF.
 %global _find_debuginfo_opts -g
 
@@ -210,8 +213,18 @@ BOOTJDKPATH=%{_tmppath}/jdk-27+35
 BOOTJDKPATH=%{_jvmdir}/java-latest-openjdk
 %endif
 
-ARCH=$(uname -m)
-echo $BOOTJDKPATH
+echo "$BOOTJDKPATH"
+
+# JDK configure ignores CFLAGS/CXXFLAGS/LDFLAGS from the environment.
+jdk_cflags="%{build_cflags}"
+jdk_cxxflags="%{build_cxxflags}"
+%ifarch riscv64
+%if "%{openruyi_riscv_arch}" == "-march=rva23u64"
+# HotSpot emits fence.i, which is outside the RVA23 user-mode profile.
+jdk_cflags="$jdk_cflags -march=rva23u64_zifencei"
+jdk_cxxflags="$jdk_cxxflags -march=rva23u64_zifencei"
+%endif
+%endif
 
 mkdir -p build-release
 pushd build-release
@@ -223,16 +236,14 @@ bash ../configure \
     --with-boot-jdk=$BOOTJDKPATH \
     --with-debug-level=release \
     --with-native-debug-symbols=external \
+    --with-extra-cflags="$jdk_cflags" \
+    --with-extra-cxxflags="$jdk_cxxflags" \
+    --with-extra-ldflags="%{build_ldflags}" \
     --with-vendor-version-string=openRuyi \
     --with-vendor-name="%{_vendor_name}" \
     --with-vendor-url="%{_vendor_url}" \
     --with-vendor-bug-url="%{_vendor_bug_url}" \
     --enable-unlimited-crypto \
-%ifarch riscv64
-  %if "%{openruyi_riscv_arch}" == "-march=rva23u64"
-    --with-extra-cxxflags="-march=rva23u64_zifencei" \
-  %endif
-%endif
     --disable-warnings-as-errors
 make images
 popd
