@@ -12,7 +12,67 @@
 %global securityver     13
 %global buildver        9
 %global newjavaver      %{majorver}.%{minorver}.%{securityver}
-%global _jvmdir         %_libdir/jvm
+%global _jvmdir         %{_libdir}/jvm
+%global jvm_home        %{_jvmdir}/%{name}
+%global rpm_state_dir   %{_localstatedir}/lib/rpm-state/java-openjdk
+%global alternatives_priority %{majorver}
+
+# Avoid the resource-intensive HotSpot LTO link; retain other distro flags.
+%global _lto_cflags %{nil}
+
+# Retain local symbols for HotSpot serviceability while RPM separates DWARF.
+%global _find_debuginfo_opts -g
+
+# Keep private JNI libraries out of the system-wide dependency namespace.
+%global __provides_exclude_from ^%{_jvmdir}/
+# Filter only JDK library names; retain dependencies on system libraries.
+%global __requires_exclude ^lib(attach|awt|awt_headless|awt_xawt|dt_socket|extnet|fontmanager|instrument|j2gss|j2pcsc|j2pkcs11|jaas|java|javajpeg|jawt|jdwp|jimage|jli|jsig|jsound|jsvml|jvm|lcms|management|management_agent|management_ext|mlib_image|net|nio|prefs|rmi|saproc|sctp|simdsort|splashscreen|sunec|syslookup|verify|zip)[.]so([(].*[)])?$
+
+# Force the facilities to be recreated after RPM removes a ghost link that
+# an older, still-installed monolithic package did not declare as its own.
+%define refresh_alternatives() %{expand:
+case "$(LC_ALL=C alternatives --display java 2>/dev/null)" in
+    *'status is auto.'*)
+        alternatives --auto java || : ;;
+    *'status is manual.'*)
+        selected_java=$(readlink -f %{_sysconfdir}/alternatives/java)
+        if [ -x "$selected_java" ]; then
+            alternatives --set java "$selected_java" || :
+        fi ;;
+esac
+:
+}
+
+# Refresh the single Java group when optional tools are installed or removed.
+# Repeating this after the transaction also repairs the old monolithic postun.
+%define register_alternatives() %{expand:
+if [ -x %{jvm_home}/bin/java ]; then
+    java_was_auto=false
+    case "$(LC_ALL=C alternatives --display java 2>/dev/null)" in
+        *'status is auto.'*) java_was_auto=true ;;
+    esac
+    set -- --install %{_bindir}/java java %{jvm_home}/bin/java %{alternatives_priority} --slave %{_jvmdir}/default-java java_home %{jvm_home}
+    for tool in %{jvm_home}/bin/*; do
+        [ -x "$tool" ] || continue
+        tool_name=${tool##*/}
+        if [ "$tool_name" != java ]; then
+            set -- "$@" --slave %{_bindir}/"$tool_name" "$tool_name" "$tool"
+        fi
+        for manpage in %{jvm_home}/man/man1/"$tool_name".1*; do
+            [ -f "$manpage" ] || continue
+            set -- "$@" --slave %{_mandir}/man1/"${manpage##*/}" "$tool_name.1" "$manpage"
+        done
+    done
+    alternatives "$@" || :
+    # chkconfig 1.33 can lose auto mode when an existing priority changes.
+    if [ "$java_was_auto" = true ]; then
+        alternatives --auto java || :
+    else
+        %refresh_alternatives
+    fi
+fi
+:
+}
 
 %bcond bootstrap        1
 
@@ -20,7 +80,7 @@ Name:           java-21-openjdk
 Version:        %{newjavaver}.%{buildver}
 Release:        %autorelease
 Summary:        OpenJDK 21 Runtime Environment
-License:        GPL-2.0-with-classpath-exception
+License:        GPL-2.0-only WITH Classpath-exception-2.0
 URL:            https://openjdk.org
 VCS:            git:https://github.com/openjdk/jdk21u
 #!RemoteAsset:  sha256:f6c60bec46d006f9d7aa5e004108e364cec56469a81e3c619a2cac42ed2ca1a5
@@ -36,6 +96,10 @@ Source2:        https://github.com/adoptium/temurin21-binaries/releases/download
 # Upstream: https://github.com/openjdk/jdk21u/commit/85974eed594aa5a9e13a6a20713156ed8d9cd0ed
 Patch0:         1000-CA-Enhancements.patch
 
+BuildRequires:  findutils
+BuildRequires:  elfutils
+BuildRequires:  gzip
+BuildRequires:  fonts-dejavu
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc-c++
@@ -54,16 +118,63 @@ BuildRequires:  pkgconfig(fontconfig)
 BuildRequires:  zip
 BuildRequires:  pkgconfig
 %if %{without bootstrap}
-BuildRequires:  java-21-openjdk
+BuildRequires:  java-21-openjdk-devel
 %endif
+Requires:       %{name}-headless%{?_isa} = %{version}-%{release}
 Requires(post): update-alternatives
-Requires(preun): update-alternatives
-
-Provides:       java-%{majorver}-openjdk-devel = %{version}-%{release}
-Provides:       java-%{majorver}-openjdk-headless = %{version}-%{release}
+Requires(postun): update-alternatives
+Requires(posttrans): update-alternatives
 
 %description
-The OpenJDK 21 runtime environment.
+The OpenJDK desktop runtime libraries and graphical monitoring tool.
+
+%package headless
+Summary:        OpenJDK %{majorver} headless runtime environment
+Requires:       fontconfig
+Requires:       fonts-dejavu
+Requires(post): coreutils
+Requires(postun): coreutils
+Requires(posttrans): coreutils
+Requires(post): update-alternatives
+Requires(postun): update-alternatives
+Requires(posttrans): update-alternatives
+
+%description headless
+The OpenJDK runtime environment without desktop and audio libraries.
+The default-java link in the JVM directory follows the selected Java runtime.
+
+%package devel
+Summary:        OpenJDK %{majorver} development tools
+Requires:       %{name}-headless%{?_isa} = %{version}-%{release}
+Requires(post): update-alternatives
+Requires(postun): update-alternatives
+Requires(posttrans): update-alternatives
+
+%description devel
+The OpenJDK compiler, command-line development tools, and JNI headers.
+Install the jmods subpackage to create custom runtimes with jlink.
+
+%package jmods
+Summary:        OpenJDK %{majorver} packaged modules
+Requires:       %{name}-headless%{?_isa} = %{version}-%{release}
+
+%description jmods
+Packaged OpenJDK modules for creating custom runtimes with jlink.
+
+%package src
+Summary:        OpenJDK %{majorver} Java source archive
+Requires:       %{name}-headless%{?_isa} = %{version}-%{release}
+
+%description src
+The Java source archive for the OpenJDK class libraries.
+
+%package demo
+Summary:        OpenJDK %{majorver} demonstration programs
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
+
+%description demo
+Demonstration programs and examples for the OpenJDK development kit.
 
 %prep
 %autosetup -p1 -n jdk21u-jdk-%{newjavaver}-%{buildver}
@@ -82,8 +193,18 @@ BOOTJDKPATH=%{_tmppath}/jdk-21.0.8+9
 BOOTJDKPATH=%{_jvmdir}/java-21-openjdk
 %endif
 
-ARCH=$(uname -m)
-echo $BOOTJDKPATH
+echo "$BOOTJDKPATH"
+
+# JDK configure ignores CFLAGS/CXXFLAGS/LDFLAGS from the environment.
+jdk_cflags="%{build_cflags}"
+jdk_cxxflags="%{build_cxxflags}"
+%ifarch riscv64
+%if "%{openruyi_riscv_arch}" == "-march=rva23u64"
+# HotSpot emits fence.i, which is outside the RVA23 user-mode profile.
+jdk_cflags="$jdk_cflags -march=rva23u64_zifencei"
+jdk_cxxflags="$jdk_cxxflags -march=rva23u64_zifencei"
+%endif
+%endif
 
 mkdir -p build-release
 pushd build-release
@@ -93,7 +214,10 @@ bash ../configure \
     --with-version-opt= \
     --with-boot-jdk=$BOOTJDKPATH \
     --with-debug-level=release \
-    --with-native-debug-symbols=internal \
+    --with-native-debug-symbols=external \
+    --with-extra-cflags="$jdk_cflags" \
+    --with-extra-cxxflags="$jdk_cxxflags" \
+    --with-extra-ldflags="%{build_ldflags}" \
     --with-vendor-version-string=openRuyi \
     --with-vendor-name="%{_vendor_name}" \
     --with-vendor-url="%{_vendor_url}" \
@@ -103,46 +227,219 @@ bash ../configure \
 make images
 popd
 
-%install -p
+%install
 mkdir -p %{buildroot}%{_jvmdir}
-cp -a build-release/images/jdk %{buildroot}%{_jvmdir}/java-21-openjdk
+cp -a build-release/images/jdk %{buildroot}%{jvm_home}
+# Some image configurations keep packaged modules outside the JDK image.
+if [ ! -d %{buildroot}%{jvm_home}/jmods ]; then
+    cp -a build-release/images/jmods %{buildroot}%{jvm_home}/jmods
+fi
+
+# External symbols keep DWARF out of JMODs. Reassemble the installed ELF files
+# so RPM can generate debuginfo, debugsource and build-id links normally.
+# Newer JDKs put external symbols only in the separate symbols image.
+if [ -d build-release/images/symbols ]; then
+    cp -a build-release/images/symbols/. %{buildroot}%{jvm_home}/
+fi
+test -s %{buildroot}%{jvm_home}/lib/server/libjvm.debuginfo
+find %{buildroot}%{jvm_home} -type f -name '*.debuginfo' | while IFS= read -r debuginfo; do
+    binary=${debuginfo%.debuginfo}
+    if [ ! -f "$binary" ]; then
+        binary=$binary.so
+    fi
+    eu-unstrip -o "$binary.unstripped" "$binary" "$debuginfo"
+    mv "$binary.unstripped" "$binary"
+    chmod 0755 "$binary"
+    rm "$debuginfo"
+done
+# find-debuginfo only examines executable ELF files, including shared libraries.
+find %{buildroot}%{jvm_home} -type f -name '*.so' -exec chmod 0755 {} +
+
+# Compress versioned manuals before creating the alternatives ghost entries.
+if [ -d %{buildroot}%{jvm_home}/man ]; then
+    find %{buildroot}%{jvm_home}/man -type f -name '*.1' -exec gzip -9n {} +
+fi
+
+mkdir -p %{buildroot}%{rpm_state_dir} %{buildroot}%{_bindir} %{buildroot}%{_mandir}/man1
+touch %{buildroot}%{_jvmdir}/default-java
+
+# List each payload once, including directories and editable configuration.
+for package in headless desktop devel jmods src demo; do
+    : > "$package.files"
+done
+find %{buildroot}%{jvm_home} -print | LC_ALL=C sort | while IFS= read -r file; do
+    path=${file#%{buildroot}}
+    relative=${path#%{jvm_home}}
+    case "$relative" in
+        /jmods|/jmods/*) package=jmods ;;
+        /demo|/demo/*) package=demo ;;
+        /include|/include/*|/lib/ct.sym|/lib/libsaproc.so) package=devel ;;
+        /lib/src.zip) package=src ;;
+        /lib/libawt_xawt.so|/lib/libjawt.so|/lib/libsplashscreen.so|/lib/libjsound.so)
+            package=desktop ;;
+        /bin/*|/man/man1/*)
+            tool=${relative##*/}
+            tool=${tool%%.1*}
+            case "$tool" in
+                java|keytool|jfr|rmiregistry) package=headless ;;
+                jconsole) package=desktop ;;
+                *) package=devel ;;
+            esac ;;
+        *) package=headless ;;
+    esac
+    if [ -d "$file" ] && [ ! -L "$file" ]; then
+        entry="%%dir $path"
+    elif [ "${relative#/conf/}" != "$relative" ]; then
+        entry="%%config(noreplace) $path"
+    else
+        entry=$path
+    fi
+    printf '%s\n' "$entry" >> "$package.files"
+    case "$relative" in
+        /bin/*)
+            link=%{_bindir}/${relative##*/}
+            touch "%{buildroot}$link"
+            printf '%s\n' "%%ghost $link" >> "$package.files" ;;
+        /man/man1/*)
+            link=%{_mandir}/man1/${relative##*/}
+            touch "%{buildroot}$link"
+            # brp-compress also reads ghost placeholders, so use valid gzip.
+            gzip -9nc < /dev/null > "%{buildroot}$link"
+            printf '%s\n' "%%ghost $link" >> "$package.files" ;;
+    esac
+done
+printf '%s\n' "%%ghost %{_jvmdir}/default-java" >> headless.files
+
+%check
+build-release/images/jdk/bin/java -version
+build-release/images/jdk/bin/javac -version
+
+cat > build-release/PackagingSmoke.java <<'EOF'
+import java.awt.image.BufferedImage;
+
+public class PackagingSmoke {
+    public static void main(String[] args) throws Exception {
+        var image = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
+        var graphics = image.createGraphics();
+        graphics.drawLine(0, 0, 7, 7);
+        graphics.drawString("Java", 0, 7);
+        if (graphics.getFontMetrics().stringWidth("Java") <= 0) {
+            throw new AssertionError("No usable headless font");
+        }
+        graphics.dispose();
+    }
+}
+EOF
+build-release/images/jdk/bin/javac -d build-release build-release/PackagingSmoke.java
+build-release/images/jdk/bin/java -Djava.awt.headless=true -cp build-release PackagingSmoke
+
+# Exercise the separately packaged modules, including configurations without
+# jmods in images/jdk.
+rm -rf build-release/packaging-test-runtime
+build-release/images/jdk/bin/jlink --module-path build-release/images/jmods \
+    --add-modules java.base --output build-release/packaging-test-runtime
+build-release/packaging-test-runtime/bin/java -version
+
+# Check the RPM payload after find-debuginfo, and the native library in JMODs.
+test -x %{buildroot}%{jvm_home}/lib/server/libjvm.so
+eu-readelf -S %{buildroot}%{jvm_home}/lib/server/libjvm.so > build-release/runtime-sections.txt
+if grep -Eq '\.(debug|zdebug)_info' build-release/runtime-sections.txt; then
+    echo "Unexpected DWARF in the runtime libjvm.so" >&2
+    exit 1
+fi
+if [ -d %{buildroot}%{_prefix}/lib/debug ]; then
+    libjvm_debug=$(find %{buildroot}%{_prefix}/lib/debug -type f -name 'libjvm.so*.debug' -print -quit)
+    test -n "$libjvm_debug"
+    eu-readelf -S "$libjvm_debug" > build-release/debuginfo-sections.txt
+    grep -Eq '\.(debug|zdebug)_info' build-release/debuginfo-sections.txt
+fi
+rm -rf build-release/packaging-test-jmod
+build-release/images/jdk/bin/jmod extract --dir build-release/packaging-test-jmod \
+    build-release/images/jmods/java.base.jmod
+eu-readelf -S build-release/packaging-test-jmod/lib/server/libjvm.so > build-release/jmod-sections.txt
+if grep -Eq '\.(debug|zdebug)_info' build-release/jmod-sections.txt; then
+    echo "Unexpected DWARF in java.base.jmod libjvm.so" >&2
+    exit 1
+fi
+
+%pretrans headless
+# Snapshot the group before any old monolithic postun can change its mode.
+# All JDK variants share this state and pretrans runs before payload changes.
+# On a fresh system alternatives may not be installed until this transaction.
+if command -v alternatives >/dev/null 2>&1 && command -v readlink >/dev/null 2>&1; then
+    mkdir -p %{rpm_state_dir}
+    rm -f %{rpm_state_dir}/java-auto %{rpm_state_dir}/java-manual
+    case "$(LC_ALL=C alternatives --display java 2>/dev/null)" in
+        *'status is auto.'*)
+            touch %{rpm_state_dir}/java-auto ;;
+        *'status is manual.'*)
+            readlink -f %{_bindir}/java > %{rpm_state_dir}/java-manual || \
+                rm -f %{rpm_state_dir}/java-manual ;;
+    esac
+fi
+:
+
+%post headless
+%register_alternatives
+
+%posttrans headless
+%register_alternatives
+if [ -f %{rpm_state_dir}/java-auto ]; then
+    alternatives --auto java && rm -f %{rpm_state_dir}/java-auto
+elif [ -s %{rpm_state_dir}/java-manual ]; then
+    selected_java=$(cat %{rpm_state_dir}/java-manual)
+    if [ -x "$selected_java" ]; then
+        # Another JDK's posttrans may still need to restore its candidate.
+        alternatives --set java "$selected_java" && rm -f %{rpm_state_dir}/java-manual
+    else
+        rm -f %{rpm_state_dir}/java-manual
+    fi
+fi
+:
+
+%postun headless
+if [ "$1" -eq 0 ]; then
+    alternatives --remove java %{jvm_home}/bin/java || :
+    %refresh_alternatives
+fi
 
 %post
-alternatives \
-  --install %{_bindir}/java java %{_jvmdir}/java-21-openjdk/bin/java 21 \
-  --slave %{_bindir}/javac javac %{_jvmdir}/java-21-openjdk/bin/javac \
-  --slave %{_bindir}/jlink jlink %{_jvmdir}/java-21-openjdk/bin/jlink \
-  --slave %{_bindir}/jmod jmod %{_jvmdir}/java-21-openjdk/bin/jmod \
-  --slave %{_bindir}/jar jar %{_jvmdir}/java-21-openjdk/bin/jar \
-  --slave %{_bindir}/jarsigner jarsigner %{_jvmdir}/java-21-openjdk/bin/jarsigner \
-  --slave %{_bindir}/javadoc javadoc %{_jvmdir}/java-21-openjdk/bin/javadoc \
-  --slave %{_bindir}/javap javap %{_jvmdir}/java-21-openjdk/bin/javap \
-  --slave %{_bindir}/jcmd jcmd %{_jvmdir}/java-21-openjdk/bin/jcmd \
-  --slave %{_bindir}/jconsole jconsole %{_jvmdir}/java-21-openjdk/bin/jconsole \
-  --slave %{_bindir}/jdb jdb %{_jvmdir}/java-21-openjdk/bin/jdb \
-  --slave %{_bindir}/jdeps jdeps %{_jvmdir}/java-21-openjdk/bin/jdeps \
-  --slave %{_bindir}/jdeprscan jdeprscan %{_jvmdir}/java-21-openjdk/bin/jdeprscan \
-  --slave %{_bindir}/jfr jfr %{_jvmdir}/java-21-openjdk/bin/jfr \
-  --slave %{_bindir}/jimage jimage %{_jvmdir}/java-21-openjdk/bin/jimage \
-  --slave %{_bindir}/jinfo jinfo %{_jvmdir}/java-21-openjdk/bin/jinfo \
-  --slave %{_bindir}/jmap jmap %{_jvmdir}/java-21-openjdk/bin/jmap \
-  --slave %{_bindir}/jps jps %{_jvmdir}/java-21-openjdk/bin/jps \
-  --slave %{_bindir}/jpackage jpackage %{_jvmdir}/java-21-openjdk/bin/jpackage \
-  --slave %{_bindir}/jrunscript jrunscript %{_jvmdir}/java-21-openjdk/bin/jrunscript \
-  --slave %{_bindir}/jshell jshell %{_jvmdir}/java-21-openjdk/bin/jshell \
-  --slave %{_bindir}/jstack jstack %{_jvmdir}/java-21-openjdk/bin/jstack \
-  --slave %{_bindir}/jstat jstat %{_jvmdir}/java-21-openjdk/bin/jstat \
-  --slave %{_bindir}/jstatd jstatd %{_jvmdir}/java-21-openjdk/bin/jstatd \
-  --slave %{_bindir}/jwebserver jwebserver %{_jvmdir}/java-21-openjdk/bin/jwebserver \
-  --slave %{_bindir}/serialver serialver %{_jvmdir}/java-21-openjdk/bin/serialver
+%register_alternatives
+
+%posttrans
+%register_alternatives
 
 %postun
-alternatives --remove java %{_jvmdir}/java-21-openjdk/bin/java
+if [ "$1" -eq 0 ]; then
+    %register_alternatives
+fi
 
-%files
+%post devel
+%register_alternatives
+
+%posttrans devel
+%register_alternatives
+
+%postun devel
+if [ "$1" -eq 0 ]; then
+    %register_alternatives
+fi
+
+%files -f desktop.files
+
+%files headless -f headless.files
 %license LICENSE
 %doc README.md
-%{_jvmdir}/java-21-openjdk
+%dir %{_jvmdir}
+%dir %{rpm_state_dir}
+
+%files devel -f devel.files
+
+%files jmods -f jmods.files
+
+%files src -f src.files
+
+%files demo -f demo.files
 
 %changelog
 %autochangelog
