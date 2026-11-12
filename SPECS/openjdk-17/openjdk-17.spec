@@ -206,7 +206,7 @@ bash ../configure \
 make images
 popd
 
-%install -p
+%install
 mkdir -p %{buildroot}%{_jvmdir}
 cp -a build-release/images/jdk %{buildroot}%{jvm_home}
 # Some image configurations keep packaged modules outside the JDK image.

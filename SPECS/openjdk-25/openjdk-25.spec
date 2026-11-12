@@ -112,19 +112,22 @@ BuildRequires:  pkgconfig
 %if %{without bootstrap}
 BuildRequires:  java-25-openjdk-devel
 %endif
+Provides:       java = %{version}-%{release}
+Provides:       java-openjdk = %{version}-%{release}
+Provides:       jre = %{version}-%{release}
 Requires:       %{name}-headless%{?_isa} = %{version}-%{release}
 Requires(post): update-alternatives
 Requires(postun): update-alternatives
 Requires(posttrans): update-alternatives
-Provides:       java = %{version}-%{release}
-Provides:       java-openjdk = %{version}-%{release}
-Provides:       jre = %{version}-%{release}
 
 %description
 The OpenJDK desktop runtime libraries and graphical monitoring tool.
 
 %package headless
 Summary:        OpenJDK %{majorver} headless runtime environment
+Provides:       java-headless = %{version}-%{release}
+Provides:       java-openjdk-headless = %{version}-%{release}
+Provides:       jre-headless = %{version}-%{release}
 Requires:       fontconfig
 Requires:       fonts-dejavu
 Requires(post): coreutils
@@ -133,9 +136,6 @@ Requires(posttrans): coreutils
 Requires(post): update-alternatives
 Requires(postun): update-alternatives
 Requires(posttrans): update-alternatives
-Provides:       java-headless = %{version}-%{release}
-Provides:       java-openjdk-headless = %{version}-%{release}
-Provides:       jre-headless = %{version}-%{release}
 
 %description headless
 The OpenJDK runtime environment without desktop and audio libraries.
@@ -143,13 +143,13 @@ The default-java link in the JVM directory follows the selected Java runtime.
 
 %package devel
 Summary:        OpenJDK %{majorver} development tools
+Provides:       java-devel = %{version}-%{release}
+Provides:       java-openjdk-devel = %{version}-%{release}
+Provides:       java-sdk = %{version}-%{release}
 Requires:       %{name}-headless%{?_isa} = %{version}-%{release}
 Requires(post): update-alternatives
 Requires(postun): update-alternatives
 Requires(posttrans): update-alternatives
-Provides:       java-devel = %{version}-%{release}
-Provides:       java-openjdk-devel = %{version}-%{release}
-Provides:       java-sdk = %{version}-%{release}
 
 %description devel
 The OpenJDK compiler, command-line development tools, and JNI headers.
@@ -220,7 +220,7 @@ bash ../configure \
 make images
 popd
 
-%install -p
+%install
 mkdir -p %{buildroot}%{_jvmdir}
 cp -a build-release/images/jdk %{buildroot}%{jvm_home}
 # Some image configurations keep packaged modules outside the JDK image.
